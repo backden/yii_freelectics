@@ -1,0 +1,87 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 26, 2014, 11:11:18 PM
+    Author     : My PC
+*/
+
+.view {
+/*   width: 300px;
+   height: 200px;*/
+   /*margin: 10px;*/
+   float: left;
+   /*border: 5px solid #fff;*/
+   overflow: hidden;
+   position: relative;
+   text-align: center;
+   /*box-shadow: 0px 0px 5px #aaa;*/
+   cursor: default;
+}
+
+.view .mask, .view .content {
+   width: 300px;
+   height: 200px;
+   position: absolute;
+   overflow: hidden;
+   top: 0;
+   left: 0;
+}
+
+.view img {
+   display: block;
+   position: relative;
+   width: 100%;
+}
+
+.view a.info {
+   background:url(../img/link.png) center no-repeat;
+   display: inline-block;
+   text-decoration: none;
+   padding:0;
+   text-indent:-9999px;
+   width:20px;
+   height:20px;
+}
+
+.effect img {
+   opacity:1;
+   transform:scale(1,1);
+   transition: all 0.2s ease-in;
+}
+
+.effect .mask {
+   opacity:0;
+   overflow:visible;
+   border-color:rgba(0,0,0,0.7);
+   /*border-color:rgba(0,0,0,0.7) transparent transparent transparent;*/
+   border-style:solid;
+   border-width:999px;
+   width:0;
+   height:0;
+   /*transform:translateY(-125px);*/
+   transition: transform 0.2s 0.1s ease-out, opacity 0.3s ease-in-out;
+}
+
+.effect a.info {
+   opacity:0;
+   transform:translateY(-125px);
+   transition: transform 0.3s ease-in, opacity 0.1s ease-in-out;
+}
+
+.effect:hover img {
+   opacity:0.7;
+   transform:scale(1.2,1.2);
+}
+
+.effect:hover .mask {
+   opacity: 1;
+   transform: translateY(0px);
+}
+
+.effect:hover a.info {
+   opacity:1;
+   transform:translateY(100px);
+}

@@ -1,0 +1,84 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 24, 2014, 10:51:49 PM
+    Author     : My PC
+*/
+
+body > .header .navbar{
+  /*margin-left: 0px;*/
+}
+
+#navbar-container {
+  margin-bottom: 20px;
+}
+
+#navbar-main, .navbar-sub-container, .navbar-sub-container-2 {
+  background-color: black;
+  height: 50px;
+}
+
+#navbar-main ul li a, .navbar-sub-container ul li a, .navbar-sub-container-2 ul li a {
+  margin: 2px 6px;
+  border-radius: 10px;
+}
+
+.navbar-sub-container {
+  padding-left: 70px;
+  /*background: rgba(0, 0, 0, 0.1);*/
+}
+
+.navbar-sub-container a{
+  color: whitesmoke;
+}
+
+.navbar-sub-container a:hover{
+  color: #67b0d1;
+}
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+  background-color: black;
+}
+
+.navbar-sub-container.nav-closed, .navbar-sub-container-2.nav-closed {
+  /*  display: none !important;*/
+  height: auto;
+}
+
+#navbar-main li.logo {
+  margin-top: 5px;
+  margin-left: -5px;
+  background-position: 52px 0px; 
+  width: 52px; 
+  height: 37px;
+  background-image: url('https://www.freeletics.com/images/freeletics-logo.svg');
+}
+
+.navbar-sub-container-2 {
+  background: rgba(200, 200, 200, 0.1);
+  padding-left: 80px;
+}
+
+#main-container{
+
+}
+
+.right-siderbar .panel{
+  border: black 1px solid;
+}
+
+span.sub-menu-active {
+  padding-left: 5px;
+}
+
+#navbar-main ul li a#btn_logout {
+  margin-right: -10px;
+  border-radius: 50%;
+}
+
+.btn-search {
+  border-radius: 50% !important;
+}
