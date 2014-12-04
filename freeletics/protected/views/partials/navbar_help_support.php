@@ -23,28 +23,7 @@
   </div>
 </div>-->
 
-<?php
-echo $this->Html->meta('icon');
-
-echo $this->Html->css('animate');
-echo $this->Html->css('bootstrap_readable.min');
-echo $this->Html->css('/font-awesome/css/font-awesome.min', null, array('inline' => true));
-echo $this->Html->css('style');
-echo $this->Html->css('main_style');
-echo $this->Html->css('horizontal');
-echo $this->Html->css('/color/default');
-echo $this->Html->css('font_styles');
-
-echo $this->Html->script('jquery.min');
-echo $this->Html->script('bootstrap.min');
-echo $this->Html->script('jquery.easing.min');
-echo $this->Html->script('jquery.scrollTo');
-echo $this->Html->script('scroll/sly.min');
-echo $this->Html->script('wow.min');
-//echo $this->Html->script('social.script');
-
-echo $this->fetch('meta');
-?>
+<?php $this->renderPartial("//partials/script_css");?>
 
 <script>
   $(function () {
@@ -85,6 +64,16 @@ echo $this->fetch('meta');
     height: 37px;
     background-image: url('https://www.freeletics.com/images/freeletics-logo.svg');
   }
+  
+  nav.navbar {
+    padding: 5px 0;
+  }
+  
+  nav.navbar .container {
+    margin-left: 5px;
+    width: 99%;
+  }
+  
   .nav.navbar-nav li a {
     font-size: 12px;
     margin: 2px 6px;
@@ -96,6 +85,10 @@ echo $this->fetch('meta');
     border-radius: 0;
   }
 
+  footer nav.navbar{
+    border-radius: 0;
+    max-height: 40px;
+  }
   /*  .nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
       background-color: black;
     }*/
@@ -148,11 +141,11 @@ echo $this->fetch('meta');
           </div>
         </li>
         <li class="">
-          <a class="btn btn-primary" href="#" style="border-radius: 2px; padding: 14px">
-            <?php echo __("Submit a request"); ?>
+          <a class="btn btn-primary" href="#" style="border-radius: 2px;">
+            <?php echo Yii::t('app', "Submit a request"); ?>
           </a>
         </li>
-        <li class="btn-primary sign-up-collapse" id='sign_up_btn'><a class="" data-toggle="modal" data-target="#modal_sign_up"><?php echo _("Start your workout now"); ?></a></li>
+        <li class="btn-primary sign-up-collapse" id='sign_up_btn' style="display: none;"><a class="" data-toggle="modal" data-target="#modal_sign_up"><?php echo _("Start your workout now"); ?></a></li>
         <li class="" style="display: none;">
           <a href="#" class="" data-toggle="modal" data-target="#modal_search">
             <i class="fa fa-search" style="font-size: 20px; color: white;"></i>
@@ -160,11 +153,11 @@ echo $this->fetch('meta');
         </li>
         <li class="login-button" style="display: none;">
           <a href="#" class="" data-toggle="modal" data-target="#modal_login">
-            <?php echo __("Login"); ?>
+            <?php echo Yii::t('app', "Login"); ?>
           </a>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 15px 9px; font-size: 15px;">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 7px 9px;">
             <!--<i class="fa fa-gear" style="font-size: 20px; color: white;"></i>-->
             EN
           </a>

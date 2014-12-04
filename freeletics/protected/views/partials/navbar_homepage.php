@@ -88,7 +88,7 @@
         </li>
         <li class="login-button">
           <a href="#" class="" data-toggle="modal" data-target="#modal_login">
-<?php echo __("Login"); ?>
+<?php echo Yii::t('app', "Login"); ?>
           </a>
         </li>
         <li class="dropdown">

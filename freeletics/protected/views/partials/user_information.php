@@ -4,16 +4,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$baseUrl = Yii::app()->baseUrl;
 ?>
 
-<div class="container-top-information" style="min-height: 250px; background: url('/cake/img/profile-bg.jpg') center; 
+<div class="container-top-information" style="min-height: 250px; background: url('<?php echo $baseUrl; ?>/img/profile-bg.jpg') center; 
      margin-top: -20px; margin-bottom: 20px; background-size: 100%;
      background-repeat: no-repeat;">
   <div class="container" style="padding-left: 40px; padding-top: 50px;">
     <div class="col-lg-3" id="avatar" style="text-align: center;
          height: 160px; width: 160px; 
          -webkit-clip-path: polygon(57.6px 0, 139.2px 22.4px, 160px 102.4px, 102.399px 160px, 22.4px 139.2px, 0 57.6px, 57.6px 0); 
-         clip-path: url('/cake/hexagon_icon.svg#hexagon-clip-large');">
+         clip-path: url('<?php echo $baseUrl; ?>/file/hexagon_icon.svg#hexagon-clip-large');">
       <img height="100%" width="100%" style="
            height: 160px;
            width: 160px;
@@ -21,7 +22,7 @@
            top: 0;
            left: 0;
            z-index: 999;
-           " src="/cake/img/X-man.jpg">
+           " src="<?php echo $baseUrl; ?>/img/X-man.jpg">
     </div>
     <style>
       .statics-workout-follow p{
@@ -39,19 +40,19 @@
           <div class="row text-right">
             <div class="col-md-3">
               <p> 10 </p>
-              <span><?php echo __("WORKOUTS"); ?>&nbsp;</span>
+              <span><?php echo Yii::t('app', "WORKOUTS"); ?>&nbsp;</span>
             </div>
             <div class="col-md-3">
               <p>0</p>
-              <span><?php echo __("FOLLOWERS"); ?>&nbsp;</span>
+              <span><?php echo Yii::t('app', "FOLLOWERS"); ?>&nbsp;</span>
             </div>
             <div class="col-md-3">
               <p> 10 </p>
-              <span><?php echo __("FOLLOWINGS"); ?>&nbsp;</span>
+              <span><?php echo Yii::t('app', "FOLLOWINGS"); ?>&nbsp;</span>
             </div>
             <div class="col-md-3">
               <p> 10 </p>
-              <span><?php echo __("POINTS"); ?>&nbsp;</span>
+              <span><?php echo Yii::t('app', "POINTS"); ?>&nbsp;</span>
             </div>
           </div>
         </div>
@@ -65,43 +66,43 @@
       </div>
       <div class="row text-primary">
         <div class="col-lg-5">
-          <strong><?php echo __("Level [0]"); ?></strong>
+          <strong><?php echo Yii::t('app', "Level [0]"); ?></strong>
         </div>
         <div class="col-lg-3 pull-right text-right">
-          <strong><?php echo __("[0] Points to Level [1]"); ?></strong>
+          <strong><?php echo Yii::t('app', "[0] Points to Level [1]"); ?></strong>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="">
+<div class="" style="min-height: 500px;">
   <div class="container">
     <div class="col-lg-2">
       <div class="panel panel-default">
         <div class="panel-body">
-          <button class="btn btn-default btn-block btn-flat"><?php echo __("Feed"); ?></button>
-          <button class="btn btn-default btn-block btn-flat"><?php echo __("Recent"); ?></button>
-          <button class="btn btn-default btn-block btn-flat active"><?php echo __("PB"); ?></button>
-          <button class="btn btn-default btn-block btn-flat"><?php echo __("Network"); ?></button>
+          <button class="btn btn-default btn-block btn-flat"><?php echo Yii::t('app', "Feed"); ?></button>
+          <button class="btn btn-default btn-block btn-flat"><?php echo Yii::t('app', "Recent"); ?></button>
+          <button class="btn btn-default btn-block btn-flat active"><?php echo Yii::t('app', "PB"); ?></button>
+          <button class="btn btn-default btn-block btn-flat"><?php echo Yii::t('app', "Network"); ?></button>
         </div>
       </div>
     </div>
     <div class="col-lg-5">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title"><?php echo __("CHOOSE A CATEGORY"); ?></h3>
+          <h3 class="panel-title"><?php echo Yii::t('app', "CHOOSE A CATEGORY"); ?></h3>
         </div>
         <div class="panel-body">
-          <button class="btn btn-default btn-block btn-flat"><?php echo __("WORKOUTS"); ?></button>
-          <button class="btn btn-default btn-block btn-flat active"><?php echo __("EXERCISES"); ?></button>
-          <button class="btn btn-default btn-block btn-flat"><?php echo __("RUNNING"); ?></button>
+          <button class="btn btn-default btn-block btn-flat"><?php echo Yii::t('app', "WORKOUTS"); ?></button>
+          <button class="btn btn-default btn-block btn-flat active"><?php echo Yii::t('app', "EXERCISES"); ?></button>
+          <button class="btn btn-default btn-block btn-flat"><?php echo Yii::t('app', "RUNNING"); ?></button>
         </div>
       </div>
     </div>
     <div class="col-lg-5">
       <div class="panel panel-warning">
         <div class="panel-heading">
-          <h3 class="panel-title"><?php echo __("WORKOUTS"); ?></h3>
+          <h3 class="panel-title"><?php echo Yii::t('app', "WORKOUTS"); ?></h3>
         </div>
         <div class="panel-body" style="min-height: 200px;">
           <ul class="nav nav-tabs">

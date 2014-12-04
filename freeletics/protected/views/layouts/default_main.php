@@ -4,32 +4,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$baseUrl = Yii::app()->baseUrl;
 ?>
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo Yii::app()->charset; ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="language" content="en" />
-
+    <title><?php echo Yii::app()->name; ?></title>
+    <style>
+      .dropdown .dropdown-menu {
+        border-radius: 10px;
+        margin-left: 5px;
+      }
+    </style>
+    <?php $this->renderPartial("//partials/script_css") ?>
   </head>
-  <body id="page-top" class="main" data-spy="scroll" data-target=".navbar-custom">
-    <!-- Preloader -->
-    <div id="preloader">
-      <div id="load"></div>
-    </div>
-    <?php $this->renderPartial("//partials/navbar_homepage"); ?>
-
+  <body style="background: rgba(0, 0, 0, 0.1);">
+    <?php if (Yii::app()->getController()->action->id == 'user') { ?>
+      <?php echo $this->renderPartial("//partials/navbar_user") ?>
+    <?php } else if (Yii::app()->getController()->action->id == 'admin'){ ?>
+      <?php echo $this->renderPartial("//partials/navbar_admin") ?>
+    <?php } else { ?>
+      <?php echo $this->renderPartial("//partials/navbar_help_support") ?>
+    <?php } ?>
     <?php echo $content; ?>
 
-    <nav class="navbar navbar-custom nav-footer-fixed" role="navigation" style="background-color: black">
-      <div class="">
-        <h5 class="text-center" style="color: #ffffff;">Copyright © 2014. All Rights Reserved.</h5>
-      </div>
-    </nav>
-    <!-- end footer -->
 
     <div class="modal fade" id="modal_search" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y: hidden">
       <div class="modal-dialog">
@@ -51,6 +53,10 @@
         </div>
       </div>
     </div>
-  </body>
 
+    <!-- Modal setting user -->
+    <?php $this->renderPartial("//partials/your_account_form") ?>
+
+    <?php $this->renderPartial("//partials/footer") ?>
+  </body>
 </html>
