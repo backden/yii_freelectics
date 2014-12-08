@@ -461,17 +461,28 @@ $baseUrl = Yii::app()->baseUrl;
     </div>
     <div class="modal-content">
       <div class="modal-body">
-        <form class="form-horizontal">
+        <?php $form=$this->beginWidget('CActiveForm', array(
+              'id'=>'user-form',
+              'enableClientValidation'=>true,
+              'action' => Yii::app()->createUrl('user/create'),
+              'method' => 'POST',
+              'enableAjaxValidation'=>true,
+              'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+                'validateOnChange'=>false,
+                'validateOnType'=>false
+              ),
+             )); ?>
           <fieldset>
             <legend style="text-transform: uppercase;"><?php echo Yii::t('app', "Login"); ?></legend>
             <div class="form-group">
               <div class="col-lg-12">
-                <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                <?php echo $form->textField($model,'email',array('id' =>"inputEmail", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size'=>50,'maxlength'=>50)); ?>
               </div>
             </div>
             <div class="form-group">
               <div class="col-lg-12">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <?php echo $form->passwordField($model,'password',array('id' =>"inputPassword", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Password"),'size'=>50,'maxlength'=>50)); ?>
               </div>
             </div>
             <div class="form-group">
@@ -481,17 +492,71 @@ $baseUrl = Yii::app()->baseUrl;
             </div>
             <div class="form-group">
               <div class="col-lg-12">
-                <button type="submit" class="btn btn-primary" style="width: 100%"><?php echo Yii::t('app', "Login"); ?></button>
+                <?php echo CHtml::ajaxSubmitButton(Yii::t('app', "Login"), CHtml::normalizeUrl(array('user/login','form'=>'user-form')),
+                      array(
+                          'dataType'=>'json',
+                          'type'=>'post',
+                          'success'=>'loginResult',                    
+                          'beforeSend'=>'function(){                        
+                           }'
+                          ), 
+                      array('class' => 'btn btn-primary', "style" => "width: 100%;")); ?>
               </div>
             </div>
             <div class="form-group">
               <div class="col-lg-12">
 <?php echo Yii::t('app', "Not registered yet?"); ?>&nbsp;
-                <a href="#"  ><?php echo Yii::t('app', "Sign up to get started"); ?></a>
+                <a href="#" data-toggle="modal" data-target="#modal_sign_up"><?php echo Yii::t('app', "Sign up to get started"); ?></a>
               </div>
             </div>
           </fieldset>
-        </form>
+        <?php $this->endWidget(); ?>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal modal-sm fade" id="modal_forgot" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" 
+     style="width: 100%">
+  <div class="modal-dialog">
+    <div class="close-modal-icon">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body">
+        <?php $form=$this->beginWidget('CActiveForm', array(
+              'id'=>'user-form',
+              'enableClientValidation'=>true,
+              'action' => Yii::app()->createUrl('user/forgot'),
+              'method' => 'POST',
+              'enableAjaxValidation'=>true,
+              'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+                'validateOnChange'=>false,
+                'validateOnType'=>false
+              ),
+             )); ?>
+          <fieldset>
+            <legend style="text-transform: uppercase;"><?php echo Yii::t('app', "Forgot password"); ?></legend>
+            <div class="form-group">
+              <div class="col-lg-12">
+                <?php echo $form->textField($model,'email',array('id' =>"inputEmail", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size'=>50,'maxlength'=>50)); ?>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-lg-12">
+                <?php echo CHtml::ajaxSubmitButton(Yii::t('app', "Send Password"), CHtml::normalizeUrl(array('user/forgot','form'=>'forgot-form')),
+                      array(
+                          'dataType'=>'json',
+                          'type'=>'post',
+                          'success'=>'loginResult',                    
+                          'beforeSend'=>'function(){                        
+                           }'
+                          ), 
+                      array('class' => 'btn btn-primary', "style" => "width: 100%;")); ?>
+              </div>
+            </div>
+          </fieldset>
+        <?php $this->endWidget(); ?>
       </div>
     </div>
   </div>
@@ -513,49 +578,68 @@ $baseUrl = Yii::app()->baseUrl;
       <div class="modal-body">
         <div id="myTabContent" class="row">
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="sign_in_form">
-            <form class="form-horizontal">
+              <?php $form=$this->beginWidget('CActiveForm', array(
+              'id'=>'user-form',
+              'enableClientValidation'=>true,
+              'action' => Yii::app()->createUrl('user/create'),
+              'method' => 'POST',
+              'enableAjaxValidation'=>true,
+              'clientOptions'=>array(
+                'validateOnSubmit'=>true,
+                'validateOnChange'=>false,
+                'validateOnType'=>false
+              ),
+             )); ?>
               <fieldset>
                 <legend style="font-weight: 700; font-size: 30px"><?php echo Yii::t('app', "START YOUR WORKOUT"); ?></legend>
                 <div class="form-group">
                   <label for="inputEmail" class="col-lg-12 control-label">Name</label>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <input type="text" class="form-control" id="inputEmail" placeholder="<?php echo Yii::t('app', "First"); ?>">
+                    <?php echo $form->textField($model,'first',array('class' => 'form-control', 'placeholder' => Yii::t('app', "First"),'size'=>20,'maxlength'=>20)); ?>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <input type="text" class="form-control" id="inputEmail" placeholder="<?php echo Yii::t('app', "Last"); ?>">
+                    <?php echo $form->textField($model,'last',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Last"), 'size'=>20,'maxlength'=>20)); ?>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail" class="col-lg-12 control-label">Email</label>
                   <div class="col-lg-12">
-                    <input type="text" class="form-control" id="inputEmail" placeholder="Email">
+                    <?php echo $form->textField($model,'email',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size'=>50,'maxlength'=>50)); ?>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputPassword" class="col-lg-12 control-label">Password</label>
                   <div class="col-lg-12">
-                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                    <?php echo $form->passwordField($model,'password',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Password"),'size'=>50,'maxlength'=>50)); ?>
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox"> <?php echo Yii::t('app', "Yes Freeletics, send me emails with training-specific tips and information regarding new Freeletics features, products & specials!"); ?>
+                        <?php echo $form->checkBox($model,'notice',array('class' => '')); ?>
+                        <?php echo Yii::t('app', "Yes Freeletics, send me emails with training-specific tips and information regarding new Freeletics features, products & specials!"); ?>
                       </label>
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="col-lg-12">
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-<?php echo Yii::t('app', "Free Sign Up"); ?>
-                    </button>
+                    <?php echo CHtml::ajaxSubmitButton(Yii::t('app', "Free Sign Up"), CHtml::normalizeUrl(array('user/create','form'=>'user-form')),
+                      array(
+                          'dataType'=>'json',
+                          'type'=>'post',
+                          'success'=>'forgotResult',                    
+                          'beforeSend'=>'function(){                        
+                             
+                           }'
+                          ), 
+                      array('class' => 'btn btn-primary', "style" => "width: 100%;")); ?>
                   </div>
                 </div>
-                Already a user? <a href="#">Sign In</a>
+                Already a user? <a href="#" data-toggle="modal" data-target="#modal_login"><?php Yii::t('app', "Sign In"); ?></a>
                 <br/>
                 By creating an account, I agree to Freeletics'
                 <a href="https://www.freeletics.com/en/pages/terms">Terms of Service</a>
                 and <a href="https://www.freeletics.com/en/pages/privacy" >Privacy Policy</a>.
               </fieldset>
-            </form>
+            <?php $this->endWidget(); ?>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="description-sign-up">
@@ -609,4 +693,94 @@ $baseUrl = Yii::app()->baseUrl;
 
   </div>
 </footer>
+
+<div class="modal modal-sm fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" 
+     style="width: 100%">
+  <div class="modal-dialog">
+    <div class="modal-header bg-red">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title" id="myModalLabel"><?php echo Yii::t('app', "Error"); ?></h4>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal modal-sm fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" 
+     style="width: 100%">
+  <div class="modal-dialog">
+    <div class="close-modal-icon">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-content">
+      <div class="modal-body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function validate(data) {
+    if(!data.status) {
+      var text = '';
+      $.each(data.data, function(key, value) {
+        text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
+      });
+      $("#modal_error .modal-body").html(text);
+      $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+      $("#modal_error").modal("show");
+    } else if (undefined !== data.email) {
+      var message = '<?php echo Yii::t('app', 'Registr successfully. Check [0] to confirm.'); ?>';
+      message = message.replace("[0]", data.email);
+      $("#modal_success .modal-body").text(message);
+      $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+      $("#modal_success").modal("show");
+    }
+  }
+  
+  function loginResult(data) {
+    if(data.status == true) {
+      window.location.href = '<?php echo Yii::app()->createUrl('/default/user'); ?>';
+    } else {
+      var text = '';
+      if (data.data && $.isArray(data.data)) {
+        $.each(data.data, function(key, value) {
+          text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
+        });
+      }
+      if (data.message != '') {
+        text = data.message;
+      }
+      $("#modal_error .modal-body").html(text);
+      $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+      $("#modal_error").modal("show");
+    }
+  }
+  
+  function forgotResult(data) {
+    if(data.status == true && (undefined !== data.email) ) {
+      var message = '<?php echo Yii::t('app', 'Send successfully. Check [0] to confirm.'); ?>';
+      message = message.replace("[0]", data.email);
+      $("#modal_success .modal-body").text(message);
+      $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+      $("#modal_success").modal("show");
+    } else {
+      var text = '';
+      if (data.data && $.isArray(data.data)) {
+        $.each(data.data, function(key, value) {
+          text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
+        });
+      }
+      if (data.message != '') {
+        text = data.message;
+      }
+      $("#modal_error .modal-body").html(text);
+      $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+      $("#modal_error").modal("show");
+    }
+  }
+</script>
 

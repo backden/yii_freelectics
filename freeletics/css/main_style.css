@@ -711,7 +711,7 @@ footer.main-footer {
 */
 .jssorb21 div, .jssorb21 div:hover, .jssorb21 .av
 {
-  background: url(/cake/img/b21.png) no-repeat;
+  background: url(../img/b21.png) no-repeat;
   overflow:hidden;
   cursor: pointer;
 }
@@ -734,7 +734,7 @@ footer.main-footer {
   position: absolute;
   cursor: pointer;
   display: block !important;
-  background: url(/cake/img/a21.png) center center no-repeat;
+  background: url(../img/a21.png) center center no-repeat;
   overflow: hidden;
 }
 .jssora21l { background-position: -3px -33px; }
@@ -813,7 +813,7 @@ footer.main-footer {
   color: white;
   font-size: 60px;
   display: none;
-  background: url(/cake/img/pattern.jpg) 50% 100% repeat-x transparent;
+  background: url(../img/pattern.jpg) 50% 100% repeat-x transparent;
 }
 
 .box-body.body-hover {
@@ -859,7 +859,7 @@ button.btn-specify-tab-3 {
 }
 
 #section5 {
-  background: url(/cake/img/pattern.jpg) 100% 100% repeat transparent;
+  background: url(../img/pattern.jpg) 100% 100% repeat transparent;
 }
 
 #section5 .container.log-in {

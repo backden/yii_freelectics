@@ -26,7 +26,8 @@ class DefaultController extends Controller {
   }
 
   public function actionIndex() {
-    $this->render('index');
+    $model_user = new User();
+    $this->render('index', array('model' => $model_user));
   }
   
   public function actionUser() {
