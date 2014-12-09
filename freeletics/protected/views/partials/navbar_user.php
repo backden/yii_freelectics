@@ -39,7 +39,7 @@ $baseUrl = Yii::app()->baseUrl;
     <ul class="nav navbar-nav navbar-right">
       <li><a href="./user" class="btn btn-primary btn-sm"><?php echo Yii::t('app', "Get your Coach"); ?></a></li>
       <li><a href="#" class="btn-search" data-toggle="modal" data-target="#modal_search"><i class="fa fa-search"></i></a></li>
-      <li><a href="#logout" class="btn-sm" id="btn_logout" title="<?php echo Yii::t('app', 'btn_logout'); ?>"><i class="fa fa-sign-out"></i></a></li>
+      <li><a href="<?php echo Yii::app()->createUrl('/user/logout'); ?>" class="btn-sm" id="btn_logout" title="<?php echo Yii::t('app', 'btn_logout'); ?>"><i class="fa fa-sign-out"></i></a></li>
     </ul>
   </div>
   <div class="sub-navbar">

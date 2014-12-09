@@ -33,7 +33,7 @@ $baseUrl = Yii::app()->baseUrl;
     <div class="col-lg-10">
       <div class="row">
         <div class="col-lg-6">
-          <div class="user-name" style="font-size: 30px; color: whitesmoke;">long hoang</div>
+          <div class="user-name" style="font-size: 30px; color: whitesmoke;"><?php echo Yii::app()->user->role; ?></div>
           <div class="description-join-date-user" style="font-size: 13px; color: whitesmoke;">Free Athlete since 2 days ago.</div>
         </div>
         <div class="col-lg-6 pull-right statics-workout-follow" style="color: whitesmoke; font-size: 14px;">

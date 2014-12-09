@@ -81,5 +81,6 @@ return array(
         // this is used in contact page
         'adminEmail' => 'webmaster@example.com',
         'stringcode' => '$2a$0778$1xx0sX0HxhjjjmMMjJ8ahKMh9MbMjbh2O81mx7L7$',
+        'durationLogin' => 3600 * 24 * 7,
     ),
 );

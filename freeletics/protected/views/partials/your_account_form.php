@@ -4,6 +4,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+$model = User::model()->findByPk(Yii::app()->user->id);
 ?>
 <div class="modal fade" id="modal_setting_your_account" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y: hidden">
   <div class="modal-dialog">
@@ -16,70 +18,84 @@
         <button type="button" class="close pull-right" data-dismiss="modal">
           <span class=""><i class="fa fa-times"></i></span>
         </button>
+        <?php $form=$this->beginWidget('CActiveForm', array(
+          'id'=>'user-form',
+          'enableClientValidation'=>true,
+          'method' => 'POST',
+          'enableAjaxValidation'=>true,
+          'clientOptions'=>array(
+            'validateOnSubmit'=>true,
+            'validateOnChange'=>false,
+            'validateOnType'=>false
+          ),
+         )); ?>
         <ul class="nav nav-tabs" style="margin-bottom: 10px;">
-          <li class="active"><a href="#change-your-account" data-toggle="tab"><i class="fa fa-user"></i>&nbsp;Account</a></li>
-          <li><a href="#change-training-profile" data-toggle="tab"><i class="fa fa-heart"></i>&nbsp;Training Profile</a></li>
+          <li class="active"><a href="#change-your-account" data-toggle="tab"><i class="fa fa-user"></i>&nbsp;<?php echo Yii::t("app", 'Account'); ?></a></li>
+          <li><a href="#change-training-profile" data-toggle="tab"><i class="fa fa-heart"></i>&nbsp;<?php echo Yii::t("app", 'Training Profile'); ?></a></li>
         </ul>
         <div class="tab-content">
-          <form id="change-your-account" onclick="changeUserSettings()" class="tab-pane fade active in form-group-sm">
+          <div id="change-your-account" onclick="" class="tab-pane fade active in form-group-sm">
             <div class="form-horizontal">
               <div class="row form-group">
-                <label for="user_first_name" class="col-lg-3 col-sm-12">First Name</label>
+                <label for="user_first_name" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'First Name'); ?></label>
                 <div class="col-lg-9 col-sm-12">
-                  <input id="user_first_name" class="form-control">
+                  <?php echo $form->textField($model,'first',array('class' => 'form-control', 'placeholder' => Yii::t('app', "First"),'size'=>20,'maxlength'=>20)); ?>
                 </div>
               </div>
               <div class="row form-group">
-                <label for="user_last_name" class="col-lg-3 col-sm-12">Last Name</label>
+                <label for="user_last_name" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'Last Name'); ?></label>
                 <div class="col-lg-9 col-sm-12">
-                  <input id="user_last_name" class="form-control">
+                  <?php echo $form->textField($model,'last',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Last"), 'size'=>20,'maxlength'=>20)); ?>
                 </div>
               </div>
               <div class="row form-group">
-                <label for="user_email" class="col-lg-3 col-sm-12">Email Address</label>
+                <label for="user_email" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'Email Address'); ?></label>
                 <div class="col-lg-9 col-sm-12">
-                  <input id="user_email" class="form-control">
+                  <?php echo $form->textField($model,'email',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size'=>50,'maxlength'=>50)); ?>
                 </div>
               </div>
               <div class="row form-group">
-                <label for="user_locale" class="col-lg-3 col-sm-12">Language</label>
+                <label for="user_locale" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'Language'); ?></label>
                 <div class="col-lg-9 col-sm-12">
-                  <select id="user_locale" class="form-control"><option value="0" selected="selected" label="English">English</option><option value="1" label="Español">Español</option><option value="2" label="Deutsch">Deutsch</option><option value="3" label="Português">Português</option><option value="4" label="Français">Français</option></select>
+                  <?php echo CHtml::dropDownList('User[language]', $model->language, CHtml::listData(Language::model()->findAll(), 'name', 'country'), array('class' => 'form-control')); ?>
                 </div>
               </div>
               <div class="row form-group">
-                <label class="col-lg-3 col-sm-12 ng-binding">Password</label>
-                <div class="col-lg-9 col-sm-12"><span class="">Change password</span></div>
+                <label class="col-lg-3 col-sm-12 ng-binding"><?php echo Yii::t("app", 'Password'); ?></label>
+                <div class="col-lg-9 col-sm-12"><span class=""><?php echo Yii::t("app", 'Change password'); ?></span></div>
               </div>
               <!-- ngIf: showPasswordChange -->
               <div class="row form-group">
                 <div class="col-lg-12 col-sm-12">
-                  <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i>&nbsp;Save changes</button>
+                  <button class="btn btn-primary btn-block" onclick="javascript:$('#btn_update_account').trigger('click'); return false;"><i class="fa fa-save"></i>&nbsp;<?php echo Yii::t("app", 'Save changes'); ?></button>
                 </div>
               </div>
             </div>
-          </form>
-          <form id="change-training-profile" onclick="changeTrainingProfile()" class="tab-pane fade in form-group-sm">
+          </div>
+          <div id="change-training-profile" onclick="" class="tab-pane fade in form-group-sm">
             <div class="box-content">
               <div class="form-horizontal">
                 <div class="row form-group">
-                  <label for="user_city" class="col-lg-3 col-sm-12">City</label>
+                  <label for="user_city" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'City'); ?></label>
                   <div class="col-lg-9 col-sm-12">
-                    <input id="user_city" class="form-control">
+                    <?php echo $form->textField($model,'city',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size'=>50,'maxlength'=>50)); ?>
                   </div>
                 </div>
                 <div class="row form-group">
-                  <label for="user_gender" class="col-lg-3 col-sm-12">Gender</label>
+                  <label for="user_gender" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'Gender'); ?></label>
                   <div class="col-lg-9 col-sm-12">
-                    <select id="user_gender" class="form-control ng-valid"><option value="0" selected="selected" label="Male">Male</option><option value="1" label="Female">Female</option></select>
+                    <?php echo CHtml::dropDownList('User[gender]', $model->gender, array("0" => Yii::t("app", 'Male'), "1" => Yii::t("app", 'Female'), "2" => "Other"), array('class' => 'form-control')); ?>
                   </div>
                 </div>
                 <div class="row form-group">
-                  <label for="user_birthday_month" class="col-lg-3 col-sm-12">Birthday</label>
+                  <label for="user_birthday_month" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'Birthday'); ?></label>
                   <div class="col-lg-9 col-sm-12">
                     <div class="row">
+                      <?php echo $form->hiddenField($model,'birthday'); ?>
                       <div class="col-lg-4 col-sm-3">
-                        <select onclick="updateBirthday()" id="user_birthday_day" class="form-control"><option value="?" selected="selected" label=""></option><option value="0" label="1">1</option><option value="1" label="2">2</option><option value="2" label="3">3</option><option value="3" label="4">4</option><option value="4" label="5">5</option><option value="5" label="6">6</option><option value="6" label="7">7</option><option value="7" label="8">8</option><option value="8" label="9">9</option><option value="9" label="10">10</option><option value="10" label="11">11</option><option value="11" label="12">12</option><option value="12" label="13">13</option><option value="13" label="14">14</option><option value="14" label="15">15</option><option value="15" label="16">16</option><option value="16" label="17">17</option><option value="17" label="18">18</option><option value="18" label="19">19</option><option value="19" label="20">20</option><option value="20" label="21">21</option><option value="21" label="22">22</option><option value="22" label="23">23</option><option value="23" label="24">24</option><option value="24" label="25">25</option><option value="25" label="26">26</option><option value="26" label="27">27</option><option value="27" label="28">28</option><option value="28" label="29">29</option><option value="29" label="30">30</option><option value="30" label="31">31</option></select>
+                        <select onclick="updateBirthday()" id="user_birthday_day" class="form-control">
+                          <option value="?" selected="selected" label=""></option>
+                          <option value="0" label="1">1</option><option value="1" label="2">2</option><option value="2" label="3">3</option><option value="3" label="4">4</option><option value="4" label="5">5</option><option value="5" label="6">6</option><option value="6" label="7">7</option><option value="7" label="8">8</option><option value="8" label="9">9</option><option value="9" label="10">10</option><option value="10" label="11">11</option><option value="11" label="12">12</option><option value="12" label="13">13</option><option value="13" label="14">14</option><option value="14" label="15">15</option><option value="15" label="16">16</option><option value="16" label="17">17</option><option value="17" label="18">18</option><option value="18" label="19">19</option><option value="19" label="20">20</option><option value="20" label="21">21</option><option value="21" label="22">22</option><option value="22" label="23">23</option><option value="23" label="24">24</option><option value="24" label="25">25</option><option value="25" label="26">26</option><option value="26" label="27">27</option><option value="27" label="28">28</option><option value="28" label="29">29</option><option value="29" label="30">30</option><option value="30" label="31">31</option></select>
                       </div>
                       <div class="col-lg-4 col-sm-6">
                         <select onclick="updateBirthday()" id="user_birthday_month" class="form-control"><option value="?" selected="selected" label=""></option><option value="0" label="January">January</option><option value="1" label="February">February</option><option value="2" label="March">March</option><option value="3" label="April">April</option><option value="4" label="May">May</option><option value="5" label="June">June</option><option value="6" label="July">July</option><option value="7" label="August">August</option><option value="8" label="September">September</option><option value="9" label="October">October</option><option value="10" label="November">November</option><option value="11" label="December">December</option></select>
@@ -91,23 +107,24 @@
                   </div>
                 </div>
                 <div class="row form-group">
-                  <label for="user_weight" class="col-lg-3 col-sm-12">Weight</label>
+                  <label for="user_weight" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'Weight'); ?></label>
                   <div class="col-lg-9 col-sm-12">
                     <div class="row">
                       <div class="col-lg-6 col-sm-12">
-                        <input type="number" id="user_weight" class="form-control">
+                        <?php echo $form->textField($model, 'weight', array('class' => 'form-control', 'placeholder' => Yii::t('app', "Weight"), 'maxlength'=>6)); ?>
                       </div>
                       <div class="col-lg-6 col-sm-12">
-                        <select class="form-control"><option value="0" selected="selected" label="kg">kg</option><option value="1" label="lbs">lbs</option></select>
+                        <?php echo CHtml::dropDownList('User[unitWeight]', $model->unitWeight, array("0" => Yii::t("app", 'kg'), "1" => Yii::t("app", 'lbs')), array('class' => 'form-control')); ?>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="row form-group">
-                  <label for="user_height" class="col-lg-3 col-sm-12">Height</label>
+                  <label for="user_height" class="col-lg-3 col-sm-12"><?php echo Yii::t("app", 'Height'); ?></label>
                   <div class="col-lg-9 col-sm-12">
                     <div class="row">
                       <div class="col-lg-6 col-sm-12">
+                        <?php echo $form->textField($model, 'height', array('class' => 'form-control', 'placeholder' => Yii::t('app', "Weight"), 'maxlength'=>6)); ?>
                         <input type="number" id="user_height" class="form-control">
                       </div>
                       <div class="col-lg-6 col-sm-12">
@@ -118,14 +135,45 @@
                 </div>
                 <div class="row form-group">
                   <div class="col-lg-12 col-sm-12">
-                    <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i>&nbsp;Save changes</button>
+                    <?php echo CHtml::ajaxButton(Yii::t('app', Yii::t("app", 'Save changes')), CHtml::normalizeUrl(array('/user/update','form'=>'user-form')),
+                      array(
+                          'dataType'=>'json',
+                          'type'=>'post',
+                          'success'=>'updateResult',                    
+                          'beforeSend'=>'function(){                        
+                           }'
+                          ), 
+                      array('id' => 'btn_update_account', 'class' => 'btn btn-primary btn-block', "style" => "width: 100%; display: none;")); ?>
+                    <button class="btn btn-primary btn-block" onclick="javascript:$('#btn_update_account').trigger('click'); return false;"><i class="fa fa-save"></i>&nbsp;<?php echo Yii::t("app", 'Save changes'); ?></button>
                   </div>
                 </div>
               </div>
             </div>
-          </form>
+          </div>
+          <?php $this->endWidget(); ?>
         </div>
       </div>
     </div>
   </div>
 </div>
+<script>
+  function updateResult(data) {
+    if (data.status) {
+      window.location.href = '';
+    } else {
+      var text = '';
+      if (data.data) {
+        $.each(data.data, function(key, value) {
+          text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
+        });
+      }
+      if (data.message) {
+        text = data.message;
+      }
+      $("#modal_error .modal-body .message").html(text);
+      $("#modal_login, #modal_sign_up, #modal_forgot, #modal_setting_your_account").modal("hide");
+      $("#modal_error").modal("show");
+    }
+    return false;
+  }
+</script>

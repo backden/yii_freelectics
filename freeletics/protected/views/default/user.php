@@ -6,8 +6,10 @@
  */
 ?>
 <div id="main-container">
-  <?php if (Yii::app()->getController()->action->id == 'user') { ?>
+  <?php if (!Yii::app()->user->isGuest) { ?>
     <?php $this->renderPartial('//partials/user_information'); ?>
-  <?php } else { ?>
+  <?php } else { 
+    $this->redirect('/default/');?>
   <?php } ?>
 </div>
+<?php echo $this->renderPartial('//partials/dialogs'); ?>

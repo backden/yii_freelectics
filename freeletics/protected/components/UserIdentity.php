@@ -5,29 +5,50 @@
  * It contains the authentication method that checks if the provided
  * data can identity the user.
  */
-class UserIdentity extends CUserIdentity
-{
-	/**
-	 * Authenticates a user.
-	 * The example implementation makes sure if the username and password
-	 * are both 'demo'.
-	 * In practical applications, this should be changed to authenticate
-	 * against some persistent user identity storage (e.g. database).
-	 * @return boolean whether authentication succeeds.
-	 */
-	public function authenticate()
-	{
-		$users=array(
-			// username => password
-			'demo'=>'demo',
-			'admin'=>'admin',
-		);
-		if(!isset($users[$this->username]))
-			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif($users[$this->username]!==$this->password)
-			$this->errorCode=self::ERROR_PASSWORD_INVALID;
-		else
-			$this->errorCode=self::ERROR_NONE;
-		return !$this->errorCode;
-	}
+class UserIdentity extends CUserIdentity {
+
+  public $email;
+  private $_id;
+
+  public function getId() {
+    return $this->_id;
+  }
+
+  public function __construct($username, $password, $params) {
+    parent::__construct($username, $password);
+    $this->email = $params['email'];
+  }
+
+  /**
+   * Authenticates a user.
+   * The example implementation makes sure if the username and password
+   * are both 'demo'.
+   * In practical applications, this should be changed to authenticate
+   * against some persistent user identity storage (e.g. database).
+   * @return boolean whether authentication succeeds.
+   */
+  public function authenticate() {
+    $model = new User;
+    $results = array("status" => false, 'message' => '');
+
+    $model->attributes = $_POST['User'];
+    $user = User::model()->findByAttributes(array("email" => $this->email));
+    if ($user) {
+      if ($user->password === hash('sha256', $model->password . Yii::app()->params['stringcode'])) {
+        if ($user->active) {
+          $results['status'] = true;
+          $this->_id = $user->id;
+          $this->setState('role', $user->role);
+        } else {
+          $results['message'] = Yii::t("app", "Account inactive, check email again");
+        }
+      } else {
+        $results['message'] = Yii::t("app", "Email or password incorrect");
+      }
+    } else {
+      $results['message'] = Yii::t("app", "Email or password incorrect");
+    }
+    return $results;
+  }
+
 }

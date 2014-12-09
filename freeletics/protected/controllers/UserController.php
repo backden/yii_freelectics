@@ -6,7 +6,7 @@ class UserController extends Controller {
    * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
    * using two-column layout. See 'protected/views/layouts/column2.php'.
    */
-  public $layout = '//layouts/column2';
+  public $layout = "//layouts/default_main";
 
   /**
    * @return array action filters
@@ -30,7 +30,7 @@ class UserController extends Controller {
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
-            'actions' => array('create', 'update'),
+            'actions' => array('create', 'update', 'logout'),
             'users' => array('@'),
         ),
         array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -45,6 +45,15 @@ class UserController extends Controller {
             'users' => array('*'),
         ),
     );
+  }
+
+  protected function beforeAction($action) {
+    if (Yii::app()->user->isGuest && !Yii::app()->request->isPostRequest) {
+      $this->forward('/');
+      return true;
+    } else {
+      return parent::beforeAction($action);
+    }
   }
 
   /**
@@ -62,41 +71,22 @@ class UserController extends Controller {
    * If creation is successful, the browser will be redirected to the 'view' page.
    */
   public function actionCreate() {
-    $model = new User;
+    $model = new User('register');
 
 // Uncomment the following line if AJAX validation is needed
-    $this->performAjaxValidation($model);
+    $result = $this->performAjaxValidation($model);
 
     if (isset($_POST['User'])) {
       $model->attributes = $_POST['User'];
+      $model->changePW = true;
       if ($model->save()) {
         echo json_encode(array('status' => true, 'email' => $model->email));
+      } else {
+        echo json_encode($result);
       }
     } else {
-      
+      echo json_encode($result);
     }
-  }
-
-  /**
-   * Updates a particular model.
-   * If update is successful, the browser will be redirected to the 'view' page.
-   * @param integer $id the ID of the model to be updated
-   */
-  public function actionUpdate($id) {
-    $model = $this->loadModel($id);
-
-// Uncomment the following line if AJAX validation is needed
-// $this->performAjaxValidation($model);
-
-    if (isset($_POST['User'])) {
-      $model->attributes = $_POST['User'];
-      if ($model->save())
-        $this->redirect(array('view', 'id' => $model->id));
-    }
-
-    $this->render('update', array(
-        'model' => $model,
-    ));
   }
 
   /**
@@ -116,10 +106,7 @@ class UserController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
-    $dataProvider = new CActiveDataProvider('User');
-    $this->render('index', array(
-        'dataProvider' => $dataProvider,
-    ));
+    $this->render('//default/user');
   }
 
   /**
@@ -154,46 +141,41 @@ class UserController extends Controller {
    * Performs the AJAX validation.
    * @param User $model the model to be validated
    */
-  protected function performAjaxValidation($model, $attributes = null) {
+  protected function performAjaxValidation($model, $attributes = null, $show = true) {
     if (isset($_GET['form']) && $_GET['form'] === 'user-form') {
       $result = CActiveForm::validate($model, $attributes);
       if (count(json_decode($result)) > 0) {
-        echo json_encode(array('status' => false, 'data' => json_decode($result)));
-        Yii::app()->end();
+        if ($show) {
+          echo json_encode(array('status' => false, 'data' => json_decode($result)));
+          Yii::app()->end();
+        }
+        return array('status' => false, 'data' => json_decode($result));
+      } else {
+        return true;
       }
     }
   }
 
   public function actionLogin() {
-    $model = new User;
-    $results = array("status" => false, 'message' => '');
+    $model = new User('login');
     $this->performAjaxValidation($model, array("email", "password"));
 
     if (isset($_POST['User'])) {
-      $model->attributes = $_POST['User'];
-      $user = User::model()->findByAttributes(array("email" => $model->email));
-      if ($user) {
-        if ($user->password === hash('sha256', $model->password . Yii::app()->params['stringcode'])) {
-          if ($user->active) {
-            $results['status'] = true;
-          } else {
-            $results['message'] = Yii::t("app", "Account inactive, check email again");
-          }
-        } else {
-          $results['message'] = Yii::t("app", "Email or password incorrect");
-        }
-      } else {
-        $results['message'] = Yii::t("app", "Email or password incorrect");
-      }
+      $userIdentity = new UserIdentity($model->email, $model->password, array('email' => $model->email));
+      $results = $userIdentity->authenticate();
+
+      $duration = $model->remember ? Yii::app()->params['durationLogin'] : 3600 * 2;
+      Yii::app()->user->login($userIdentity, $duration);
+
       echo json_encode($results);
       Yii::app()->end();
     }
   }
-  
+
   public function actionForgot() {
     $model = new User;
     $results = array("status" => false, 'message' => '');
-    $this->performAjaxValidation($model, array("email"));
+    $result = $this->performAjaxValidation($model, array("email"));
 
     if (isset($_POST['User'])) {
       $model->attributes = $_POST['User'];
@@ -203,7 +185,7 @@ class UserController extends Controller {
         $newpass = substr(hash('md5', $user->password . Yii::app()->params['stringcode']), 3, 10);
         $user->password = hash('sha256', $newpass . Yii::app()->params['stringcode']);
         $user->save();
-        
+
         $results['status'] = true;
       } else {
         $results['message'] = Yii::t("app", "Email or password incorrect");
@@ -211,6 +193,41 @@ class UserController extends Controller {
       echo json_encode($results);
       Yii::app()->end();
     }
+  }
+
+  public function actionUpdate() {
+    if (Yii::app()->request->isPostRequest) {
+      $model = User::model()->findByPk(Yii::app()->user->id);
+      $newModel = new User('update');
+      $attrs = array();
+      if (isset($_POST['User'])) {
+        foreach ($_POST['User'] as $key => $value) {
+          $attrs[] = $key;
+        }
+      }
+      $result = $this->performAjaxValidation($newModel, $attrs, false);
+      if (isset($_POST['User']) && $result === TRUE) {
+        $model->isNewRecord = false;
+        $model->last_update = date("Y-m-d H:i:s", time());
+        $model->attributes = $_POST['User'];
+        if ($model->update()) {
+          echo json_encode(array('status' => TRUE));
+        } else {
+          echo json_encode(array('status' => FALSE));
+        }
+        Yii::app()->end();
+      } else {
+        echo json_encode($result);
+        Yii::app()->end();
+      }
+    } else {
+      $this->forward('/user');
+    }
+  }
+
+  public function actionLogout() {
+    Yii::app()->user->logout();
+    $this->forward('/default');
   }
 
 }

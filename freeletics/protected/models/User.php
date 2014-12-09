@@ -22,6 +22,10 @@
 class User extends CActiveRecord {
 
   public $password;
+  public $remember = false;
+  public $changePW = false;
+  public $unitWeight = 'kg';
+  public $unitHeight = 'lbs';
 
   /**
    * @return string the associated database table name
@@ -44,6 +48,7 @@ class User extends CActiveRecord {
         array('first, last', 'length', 'min' => 3),
         array('language', 'length', 'max' => 4),
         array('birthday', 'safe'),
+        array('city', 'length', 'max' => 50),
         array('notice', 'boolean'),
         array('password', 'length', 'min' => 8),
         // The following rule is used by search().
@@ -83,7 +88,10 @@ class User extends CActiveRecord {
         'last_update' => 'Last Update',
         'role' => 'Role',
         'active' => 'Active',
-        'Notice' => 'Notice',
+        'notice' => 'Notice',
+        'city' => 'City',
+        'unitWeight' => 'unitWeight',
+        'unitHeight' => 'unitHeight',
     );
   }
 
@@ -118,7 +126,8 @@ class User extends CActiveRecord {
     $criteria->compare('last_update', $this->last_update, true);
     $criteria->compare('role', $this->role);
     $criteria->compare('active', $this->active);
-    $criteria->compare('notice', $this->active);
+    $criteria->compare('notice', $this->notice);
+    $criteria->compare('city', $this->city);
 
     return new CActiveDataProvider($this, array(
         'criteria' => $criteria,
@@ -136,21 +145,46 @@ class User extends CActiveRecord {
   }
 
   public function beforeSave() {
-    if (!empty($this->password)) {
+    if (!empty($this->password) && $this->changePW) {
       $this->password = hash('sha256', $this->password . Yii::app()->params['stringcode']);
-      return true;
     }
-    return false;
+    if (!isset($this->height)) {
+      $this->height = serialize(array('value' => 0, 'unit' => 'cm'));
+    }
+    $arr = array();
+    $arr['value'] = $this->weight != '' ? $this->weight : 0;
+    $arr['unit'] = $_POST['User']['unitWeight'] ? $_POST['User']['unitWeight'] : 0;
+    $this->weight = serialize($arr);
+    
+    $arr['value'] = $this->height != '' ? $this->height : 0;
+    $arr['unit'] = $_POST['User']['unitHeight'] ? $_POST['User']['unitHeight'] : 0;
+    $this->height = serialize($arr);
+    return true;
   }
 
   protected function beforeValidate() {
-    $this->create_date = date("Y-m-d H:i:s", time());
+    $this->create_date = $this->create_date != null ? $this->create_date : date("Y-m-d H:i:s", time());
     $this->last_update = date("Y-m-d H:i:s", time());
     return parent::beforeValidate();
   }
 
   public function afterSave() {
-    
+
     return parent::afterSave();
   }
+
+  protected function afterFind() {
+    if (!empty($this->weight)) {
+      $arr = unserialize($this->weight);
+      $this->unitWeight = $arr['unit'] ? $arr['unit'] : 0;
+      $this->weight = $arr['value'] ? $arr['value'] : 0;
+    }
+    if (!empty($this->height)) {
+      $arr = unserialize($this->height);
+      $this->unitHeight = $arr['unit'] ? $arr['unit'] : 0;
+      $this->height = $arr['value'] ? $arr['value'] : 0;
+    }
+    return parent::afterFind();
+  }
+
 }

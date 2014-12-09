@@ -25,14 +25,20 @@ class DefaultController extends Controller {
     );
   }
 
-  public function actionIndex() {
-    $model_user = new User();
-    $this->render('index', array('model' => $model_user));
+  protected function beforeAction($action) {
+    if (Yii::app()->user->isGuest) {
+      $model_user = new User();
+      $this->render('index', array('model' => $model_user));
+      return true;
+    } else {
+      $this->forward('/user');
+      Yii::app()->end();
+      return false;
+    }
   }
   
-  public function actionUser() {
-    $this->layout = "//layouts/default_main";
-    $this->render('user');
+  public function actionIndex() {
+    
   }
   
   public function actionAdmin() {

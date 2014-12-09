@@ -23,9 +23,9 @@ $baseUrl = Yii::app()->baseUrl;
     <?php $this->renderPartial("//partials/script_css") ?>
   </head>
   <body style="background: rgba(0, 0, 0, 0.1);">
-    <?php if (Yii::app()->getController()->action->id == 'user') { ?>
+    <?php if (!Yii::app()->user->isGuest && Yii::app()->user->role == 1) { ?>
       <?php echo $this->renderPartial("//partials/navbar_user") ?>
-    <?php } else if (Yii::app()->getController()->action->id == 'admin'){ ?>
+    <?php } else if (!Yii::app()->user->isGuest && Yii::app()->user->role == 2){ ?>
       <?php echo $this->renderPartial("//partials/navbar_admin") ?>
     <?php } else { ?>
       <?php echo $this->renderPartial("//partials/navbar_help_support") ?>
