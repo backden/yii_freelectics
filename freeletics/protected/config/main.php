@@ -26,8 +26,10 @@ return array(
     // application components
     'components' => array(
         'user' => array(
+            'loginUrl' => array('default/index'),
             // enable cookie-based authentication
             'allowAutoLogin' => true,
+            'autoUpdateFlash' => false
         ),
         // uncomment the following to enable URLs in path-format
         'urlManager' => array(

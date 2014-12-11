@@ -807,3 +807,9 @@ Parallax
   }
 
 }
+
+#sidebar-wrapper {
+  left: auto !important;
+  right: 0 !important;
+  margin-left: 0 !important;
+}

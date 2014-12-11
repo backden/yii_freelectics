@@ -17,6 +17,9 @@ $action = Yii::app()->getController()->action;
 <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/font-awesome/css/font-awesome.min.css" media="screen, projection" />
 <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/style.css" media="screen, projection" />
 <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/color/default.css" media="screen, projection" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/datepicker.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/simple-sidebar.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/user_styles.css" />
 
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
@@ -24,6 +27,8 @@ $action = Yii::app()->getController()->action;
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.scrollTo.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/scroll/sly.min.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/wow.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery-ui.min.js"></script>
 
 <?php } else { ?>
 <link href="<?php echo $baseUrl; ?>/favicon.ico" type="image/x-icon" rel="icon" />
@@ -35,6 +40,9 @@ $action = Yii::app()->getController()->action;
 <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/style.css" media="screen, projection" />
 <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/font_styles.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/user_styles.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/datepicker.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/simple-sidebar.css" />
+
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.easing.min.js"></script>
@@ -42,4 +50,6 @@ $action = Yii::app()->getController()->action;
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/scroll/sly.min.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/wow.min.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/user_scripts.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery-ui.min.js"></script>
 <?php } ?>

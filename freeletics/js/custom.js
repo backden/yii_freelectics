@@ -48,12 +48,12 @@
     } else {
       $(".open-header-scroll").removeClass("collapse-header");
     }
-    $(".bullet-vertical").css("bottom", -$(this).scrollTop() + $(this).height() / 3 + "px");
-    if ($(this).scrollTop() > $("#section1").offset().top / 2 - 10) {
-      $(".bullet-vertical").css("z-index", 999);
-    } else {
-      $(".bullet-vertical").css("z-index", 0);
-    }
+//    $(".bullet-vertical").css("bottom", -$(this).scrollTop() + $(this).height() / 3 + "px");
+//    if ($(this).scrollTop() > $("#section1").offset().top / 2 - 10) {
+//      $(".bullet-vertical").css("z-index", 999);
+//    } else {
+//      $(".bullet-vertical").css("z-index", 0);
+//    }
     if (!isChangeSection) {
       var index = 0;
       $("section").each(function (i) {

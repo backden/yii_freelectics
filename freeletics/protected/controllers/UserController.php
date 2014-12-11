@@ -30,7 +30,7 @@ class UserController extends Controller {
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
-            'actions' => array('create', 'update', 'logout'),
+            'actions' => array('create', 'update', 'logout', 'home', 'training', 'info'),
             'users' => array('@'),
         ),
         array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -106,6 +106,14 @@ class UserController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
+    $this->render('home');
+  }
+  
+  public function actionTraining() {
+    $this->render('training');
+  }
+  
+  public function actionInfo() {
     $this->render('//default/user');
   }
 

@@ -7,7 +7,7 @@
 ?>
 
 <!-- footer -->
-<footer style="margin: 0; padding: 0;">
+<footer style="margin: 0; padding: 0; position: absolute; width: 100%;">
 <nav class="navbar navbar-custom nav-footer-fixed" role="navigation" style="background-color: black">
   <div class="">
     <h5 class="text-center" style="color: #ffffff; margin: 10px;">Copyright © 2014. All Rights Reserved.</h5>

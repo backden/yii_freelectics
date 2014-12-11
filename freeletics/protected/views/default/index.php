@@ -7,34 +7,39 @@
 
 
 /**
- * Description of index
+ * Description of index HomePage no login
  *
  * @author My PC
  */
 $baseUrl = Yii::app()->baseUrl;
 ?>
-
- <link href="/favicon.ico" type="image/x-icon" rel="icon" />
- <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/animate.css" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/bootstrap_readable.min.css" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/font-awesome/css/font-awesome.min.css" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/style.css" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/main_style.css" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/horizontal.css" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/color/default.css" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/font_styles.css" />
- <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/hovereffect.css" />
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.easing.min.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.scrollTo.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jssor.slider.min.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/scroll/sly.min.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/wow.min.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/scroll_follow.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/custom.js"></script>
- <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/social.script.js"></script>
+<style>
+  .col-sm-3, .col-xs-12 {
+    margin-bottom: 20px;
+  }
+  
+</style>
+<link href="/favicon.ico" type="image/x-icon" rel="icon" />
+<link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/animate.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/bootstrap_readable.min.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/font-awesome/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/main_style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/horizontal.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/color/default.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/font_styles.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/hovereffect.css" />
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.easing.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.scrollTo.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jssor.slider.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/scroll/sly.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/wow.min.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/scroll_follow.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/custom.js"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/social.script.js"></script>
 
 <!-- Section: intro -->
 <section id="intro" class="intro">
@@ -174,7 +179,7 @@ $baseUrl = Yii::app()->baseUrl;
     </div>
     <div class="container" style="padding-top: 50px;">
       <div id="fb-root"></div>
-      <div class="fb-like" data-href="https://www.facebook.com/bbcnews" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+      <div class="fb-like" data-href="https://www.facebook.com/bbcnews" data-width="100%" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
     </div>
 </section>
 <!-- /Section: about -->
@@ -210,8 +215,10 @@ $baseUrl = Yii::app()->baseUrl;
     </div>
     <div id="content-scroll-h" class="frame" style="height: 400px;">
       <ul class="">
-        <?php $i = 0;
-        while ($i < 10) { ?>
+        <?php
+        $i = 0;
+        while ($i < 10) {
+          ?>
           <li class="box-container">
             <div class="box box-solid box-success" style="max-height: 400px;">
               <div class="box-header">
@@ -228,8 +235,10 @@ $baseUrl = Yii::app()->baseUrl;
               </div><!-- /.box-body -->
             </div>
           </li>
-          <?php $i++;
-        } ?>
+          <?php
+          $i++;
+        }
+        ?>
       </ul>
 
     </div>
@@ -240,7 +249,7 @@ $baseUrl = Yii::app()->baseUrl;
 <!-- /Section: contact -->
 
 <!-- section image -->
-<section id="section3" class="" style="padding: 100px;">
+<section id="section3" class="" style="">
   <div class="container">
     <button class="btn btn-primary btn-lg pull-right btn-specify-tab-3"><?php echo Yii::t('app', "button"); ?></button>
   </div>
@@ -264,111 +273,183 @@ $baseUrl = Yii::app()->baseUrl;
     </div>
   </div>
   <div class="container">
-    <div class="col-lg-6" style="padding-bottom: 20px;">
-      <div class="" style="float: right">
-        <div class="view effect">  
-          <img src="http://placehold.it/460x220" />  
-          <div class="mask"></div>
-          <div class="content">  
-            <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-          </div>  
+    <div class="row ">
+      <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div id="tile1" class="tile" style="/*  */">
+
+          <div class="carousel slide" data-ride="carousel" style="/*  */">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="view effect">  
+                <img src="http://placehold.it/460x300" />  
+                <div class="mask"></div>
+                <div class="content">  
+                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+                </div>  
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-    </div>
-    <div class="col-lg-6">
-      <div class="" style="margin-left: -25px;">
-        <div class="col-lg-5 col-lg-5-fix">
-          <div class="view effect">  
-            <img src="http://placehold.it/220x100"/>  
-            <div class="mask"></div>
-            <div class="content">  
-              <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-            </div>  
+      <div class="col-lg-3 col-sm-3 col-xs-6">
+        <div id="tile2" class="tile" style="">
+
+          <div class="carousel slide" data-ride="carousel" style="">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="view effect">  
+                <img src="http://placehold.it/460x300" />  
+                <div class="mask"></div>
+                <div class="content">  
+                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+                </div>  
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-lg-5 col-lg-5-fix">
-          <div class="view effect">  
-            <img src="http://placehold.it/220x100"/>  
-            <div class="mask"></div>
-            <div class="content">  
-              <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-            </div>  
-          </div>
-        </div>
-        <div class="clearfix">
-        </div>
-        <div class="col-lg-5 col-lg-5-fix">
-          <div class="view effect">  
-            <img src="http://placehold.it/220x100"/>  
-            <div class="mask"></div>
-            <div class="content">  
-              <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-            </div>  
-          </div>
-        </div>
-        <div class="col-lg-5 col-lg-5-fix">
-          <div class="view effect">  
-            <img src="http://placehold.it/220x100"/>  
-            <div class="mask"></div>
-            <div class="content">  
-              <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-            </div>  
-          </div>
+
         </div>
       </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="col-lg-6 col-xs-12 col-sm-12">
-      <div class="title-left">
-        <div class="col-lg-6 col-xs-12 col-sm-12 tile-fixed-left">
-          <div class="view effect">  
-            <img src="http://placehold.it/220x100"/>  
-            <div class="mask"></div>
-            <div class="content">  
-              <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-            </div>  
-          </div>
-        </div>
-        <div class="col-lg-6 col-xs-12 col-sm-12 tile-fixed-left">
-          <div class="view effect">  
-            <img src="http://placehold.it/220x100"/>  
-            <div class="mask"></div>
-            <div class="content">  
-              <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-            </div>  
-          </div>
-        </div>
-        <div class="clearfix">
-        </div>
-        <div class="col-lg-6 col-xs-12 col-sm-12 tile-fixed-left">
-          <div class="view effect">  
-            <img src="http://placehold.it/220x100"/>  
-            <div class="mask"></div>
-            <div class="content">  
-              <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-            </div>  
-          </div>
-        </div>
-        <div class="col-lg-6  col-xs-12 col-sm-12 tile-fixed-left">
-          <div class="view effect">  
-            <img src="http://placehold.it/220x100"/>  
-            <div class="mask"></div>
-            <div class="content">  
-              <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-            </div>  
+      <div class="col-lg-3 col-sm-3 col-xs-6">
+        <div id="tile3" class="tile" style="">
+
+          <div class="carousel slide" data-ride="carousel" style="">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="view effect">  
+                <img src="http://placehold.it/460x300" />  
+                <div class="mask"></div>
+                <div class="content">  
+                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+                </div>  
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="col-lg-3 col-sm-3 col-xs-6">
+        <div id="tile5" class="tile" style="">
+
+          <div class="carousel slide" data-ride="carousel" style="">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="view effect">  
+                <img src="http://placehold.it/460x300" />  
+                <div class="mask"></div>
+                <div class="content">  
+                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+                </div>  
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-3 col-xs-6">
+        <div id="tile6" class="tile" style="">
+
+          <div class="carousel slide" data-ride="carousel" style="">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="view effect">  
+                <img src="http://placehold.it/460x300" />  
+                <div class="mask"></div>
+                <div class="content">  
+                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+                </div>  
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <div class="col-lg-6 col-xs-12 col-sm-12">
-      <div class="" style="margin-left: -10px; padding-left: 0;">
-        <div class="view effect">  
-          <img src="http://placehold.it/460x220" />  
-          <div class="mask"></div>
-          <div class="content">  
-            <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-          </div>  
+    <div class="row " style="">
+      <div class="col-lg-6 col-sm-6 col-xs-12" style="
+           float: right;
+           ">
+        <div id="tile1" class="tile" style="/*  */">
+
+          <div class="carousel slide" data-ride="carousel" style="/*  */">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="view effect">  
+                <img src="http://placehold.it/460x300" />  
+                <div class="mask"></div>
+                <div class="content">  
+                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+                </div>  
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-3 col-xs-6">
+        <div id="tile2" class="tile" style="">
+
+          <div class="carousel slide" data-ride="carousel" style="">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+              <div class="view effect">  
+                <img src="http://placehold.it/460x300" />  
+                <div class="mask"></div>
+                <div class="content">  
+                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+                </div>  
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-3 col-xs-6">
+        <div id="tile3" class="tile" style="">
+
+          <div class="carousel slide" data-ride="carousel" style="">
+            <!-- Wrapper for slides -->
+            <div class="view effect">  
+              <img src="http://placehold.it/460x300" />  
+              <div class="mask"></div>
+              <div class="content">  
+                <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+              </div>  
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-sm-3 col-xs-6">
+        <div id="tile5" class="tile" style="">
+
+          <div class="carousel slide" data-ride="carousel" style="">
+            <!-- Wrapper for slides -->
+            <div class="view effect">  
+              <img src="http://placehold.it/460x300" />  
+              <div class="mask"></div>
+              <div class="content">  
+                <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+              </div>  
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-3 col-xs-6">
+        <div id="tile6" class="tile" style="">
+
+          <div class="carousel slide" data-ride="carousel" style="">
+            <!-- Wrapper for slides -->
+            <div class="view effect">  
+              <img src="http://placehold.it/460x300" />  
+              <div class="mask"></div>
+              <div class="content">  
+                <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
+              </div>  
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -427,7 +508,7 @@ $baseUrl = Yii::app()->baseUrl;
           <div class="form-group">
             <div class="col-lg-12">
               <button type="submit" class="btn btn-primary" style="width: 100%;">
-<?php echo Yii::t('app', "Free Sign Up"); ?>
+                <?php echo Yii::t('app', "Free Sign Up"); ?>
               </button>
             </div>
           </div>
@@ -461,60 +542,62 @@ $baseUrl = Yii::app()->baseUrl;
     </div>
     <div class="modal-content">
       <div class="modal-body">
-        <?php $form=$this->beginWidget('CActiveForm', array(
-              'id'=>'user-form',
-              'enableClientValidation'=>false,
-              //'action' => Yii::app()->createUrl('/user/create'),
-              'method' => 'POST',
-              'enableAjaxValidation'=>false,
-              'clientOptions'=>array(
-                'validateOnSubmit'=>false,
-                'validateOnChange'=>false,
-                'validateOnType'=>false
-              ),
-             )); ?>
-          <fieldset>
-            <legend style="text-transform: uppercase;"><?php echo Yii::t('app', "Login"); ?></legend>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <?php echo $form->textField($model,'email',array('id' =>"inputEmail", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size'=>50,'maxlength'=>50)); ?>
-              </div>
+        <?php
+        $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'user-form',
+            'enableClientValidation' => false,
+            //'action' => Yii::app()->createUrl('/user/create'),
+            'method' => 'POST',
+            'enableAjaxValidation' => false,
+            'clientOptions' => array(
+                'validateOnSubmit' => false,
+                'validateOnChange' => false,
+                'validateOnType' => false
+            ),
+        ));
+        ?>
+        <fieldset>
+          <legend style="text-transform: uppercase;"><?php echo Yii::t('app', "Login"); ?></legend>
+          <div class="form-group">
+            <div class="col-lg-12">
+              <?php echo $form->textField($model, 'email', array('id' => "inputEmail", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size' => 50, 'maxlength' => 50)); ?>
             </div>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <?php echo $form->passwordField($model,'password',array('id' =>"inputPassword", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Password"),'size'=>50,'maxlength'=>50)); ?>
-              </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-12">
+              <?php echo $form->passwordField($model, 'password', array('id' => "inputPassword", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Password"), 'size' => 50, 'maxlength' => 50)); ?>
             </div>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <?php echo $form->checkBox($model, 'remember'); ?> <?php echo Yii::t('app', "Remember me"); ?>
-              </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-12">
+              <?php echo $form->checkBox($model, 'remember'); ?> <?php echo Yii::t('app', "Remember me"); ?>
             </div>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <a href="#" ><?php echo Yii::t('app', "Forgot password"); ?></a>
-              </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-12">
+              <a href="#" ><?php echo Yii::t('app', "Forgot password"); ?></a>
             </div>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <?php echo CHtml::ajaxSubmitButton(Yii::t('app', "Login"), CHtml::normalizeUrl(array('/user/login','form'=>'user-form')),
-                      array(
-                          'dataType'=>'json',
-                          'type'=>'post',
-                          'success'=>'loginResult',                    
-                          'beforeSend'=>'function(){                        
+          </div>
+          <div class="form-group">
+            <div class="col-lg-12">
+              <?php
+              echo CHtml::ajaxSubmitButton(Yii::t('app', "Login"), CHtml::normalizeUrl(array('/user/login', 'form' => 'user-form')), array(
+                  'dataType' => 'json',
+                  'type' => 'post',
+                  'success' => 'loginResult',
+                  'beforeSend' => 'function(){                        
                            }'
-                          ), 
-                      array('class' => 'btn btn-primary', "style" => "width: 100%;")); ?>
-              </div>
+                ), array('class' => 'btn btn-primary', "style" => "width: 100%;"));
+              ?>
             </div>
-            <div class="form-group">
-              <div class="col-lg-12">
-<?php echo Yii::t('app', "Not registered yet?"); ?>&nbsp;
-                <a href="#" data-toggle="modal" data-target="#modal_sign_up"><?php echo Yii::t('app', "Sign up to get started"); ?></a>
-              </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-12">
+              <?php echo Yii::t('app', "Not registered yet?"); ?>&nbsp;
+              <a href="#" data-toggle="modal" data-target="#modal_sign_up"><?php echo Yii::t('app', "Sign up to get started"); ?></a>
             </div>
-          </fieldset>
+          </div>
+        </fieldset>
         <?php $this->endWidget(); ?>
       </div>
     </div>
@@ -528,39 +611,41 @@ $baseUrl = Yii::app()->baseUrl;
     </div>
     <div class="modal-content">
       <div class="modal-body">
-        <?php $form=$this->beginWidget('CActiveForm', array(
-              'id'=>'user-form',
-              'enableClientValidation'=>false,
-              //'action' => Yii::app()->createUrl('/user/forgot'),
-              'method' => 'POST',
-              'enableAjaxValidation'=>false,
-              'clientOptions'=>array(
-                'validateOnSubmit'=>false,
-                'validateOnChange'=>false,
-                'validateOnType'=>false
-              ),
-             )); ?>
-          <fieldset>
-            <legend style="text-transform: uppercase;"><?php echo Yii::t('app', "Forgot password"); ?></legend>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <?php echo $form->textField($model,'email',array('id' =>"inputEmail", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size'=>50,'maxlength'=>50)); ?>
-              </div>
+        <?php
+        $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'user-form',
+            'enableClientValidation' => false,
+            //'action' => Yii::app()->createUrl('/user/forgot'),
+            'method' => 'POST',
+            'enableAjaxValidation' => false,
+            'clientOptions' => array(
+                'validateOnSubmit' => false,
+                'validateOnChange' => false,
+                'validateOnType' => false
+            ),
+        ));
+        ?>
+        <fieldset>
+          <legend style="text-transform: uppercase;"><?php echo Yii::t('app', "Forgot password"); ?></legend>
+          <div class="form-group">
+            <div class="col-lg-12">
+              <?php echo $form->textField($model, 'email', array('id' => "inputEmail", 'class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size' => 50, 'maxlength' => 50)); ?>
             </div>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <?php echo CHtml::ajaxSubmitButton(Yii::t('app', "Send Password"), CHtml::normalizeUrl(array('/user/forgot','form'=>'forgot-form')),
-                      array(
-                          'dataType'=>'json',
-                          'type'=>'post',
-                          'success'=>'forgotResult',                    
-                          'beforeSend'=>'function(){                        
+          </div>
+          <div class="form-group">
+            <div class="col-lg-12">
+              <?php
+              echo CHtml::ajaxSubmitButton(Yii::t('app', "Send Password"), CHtml::normalizeUrl(array('/user/forgot', 'form' => 'forgot-form')), array(
+                  'dataType' => 'json',
+                  'type' => 'post',
+                  'success' => 'forgotResult',
+                  'beforeSend' => 'function(){                        
                            }'
-                          ), 
-                      array('class' => 'btn btn-primary', "style" => "width: 100%;")); ?>
-              </div>
+                ), array('class' => 'btn btn-primary', "style" => "width: 100%;"));
+              ?>
             </div>
-          </fieldset>
+          </div>
+        </fieldset>
         <?php $this->endWidget(); ?>
       </div>
     </div>
@@ -583,67 +668,66 @@ $baseUrl = Yii::app()->baseUrl;
       <div class="modal-body">
         <div id="myTabContent" class="row">
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="sign_in_form">
-              <?php $form=$this->beginWidget('CActiveForm', array(
-              'id'=>'user-form',
-              'enableClientValidation'=>false,
-              'action' => Yii::app()->createUrl('/user/create'),
-              'method' => 'POST',
-              'enableAjaxValidation'=>false,
-              'clientOptions'=>array(
-                'validateOnSubmit'=>false,
-                'validateOnChange'=>false,
-                'validateOnType'=>false
-              ),
-             )); ?>
-              <fieldset>
-                <legend style="font-weight: 700; font-size: 30px"><?php echo Yii::t('app', "START YOUR WORKOUT"); ?></legend>
-                <div class="form-group">
-                  <label for="inputEmail" class="col-lg-12 control-label">Name</label>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <?php echo $form->textField($model,'first',array('class' => 'form-control', 'placeholder' => Yii::t('app', "First"),'size'=>20,'maxlength'=>20)); ?>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <?php echo $form->textField($model,'last',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Last"), 'size'=>20,'maxlength'=>20)); ?>
+            <?php
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'user-form',
+                'enableClientValidation' => false,
+                'action' => Yii::app()->createUrl('/user/create'),
+                'method' => 'POST',
+                'enableAjaxValidation' => false,
+                'clientOptions' => array(
+                    'validateOnSubmit' => false,
+                    'validateOnChange' => false,
+                    'validateOnType' => false
+                ),
+            ));
+            ?>
+            <fieldset>
+              <legend style="font-weight: 700; font-size: 30px"><?php echo Yii::t('app', "START YOUR WORKOUT"); ?></legend>
+              <div class="form-group">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <?php echo $form->textField($model, 'first', array('class' => 'form-control', 'placeholder' => Yii::t('app', "First"), 'size' => 20, 'maxlength' => 20)); ?>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <?php echo $form->textField($model, 'last', array('class' => 'form-control', 'placeholder' => Yii::t('app', "Last"), 'size' => 20, 'maxlength' => 20)); ?>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-12">
+                  <?php echo $form->textField($model, 'email', array('class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size' => 50, 'maxlength' => 50)); ?>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-12">
+                  <?php echo $form->passwordField($model, 'password', array('class' => 'form-control', 'placeholder' => Yii::t('app', "Password"), 'size' => 50, 'maxlength' => 50)); ?>
+                  <div class="checkbox">
+                    <label>
+                      <?php echo $form->checkBox($model, 'notice', array('class' => '')); ?>
+                      <?php echo Yii::t('app', "Yes Freeletics, send me emails with training-specific tips and information regarding new Freeletics features, products & specials!"); ?>
+                    </label>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="inputEmail" class="col-lg-12 control-label">Email</label>
-                  <div class="col-lg-12">
-                    <?php echo $form->textField($model,'email',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size'=>50,'maxlength'=>50)); ?>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputPassword" class="col-lg-12 control-label">Password</label>
-                  <div class="col-lg-12">
-                    <?php echo $form->passwordField($model,'password',array('class' => 'form-control', 'placeholder' => Yii::t('app', "Password"),'size'=>50,'maxlength'=>50)); ?>
-                    <div class="checkbox">
-                      <label>
-                        <?php echo $form->checkBox($model,'notice',array('class' => '')); ?>
-                        <?php echo Yii::t('app', "Yes Freeletics, send me emails with training-specific tips and information regarding new Freeletics features, products & specials!"); ?>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-lg-12">
-                    <?php echo CHtml::ajaxSubmitButton(Yii::t('app', "Free Sign Up"), CHtml::normalizeUrl(array('/user/create','form'=>'user-form')),
-                      array(
-                          'dataType'=>'json',
-                          'type'=>'post',
-                          'success'=>'validate',                    
-                          'beforeSend'=>'function(){                        
+              </div>
+              <div class="form-group">
+                <div class="col-lg-12">
+                  <?php
+                  echo CHtml::ajaxSubmitButton(Yii::t('app', "Free Sign Up"), CHtml::normalizeUrl(array('/user/create', 'form' => 'user-form')), array(
+                      'dataType' => 'json',
+                      'type' => 'post',
+                      'success' => 'validate',
+                      'beforeSend' => 'function(){                        
                              
                            }'
-                          ), 
-                      array('class' => 'btn btn-primary', "style" => "width: 100%;")); ?>
-                  </div>
+                    ), array('class' => 'btn btn-primary', "style" => "width: 100%;"));
+                  ?>
                 </div>
-                Already a user? <a href="#" data-toggle="modal" data-target="#modal_login"><?php Yii::t('app', "Sign In"); ?></a>
-                <br/>
-                By creating an account, I agree to Freeletics'
-                <a href="https://www.freeletics.com/en/pages/terms">Terms of Service</a>
-                and <a href="https://www.freeletics.com/en/pages/privacy" >Privacy Policy</a>.
-              </fieldset>
+              </div>
+              Already a user? <a href="#" data-toggle="modal" data-target="#modal_login"><?php Yii::t('app', "Sign In"); ?></a>
+              <br/>
+              By creating an account, I agree to Freeletics'
+              <a href="https://www.freeletics.com/en/pages/terms">Terms of Service</a>
+              and <a href="https://www.freeletics.com/en/pages/privacy" >Privacy Policy</a>.
+            </fieldset>
             <?php $this->endWidget(); ?>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -702,9 +786,9 @@ $baseUrl = Yii::app()->baseUrl;
 <?php echo $this->renderPartial('//partials/dialogs'); ?>
 <script>
   function validate(data) {
-    if(!data.status) {
+    if (!data.status) {
       var text = '';
-      $.each(data.data, function(key, value) {
+      $.each(data.data, function (key, value) {
         text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
       });
       $("#modal_error .modal-body").html(text);
@@ -718,19 +802,19 @@ $baseUrl = Yii::app()->baseUrl;
       $("#modal_success").modal("show");
     }
   }
-  
+
   function loginResult(data) {
-    if(data.status == true) {
+    if (data.status == true) {
       window.location.href = '<?php echo Yii::app()->createUrl('/user'); ?>';
     } else {
       showError(data);
     }
   }
-  
+
   function showError(data) {
     var text = '';
     if (data.data && $.isArray(data.data)) {
-      $.each(data.data, function(key, value) {
+      $.each(data.data, function (key, value) {
         text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
       });
     }
@@ -741,9 +825,9 @@ $baseUrl = Yii::app()->baseUrl;
     $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
     $("#modal_error").modal("show");
   }
-  
+
   function forgotResult(data) {
-    if(data.status == true && (undefined !== data.email) ) {
+    if (data.status == true && (undefined !== data.email)) {
       var message = '<?php echo Yii::t('app', 'Send successfully. Check [0] to confirm.'); ?>';
       message = message.replace("[0]", data.email);
       $("#modal_success .modal-body").text(message);

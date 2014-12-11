@@ -8,10 +8,6 @@
 
 ?>
 
-<div class="col-lg-2" style="<?php echo $ads ? '' : ''; ?>">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      Basic panel
-    </div>
-  </div>
+<div class="header-bar">
+  <span
 </div>

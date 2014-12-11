@@ -26,6 +26,9 @@ class User extends CActiveRecord {
   public $changePW = false;
   public $unitWeight = 'kg';
   public $unitHeight = 'lbs';
+  public $day;
+  public $month;
+  public $year;
 
   /**
    * @return string the associated database table name
@@ -159,12 +162,19 @@ class User extends CActiveRecord {
     $arr['value'] = $this->height != '' ? $this->height : 0;
     $arr['unit'] = $_POST['User']['unitHeight'] ? $_POST['User']['unitHeight'] : 0;
     $this->height = serialize($arr);
+    
+    if (date('Y-m-d H:i:s', $this->birthday) !== FALSE) {
+      $this->birthday = date('Y-m-d H:i:s', strtotime($this->birthday));
+    }
     return true;
   }
 
   protected function beforeValidate() {
     $this->create_date = $this->create_date != null ? $this->create_date : date("Y-m-d H:i:s", time());
     $this->last_update = date("Y-m-d H:i:s", time());
+    if (date('Y-m-d H:i:s', $this->birthday) !== FALSE) {
+      $this->birthday = date('Y-m-d', strtotime($this->birthday));
+    }
     return parent::beforeValidate();
   }
 
@@ -183,6 +193,13 @@ class User extends CActiveRecord {
       $arr = unserialize($this->height);
       $this->unitHeight = $arr['unit'] ? $arr['unit'] : 0;
       $this->height = $arr['value'] ? $arr['value'] : 0;
+    }
+    if (!empty($this->birthday)) {
+      $date = new DateTime($this->birthday);
+      $this->birthday = $date->format("Y-m-d");
+      $this->day = $date->format("d");
+      $this->month = $date->format("m");
+      $this->year = $date->format("Y");
     }
     return parent::afterFind();
   }

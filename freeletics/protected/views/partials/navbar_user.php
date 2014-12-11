@@ -6,8 +6,40 @@
  */
 $baseUrl = Yii::app()->baseUrl;
 ?>
+<script>
+  $(function() {
+    $("#navbar-main").hide();
+    $("#navbar-main2").show();
+    
+    $(".toggle-navbar").click(function () {
+      $("#navbar-main2").toggle("slide", {
+          direction: "left"
+      }, 1000);
+      $("#navbar-main").delay(10).toggle("slide", {
+          direction: "right"
+      }, 1000);
+    });
+    $(".toggle-navbar-collapse").click(function() {
+      $("#navbar-main").toggle("slide", {
+          direction: "right"
+      }, 1000);
+      $("#navbar-main2").delay(10).toggle("slide", {
+          direction: "left"
+      }, 1000);
+      $(".navbar-sub-container").hide();
+    });
+  });
+</script>
+<style>
+  .sub-navbar {
+    position: fixed;
+    top: 42px;
+    z-index: 999;
+    width: 100%;
+  }
+</style>
 <div id="navbar-container">
-  <div class="navbar-collapse collapse" id="navbar-main">
+  <div class="navbar-collapse collapse" id="navbar-main" style="position: fixed; width: 100%; z-index: 999; display: none;">
     <ul class="nav navbar-nav">
       <li class="logo">
 
@@ -39,7 +71,22 @@ $baseUrl = Yii::app()->baseUrl;
     <ul class="nav navbar-nav navbar-right">
       <li><a href="./user" class="btn btn-primary btn-sm"><?php echo Yii::t('app', "Get your Coach"); ?></a></li>
       <li><a href="#" class="btn-search" data-toggle="modal" data-target="#modal_search"><i class="fa fa-search"></i></a></li>
-      <li><a href="<?php echo Yii::app()->createUrl('/user/logout'); ?>" class="btn-sm" id="btn_logout" title="<?php echo Yii::t('app', 'btn_logout'); ?>"><i class="fa fa-sign-out"></i></a></li>
+      <li><a href="<?php echo Yii::app()->createUrl('/user/logout'); ?>" class="btn-sm btn-circle" id="btn_logout" title="<?php echo Yii::t('app', 'btn_logout'); ?>"><i class="fa fa-sign-out"></i></a></li>
+      <li>
+        <a class="btn-sm btn-circle toggle-navbar-collapse" style="margin-left: 17px;"><i class="fa fa-chevron-right"></i></a>
+      </li>
+    </ul>
+  </div>
+  <div class="navbar-collapse collapse" id="navbar-main2" style="background-color: transparent; position: fixed; width: 100%; z-index: 999;">
+    <ul class="nav navbar-nav">
+      <li class="logo">
+
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a class="btn-sm toggle-navbar" data-toggle="" data-target="#" style="margin: 0;"><i class="fa fa-list"></i></a>
+      </li>
     </ul>
   </div>
   <div class="sub-navbar">

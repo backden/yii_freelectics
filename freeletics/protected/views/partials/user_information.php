@@ -6,15 +6,13 @@
  */
 $baseUrl = Yii::app()->baseUrl;
 ?>
-
-<div class="container-top-information" style="min-height: 250px; background: url('<?php echo $baseUrl; ?>/img/profile-bg.jpg') center; 
-     margin-top: -20px; margin-bottom: 20px; background-size: 100%;
-     background-repeat: no-repeat;">
-  <div class="container" style="padding-left: 40px; padding-top: 50px;">
+<div class="container" style="padding-top: 50px;">
+<div class="container-top-information" style="min-height: 250px;">
+  <div class="container" style="padding-left: 40px; padding-top: 60px; padding-bottom: 40px;">
     <div class="col-lg-3" id="avatar" style="text-align: center;
          height: 160px; width: 160px; 
          -webkit-clip-path: polygon(57.6px 0, 139.2px 22.4px, 160px 102.4px, 102.399px 160px, 22.4px 139.2px, 0 57.6px, 57.6px 0); 
-         clip-path: url('<?php echo $baseUrl; ?>/file/hexagon_icon.svg#hexagon-clip-large');">
+         clip-path: url('<?php echo $baseUrl; ?>/files/hexagon_icon.svg#hexagon-clip-large');">
       <img height="100%" width="100%" style="
            height: 160px;
            width: 160px;
@@ -124,4 +122,5 @@ $baseUrl = Yii::app()->baseUrl;
       </div>
     </div>
   </div>
+</div>
 </div>
