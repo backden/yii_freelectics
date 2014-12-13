@@ -9,79 +9,229 @@ and open the template in the editor.
 */
 
 .view {
-/*   width: 300px;
-   height: 200px;*/
-   /*margin: 10px;*/
-   float: left;
-   /*border: 5px solid #fff;*/
-   overflow: hidden;
-   position: relative;
-   text-align: center;
-   /*box-shadow: 0px 0px 5px #aaa;*/
-   cursor: default;
+  /*   width: 300px;
+     height: 200px;*/
+  /*margin: 10px;*/
+  width: 100%;
+  float: left;
+  /*border: 5px solid #fff;*/
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  /*box-shadow: 0px 0px 5px #aaa;*/
+  cursor: default;
 }
 
 .view .mask, .view .content {
-   width: 300px;
-   height: 200px;
-   position: absolute;
-   overflow: hidden;
-   top: 0;
-   left: 0;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
 }
 
 .view img {
-   display: block;
-   position: relative;
-   width: 100%;
+  display: block;
+  position: relative;
+  width: 100%;
 }
 
 .view a.info {
-   background:url(../img/link.png) center no-repeat;
-   display: inline-block;
-   text-decoration: none;
-   padding:0;
-   text-indent:-9999px;
-   width:20px;
-   height:20px;
+  background:url(../img/link.png) center no-repeat;
+  display: inline-block;
+  text-decoration: none;
+  padding:0;
+  text-indent:-9999px;
+  width:20px;
+  height:20px;
 }
 
 .effect img {
-   opacity:1;
-   transform:scale(1,1);
-   transition: all 0.2s ease-in;
+  opacity:1;
+  transform:scale(1,1);
+  transition: all 0.2s ease-in;
 }
 
 .effect .mask {
-   opacity:0;
-   overflow:visible;
-   border-color:rgba(0,0,0,0.7);
-   /*border-color:rgba(0,0,0,0.7) transparent transparent transparent;*/
-   border-style:solid;
-   border-width:999px;
-   width:0;
-   height:0;
-   /*transform:translateY(-125px);*/
-   transition: transform 0.2s 0.1s ease-out, opacity 0.3s ease-in-out;
+  opacity:0;
+  overflow:visible;
+  border-color:rgba(0,0,0,0.7);
+  /*border-color:rgba(0,0,0,0.7) transparent transparent transparent;*/
+  border-style:solid;
+  border-width:999px;
+  width:0;
+  height:0;
+  /*transform:translateY(-125px);*/
+  transition: transform 0.2s 0.1s ease-out, opacity 0.3s ease-in-out;
 }
 
 .effect a.info {
-   opacity:0;
-   transform:translateY(-125px);
-   transition: transform 0.3s ease-in, opacity 0.1s ease-in-out;
+  opacity:0;
+  transform:translateY(-125px);
+  transition: transform 0.3s ease-in, opacity 0.1s ease-in-out;
 }
 
 .effect:hover img {
-   opacity:0.7;
-   transform:scale(1.2,1.2);
+  opacity:0.7;
+  transform:scale(1.2,1.2);
 }
 
 .effect:hover .mask {
-   opacity: 1;
-   transform: translateY(0px);
+  opacity: 1;
+  transform: translateY(0px);
 }
 
 .effect:hover a.info {
-   opacity:1;
-   transform:translateY(100px);
+  opacity:1;
+  transform:translateY(100px);
+}
+
+.view .content {
+  display: none;
+}
+
+.tiled:hover .content{
+  display: block;
+}
+
+.col-lg-3.col-sm-3.col-xs-6.tiled .view .content {
+  top: -25px;
+}
+
+@media (max-width: 480px) {
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content p {
+    font-size: 6px !important;
+  }
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content a.btn {
+    padding: 1px 10px;
+    font-size: 6px;
+  }
+  .tiled .content {
+    padding: 30px 5px 0px;
+  }
+
+  .col-lg-6.col-sm-6.col-xs-12.tiled .view .content p {
+    font-size: 14px !important;
+  }
+  .col-lg-6.col-sm-6.col-xs-12.tiled .view .content a.btn {
+    padding: 1px 10px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-lg-6.col-sm-6.col-xs-12.tiled .view .content p {
+    font-size: 18px;
+  }
+  
+  .view .content p.title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .view .content p.author {
+    font-size: 14px;
+  }
+
+  .view .content p.location {
+    font-size: 16px;
+  }
+  
+  .col-lg-6.col-sm-6.col-xs-12.tiled .view .content a.btn {
+    padding: 1px 10px;
+    font-size: 14px;
+  }
+
+  .tiled .content {
+    padding: 40px 5px 0px;
+  }
+
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content p {
+    font-size: 8px;
+  }
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content a.btn {
+    padding: 1px 10px;
+    font-size: 14px;
+    margin-top: 0%;
+  }
+}
+
+@media (min-width: 900px) {
+  .view .content p.title {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .view .content p.author {
+    font-size: 14px;
+  }
+
+  .view .content p.location {
+    font-size: 16px;
+  }
+
+  .view .content p {
+    font-size: 20px;
+    color: white;
+    margin: auto;
+  }
+
+  .view .content a.btn {
+    font-size: 20px;
+    border-radius: 2px;
+    padding: 3px 50px;
+    background-color: transparent;
+    color: #4582ec;
+    margin-top: 5%;
+  }
+
+}
+
+.col-lg-3.col-sm-3.col-xs-6.tiled .view .content p {
+  /*font-size: 14px;*/
+}
+
+.col-lg-3.col-sm-3.col-xs-6.tiled .view .content a.btn {
+
+}
+
+
+.view .content a.btn {
+  border-radius: 2px;
+  padding: 3px 50px;
+  background-color: transparent;
+  color: #4582ec;
+  margin-top: 5%;
+}
+
+.view .content a.btn:hover {
+  background-color: #4582ec;
+  color: whitesmoke;
+}
+
+.view .content p.title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.view .content p.author {
+  font-size: 14px;
+}
+
+.view .content p.location {
+  font-size: 16px;
+}
+
+.view .content p {
+  font-size: 20px;
+  color: white;
+  margin: auto;
+}
+
+.truncate {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

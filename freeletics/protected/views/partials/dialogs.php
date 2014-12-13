@@ -1,11 +1,9 @@
 <?php
-
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 ?>
 <div class="modal modal-sm fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" 
      style="width: 100%">
@@ -16,7 +14,7 @@
     </div>
     <div class="" style="border-radius: 0px">
       <div class="modal-body" style="background-color: white">
-      <div class="message"></div>
+        <div class="message"></div>
       </div>
     </div>
   </div>
@@ -31,7 +29,17 @@
     </div>
     <div class="" style="border-radius: 0px">
       <div class="modal-body" style="background-color: white">
-      <div class="message"></div>
+        <div class="message"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal_video" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y: hidden">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        
       </div>
     </div>
   </div>

@@ -13,81 +13,136 @@
  */
 $baseUrl = Yii::app()->baseUrl;
 ?>
+
 <style>
   .col-sm-3, .col-xs-12 {
-    margin-bottom: 20px;
+    margin-bottom: 1%;
+  }
+
+  .tiled .content {
+    width: 100%;
+    margin: auto;
+    padding: 50px;
+  }
+
+  #content-scroll-h img{
+    width: 70%;
+    margin: auto;
+  }
+
+  @media (max-width: 480px) {
+    #content-scroll-h .caption {
+      text-align: center;
+      margin: auto;
+      margin-top: -10px;
+      margin-bottom: 0px;
+      color: white;
+    }
+
+    #content-scroll-h .caption > span{
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    #content-scroll-h .caption > span > p{
+      font-size: 10px;
+      font-weight: 700;
+    }
   }
   
-</style>
-<link href="/favicon.ico" type="image/x-icon" rel="icon" />
-<link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/animate.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/bootstrap_readable.min.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/font-awesome/css/font-awesome.min.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/style.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/main_style.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/horizontal.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/color/default.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/font_styles.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/hovereffect.css" />
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.easing.min.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.scrollTo.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jssor.slider.min.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/scroll/sly.min.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/wow.min.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/scroll_follow.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/custom.js"></script>
-<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/social.script.js"></script>
+  @media (min-width: 480px) {
+    #content-scroll-h .caption {
+      text-align: center;
+      margin: auto;
+      margin-top: -10px;
+      margin-bottom: 0px;
+      color: white;
+    }
 
+    #content-scroll-h .caption > span{
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    #content-scroll-h .caption > span > p{
+      font-size: 10px;
+      font-weight: 700;
+    }
+  }
+
+  @media (min-width: 900px) {
+    #content-scroll-h .caption {
+      text-align: center;
+      margin: auto;
+      margin-top: -90px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    #content-scroll-h .caption > span{
+      font-size: 40px;
+      font-weight: 700;
+    }
+
+    #content-scroll-h .caption > span > p{
+      font-size: 25px;
+      font-weight: 700;
+    }
+  }
+
+</style>
+<script src="<?php echo $baseUrl; ?>/js/scroll/jquery.touchSwipe.min.js" type="text/javascript"></script>
+<script>
+  var IMG_WIDTH = 1000;
+  var currentImg = 0;
+  var maxImages = 3;
+  var speed = 500;
+  var imgs;
+
+  var swipeOptions = {
+    autoplay: true,
+    infinite: true,
+    autoplaySpeed: 2000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false
+  };
+
+  $(function () {
+    $('.single-item').slick(swipeOptions);
+    $("#content-scroll-h .prevPage").click(function() {
+      $("#content-scroll-h").slickPrev();
+    });
+    $("#content-scroll-h .nextPage").click(function() {
+      $("#content-scroll-h").slickNext();
+    });
+  });
+
+</script>
+<?php echo $this->renderPartial("//partials/script_css"); ?>
 <!-- Section: intro -->
 <section id="intro" class="intro">
-  <div id="slider1_container" style="position: relative; margin: 0 auto;
-       top: 0px; left: 0px; width: 1300px; height: 500px; overflow: hidden;">
-    <!-- Loading Screen -->
-    <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-      <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
-           top: 0px; left: 0px; width: 100%; height: 100%;">
-      </div>
-      <div style="position: absolute; width: 480px; height: 120px; top: 30px; left: 0px; padding: 5px;
-           text-align: left; line-height: 60px; text-transform: uppercase; font-size: 50px;
-           color: #FFFFFF;">
+  <div id="content-scroll-h" class="slider single-item" style="">
+    <!-- Wrapper for slides -->
+    <div class="">
+      <img src="https://www.freeletics.com/images/landing_page/hero.jpg" alt="...">
+      <div class="caption">
+        <span class=""><?php echo Yii::t("app", "THE SHAPE OF YOUR LIFE. PERIOD."); ?>
+          <p><?php echo Yii::t("app", "Your individual training plan. High intensity workouts. Perfectly adapted to you."); ?></p>
+        </span>
       </div>
     </div>
-    <!-- Slides Container -->
-    <div class="slides" u="slides" style="position: relative; width: 1400px; height: 500px; top: 30px; left: 0px; padding: 0px;
-         text-align: left; line-height: 60px; text-transform: uppercase; font-size: 50px;
-         color: #FFFFFF;">
-      <div>
-        <img u="image" src="https://www.freeletics.com/images/landing_page/hero.jpg" style="left: 150px"/>
-        <div class="slogan">
-          <h1 translate="LANDING_PAGE_SLOGAN_1" class="ng-scope"><?php echo Yii::t('app', "The shape of your life. Period."); ?></h1>
-        </div>
+    <div class="">
+      <img src="https://www.freeletics.com/images/landing_page/hero.jpg" alt="...">
+      <div class="caption">
+        <span class=""><?php echo Yii::t("app", "THE SHAPE OF YOUR LIFE. PERIOD."); ?>
+          <p><?php echo Yii::t("app", "Your individual training plan. High intensity workouts. Perfectly adapted to you."); ?></p>
+        </span>
       </div>
-      <div>
-        <img u="image" src="https://www.freeletics.com/images/landing_page/hero.jpg" />
-        <div class="slogan">
-          <h1 translate="LANDING_PAGE_SLOGAN_1" class="ng-scope"><?php echo Yii::t('app', "The shape of your life. Period."); ?></h1>
-        </div>
-      </div>
+    </div>
 
-      <div u="navigator" class="jssorb21" style="position: absolute; bottom: 26px; left: 6px;">
-        <!-- bullet navigator item prototype -->
-        <div u="prototype" style="POSITION: absolute; WIDTH: 19px; HEIGHT: 19px; text-align:center; line-height:19px; color:White; font-size:12px;"></div>
-      </div>
-      <div data-u="navigator" class="jssorb21">
-        <!-- bullet navigator item prototype -->
-        <div data-u="prototype"></div>
-      </div>
-      <span u="arrowleft" class="jssora21l" style="width: 55px; height: 55px; top: 123px; left: 8px;">
-      </span>
-      <!-- Arrow Right -->
-      <span u="arrowright" class="jssora21r" style="width: 55px; height: 55px; top: 123px; right: 100px">
-      </span>
-      <!-- Arrow Navigator Skin End -->
-      <a style="display: none" href="http://www.jssor.com">javascript</a>
-    </div>
+    <button class="prevPage"><i class="fa fa-chevron-left"></i></button>
+    <button class="nextPage"><i class="fa fa-chevron-right"></i></button>
   </div>
   <div style="text-align: center;">
     <button id='btnSignUp' data-toggle="modal" data-target="#modal_sign_up" class="btn btn-primary">
@@ -120,7 +175,7 @@ $baseUrl = Yii::app()->baseUrl;
   <div class="container">
 
     <div class="row wrapper">
-      <div class="col-lg-3 col-md-6 col-xs-12 col-sm-12" >
+      <div class="col-lg-3 col-md-6 col-xs-12 col-sm-6" >
         <div class="box">
           <div class="box-header">
             <div class="icon-lg"><i class="fa fa-flash"></i></div>
@@ -134,7 +189,7 @@ $baseUrl = Yii::app()->baseUrl;
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 col-xs-12 col-sm-12" >
+      <div class="col-lg-3 col-md-6 col-xs-12 col-sm-6" >
         <div class="box">
           <div class="box-header">
             <div class="icon-lg"><i class="fa fa-table"></i></div>
@@ -148,7 +203,7 @@ $baseUrl = Yii::app()->baseUrl;
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 col-xs-12 col-sm-12" >
+      <div class="col-lg-3 col-md-6 col-xs-12 col-sm-6" >
         <div class="box">
           <div class="box-header">
             <div class="icon-lg"><i class="fa fa-table"></i></div>
@@ -162,7 +217,7 @@ $baseUrl = Yii::app()->baseUrl;
           </div>
         </div>
       </div>
-      <div class="col-lg-3 col-md-6 col-xs-12 col-sm-12" >
+      <div class="col-lg-3 col-md-6 col-xs-12 col-sm-6" >
         <div class="box">
           <div class="box-header">
             <div class="icon-lg"><i class="fa fa-table"></i></div>
@@ -184,78 +239,59 @@ $baseUrl = Yii::app()->baseUrl;
 </section>
 <!-- /Section: about -->
 
-<!-- Section: contact -->
-<section id="section2" class="home-section text-center">
-  <div class="heading-contact">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
-          <div class="" data-wow-delay="">
-            <div class="section-heading">
-              <!--<h2>Get in touch</h2>-->
-              <!--<i class="fa fa-2x fa-angle-down"></i>-->
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container" id="container-scroll-horizontal">
-
-    <div class="row">
-      <div class="col-lg-2 col-lg-offset-5">
-        <hr class="marginbot-50">
-      </div>
-    </div>
-    <div class="scrollbar">
-      <div class="handle">
-        <div class="mousearea"></div>
-      </div>
-    </div>
-    <div id="content-scroll-h" class="frame" style="height: 400px;">
-      <ul class="">
-        <?php
-        $i = 0;
-        while ($i < 10) {
-          ?>
-          <li class="box-container">
-            <div class="box box-solid box-success" style="max-height: 400px;">
-              <div class="box-header">
-                <h3 class="box-title">Primary Solid Box <?php echo $i; ?></h3>
-                <div class="box-tools pull-right">
-                </div>
-              </div>
-              <div class="box-body">
-                <p>Box class: <code>.box.box-solid.box-primary</code>
-                  amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel.
-                  berliner weisse wort chiller adjunct hydrometer alcohol aau!
-                  sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.
-                </p>
-              </div><!-- /.box-body -->
-            </div>
-          </li>
-          <?php
-          $i++;
-        }
-        ?>
-      </ul>
-
-    </div>
-    <button class="prevPage"><i class="fa fa-chevron-left"></i></button>
-    <button class="nextPage"><i class="fa fa-chevron-right"></i></button>
-  </div>	
-</section>
-<!-- /Section: contact -->
-
-<!-- section image -->
-<section id="section3" class="" style="">
-  <div class="container">
-    <button class="btn btn-primary btn-lg pull-right btn-specify-tab-3"><?php echo Yii::t('app', "button"); ?></button>
-  </div>
-</section>
+<?php echo $this->renderPartial("//partials/section_horizontal_scroll"); ?>
 <!-- section end -->
+<script>
 
+  $(function () {
+    var array = {
+      "title": '<?php echo "This is video This is video This is video"; ?>',
+      "img": "<?php echo "http://placehold.it/460x220"; ?>",
+      "href": "",
+      "location": "from a location",
+      "author": "name of blogger"
+    };
+    var tiles = $(".tiled");
+    $.each([array, array, array, array, array, array, array, array, array, array, array, array], function (i, e) {
+      var prototype = $("#prototype_tile").clone().removeAttr('id').show();
+      $(prototype).find("img").attr("src", e.img);
+      $(prototype).find(".content .title").text(e.title);
+      $(prototype).find(".content a").attr("href", e.href);
+      $(prototype).find(".content .location").text(e.location);
+      $(prototype).find(".content .author").text(e.author);
+
+      $(prototype).find(".content a").click(function (e) {
+
+        return false;
+      });
+
+      if (i < tiles.length) {
+        $(tiles[i]).append(prototype);
+      } else {
+//        return false;
+      }
+    });
+  });
+</script>
+<div id="prototype_tile" class="tile" style="display: none;">
+  <div class=""  style="/*  */">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="view effect">  
+        <img src="http://placehold.it/460x220" />  
+        <div class="mask"></div>
+        <div class="content">
+          <p class="title truncate"><?php echo ""; ?></p>
+          <p class="author truncate"><?php echo ""; ?></p>
+          <p class="location truncate"></p>
+          <a href="#" class="btn btn-primary btn-transparent" data-toggle="modal" data-target="#modal_sign_up">
+            <?php echo Yii::t("app", 'Watch'); ?>
+          </a>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
 <!-- section metro UI -->
 <section id="section4" class="">
   <div class="heading-contact">
@@ -274,183 +310,41 @@ $baseUrl = Yii::app()->baseUrl;
   </div>
   <div class="container">
     <div class="row ">
-      <div class="col-lg-6 col-sm-6 col-xs-12">
-        <div id="tile1" class="tile" style="/*  */">
+      <div class="col-lg-6 col-sm-6 col-xs-12 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="/*  */">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="view effect">  
-                <img src="http://placehold.it/460x300" />  
-                <div class="mask"></div>
-                <div class="content">  
-                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-                </div>  
-              </div>
-            </div>
-          </div>
-
-        </div>
       </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <div id="tile2" class="tile" style="">
+      <div class="col-lg-3 col-sm-3 col-xs-6 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="view effect">  
-                <img src="http://placehold.it/460x300" />  
-                <div class="mask"></div>
-                <div class="content">  
-                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-                </div>  
-              </div>
-            </div>
-          </div>
-
-        </div>
       </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <div id="tile3" class="tile" style="">
+      <div class="col-lg-3 col-sm-3 col-xs-6 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="view effect">  
-                <img src="http://placehold.it/460x300" />  
-                <div class="mask"></div>
-                <div class="content">  
-                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-                </div>  
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <div id="tile5" class="tile" style="">
+      <div class="col-lg-3 col-sm-3 col-xs-6 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="view effect">  
-                <img src="http://placehold.it/460x300" />  
-                <div class="mask"></div>
-                <div class="content">  
-                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-                </div>  
-              </div>
-            </div>
-          </div>
-
-        </div>
       </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <div id="tile6" class="tile" style="">
+      <div class="col-lg-3 col-sm-3 col-xs-6 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="view effect">  
-                <img src="http://placehold.it/460x300" />  
-                <div class="mask"></div>
-                <div class="content">  
-                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-                </div>  
-              </div>
-            </div>
-          </div>
-
-        </div>
       </div>
     </div>
     <div class="row " style="">
-      <div class="col-lg-6 col-sm-6 col-xs-12" style="
+      <div class="col-lg-6 col-sm-6 col-xs-12 tiled" style="
            float: right;
            ">
-        <div id="tile1" class="tile" style="/*  */">
 
-          <div class="carousel slide" data-ride="carousel" style="/*  */">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="view effect">  
-                <img src="http://placehold.it/460x300" />  
-                <div class="mask"></div>
-                <div class="content">  
-                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-                </div>  
-              </div>
-            </div>
-          </div>
-
-        </div>
       </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <div id="tile2" class="tile" style="">
+      <div class="col-lg-3 col-sm-3 col-xs-6 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="">
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner">
-              <div class="view effect">  
-                <img src="http://placehold.it/460x300" />  
-                <div class="mask"></div>
-                <div class="content">  
-                  <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-                </div>  
-              </div>
-            </div>
-          </div>
-
-        </div>
       </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <div id="tile3" class="tile" style="">
+      <div class="col-lg-3 col-sm-3 col-xs-6 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="">
-            <!-- Wrapper for slides -->
-            <div class="view effect">  
-              <img src="http://placehold.it/460x300" />  
-              <div class="mask"></div>
-              <div class="content">  
-                <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-              </div>  
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <div id="tile5" class="tile" style="">
+      <div class="col-lg-3 col-sm-3 col-xs-6 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="">
-            <!-- Wrapper for slides -->
-            <div class="view effect">  
-              <img src="http://placehold.it/460x300" />  
-              <div class="mask"></div>
-              <div class="content">  
-                <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-              </div>  
-            </div>
-          </div>
-
-        </div>
       </div>
-      <div class="col-lg-3 col-sm-3 col-xs-6">
-        <div id="tile6" class="tile" style="">
+      <div class="col-lg-3 col-sm-3 col-xs-6 tiled">
 
-          <div class="carousel slide" data-ride="carousel" style="">
-            <!-- Wrapper for slides -->
-            <div class="view effect">  
-              <img src="http://placehold.it/460x300" />  
-              <div class="mask"></div>
-              <div class="content">  
-                <a href="#" class="info" title="Full Image"><i class="fa fa-eye-"></i></a>  
-              </div>  
-            </div>
-          </div>
-
-        </div>
       </div>
     </div>
   </div>
@@ -750,12 +644,16 @@ $baseUrl = Yii::app()->baseUrl;
 <footer class="main-footer" id="section-footer">
   <div class="footer-sidebars-wrapper">
 
-    <div id="footer-sidebars" data-rows="5">
-      <div class="row" data-num="0" style="margin-right: 0px">
-        <aside class="col-lg-2" style="border-right: whitesmoke 1px solid;">
-          <div id="text-2" class="widget widget_text">			<div class="textwidget"><img style="margin-top: 100px;" src="http://medigenehomoeocare.com/PBYINC/wp-content/uploads/2014/09/f_logo.png"></div>
-          </div>						</aside>
-        <aside class="col-lg-2">
+    <div id="footer-sidebars" style="text-align: center;">
+      <div class="row" data-num="0" style="">
+        <aside class="col-md-2 col-sm-6 col-xs-12" style="text-align: center;">
+          <div id="text-2" class="widget widget_text">	
+            <div class="textwidget">
+              <img style="margin: auto; margin-top: 20%;" src="http://medigenehomoeocare.com/PBYINC/wp-content/uploads/2014/09/f_logo.png">
+            </div>
+          </div>						
+        </aside>
+        <aside class="col-md-3 col-sm-6 col-xs-12">
           <div id="text-3" class="widget widget_text"><h4 class="widget-title">CONTACT  US</h4>			<div class="textwidget"><p>P.O. Box 3036<br>
                 Hyattsville, Maryland 20784<br>
                 United States</p>
@@ -764,8 +662,12 @@ $baseUrl = Yii::app()->baseUrl;
               <p><a style="color:#ED2B94;" href="">Get Directions on the map</a></p>
             </div>
           </div>						</aside>
-        <aside class="col-lg-2">
-          <div id="nav_menu-13" style="border-right: whitesmoke 1px solid;" class="widget widget_nav_menu"><h4 class="widget-title">MAIN LINKS</h4><div class="menu-bottom-links-container"><ul id="menu-bottom-links" class="menu"><li id="menu-item-22573" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-22472 current_page_item menu-item-22573"><a href="http://medigenehomoeocare.com/PBYINC/">HOME</a></li>
+        <aside class="col-md-2 col-sm-6 col-xs-12" style="text-align: center;">
+          <div id="nav_menu-13" style="" class="widget widget_nav_menu">
+            <h4 class="widget-title">MAIN LINKS</h4>
+            <div class="menu-bottom-links-container">
+              <ul id="menu-bottom-links" class="menu">
+                <li id="menu-item-22573" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-22472 current_page_item menu-item-22573"><a href="http://medigenehomoeocare.com/PBYINC/">HOME</a></li>
                 <li id="menu-item-22734" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22734"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22619">ABOUT US</a></li>
                 <li id="menu-item-22748" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22748"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22178">PROGRAM</a></li>
                 <li id="menu-item-22733" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22733"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22546">GET INVOLVED</a></li>
@@ -774,7 +676,7 @@ $baseUrl = Yii::app()->baseUrl;
                 <li id="menu-item-22731" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22731"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=277">BLOG</a></li>
                 <li id="menu-item-22732" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22732"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22179">CONTACT US</a></li>
               </ul></div></div>						</aside>
-        <aside class="col-lg-6" style="border-right: whitesmoke 1px solid;">
+        <aside class="col-md-5 col-sm-6 col-xs-12" style="">
           <div id="text-5" class="widget widget_text"><h4 class="widget-title">WHY US</h4>			<div class="textwidget">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
           </div>						</aside>
       </div>
@@ -782,7 +684,12 @@ $baseUrl = Yii::app()->baseUrl;
 
   </div>
 </footer>
-
+<style>
+  .menu-bottom-links-container ul {
+    list-style: none !important;
+    padding: 5px;
+  }
+</style>
 <?php echo $this->renderPartial('//partials/dialogs'); ?>
 <script>
   function validate(data) {

@@ -12,22 +12,73 @@
       padding: 2px;
       cursor: pointer;
     }
+
+    #top-menus li a {
+      margin: auto;
+      padding: 10px;
+      margin-right: 5px;
+    }
+
+    .nav>li {
+      display: inline-block !important;
+    }
+
+    #modal_search {
+      top: 50px;
+    }
+
+    #modal_search .modal.in .modal-dialog {
+      margin: auto;
+    }
+
+    #modal_search .modal-body {
+      padding: 1px;
+    }
+    
+    #dropdown-links .dropdown-menu {
+      min-width: 50px;
+      
+    }
   </style>
   <script>
+    
+    var mouseEnter = false;
     $(document).ready(function () {
-      $("#dot-nav").affix({
-        offset: {
-          top: 190
+
+      $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        if ($("#sidebar-wrapper").width() > 0) {
+          $("#sidebar-wrapper").width(0);
+        } else {
+          $("#sidebar-wrapper").width(250);
         }
       });
 
-      $("#menu-close").click(function (e) {
+      $("#menu-dropdown").click(function (e) {
         e.preventDefault();
-        $("#sidebar-wrapper").toggleClass("active");
+        $("#top-menus").parent().toggle();
       });
-      $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#sidebar-wrapper").toggleClass("active");
+
+      $("#dropdown-links").on('show.bs.dropdown', function () {
+        $("#top-menus").parent().hide();
+      });
+      
+      $("#sidebar-wrapper").mouseenter(function () {
+        mouseEnter = true;
+      });
+      
+      $("#sidebar-wrapper").mouseenter(function () {
+        mouseEnter = false;
+      });
+
+      $(document).click(function () {
+        var exit = false;
+        $(event.target).closest("#menu-toggle").each(function () {
+          exit = true;
+        });
+        if (!exit && !mouseEnter) {
+          $("#sidebar-wrapper").width(0);
+        }
       });
     });
   </script>
@@ -41,80 +92,80 @@
   </div>
 </div>
 
-<!--    <div class="dotstyle dotstyle-flip" style="position: absolute; right: 1px; z-index: 999;">
-      <h2>Flip</h2>
-      <ul>
-        <li class=" current"><a href="#">intro</a></li>
-        <li><a href="#">section1</a></li>
-        <li><a href="#">section2</a></li>
-        <li class=""><a href="#">section3</a></li>
-        <li><a href="#">section4</a></li>
-        <li><a href="#">section5</a></li>
-      </ul>
-    </div>-->
-
 <nav class="navbar navbar-custom navbar-fixed-top nav-menu-fixed" role="navigation" style="background-color: black">
-  <div class="container top-fixed open-header-scroll">
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-      <div class="icon-socials">
-        <a class=""><i class="fa fa-bitbucket"></i></a>
-        <a class=""><i class="fa fa-dropbox"></i></a>
-        <a class=""><i class="fa fa-facebook"></i></a>
-        <a class=""><i class="fa fa-flickr"></i></a>
-        <a class=""><i class="fa fa-foursquare"></i></a>
-        <a class=""><i class="fa fa-github"></i></a>
-        <a class=""><i class="fa fa-google-plus"></i></a>
-        <a class=""><i class="fa fa-instagram"></i></a>
-        <a class=""><i class="fa fa-linkedin"></i></a>
-        <a class=""><i class="fa fa-tumblr"></i></a>
-        <a class=""><i class="fa fa-twitter"></i></a>
-        <a class=""><i class="fa fa-vk"></i></a>
-      </div>
+  <div class="container top-fixed open-header-scroll" id="navbar-main">
+    <div class="navbar-header page-scroll">
+      <li class="logo" style="display: inline-block;">
+
+      </li>
+      <ul class="nav navbar-nav navbar-toggle" style="background-color: transparent;margin: 0; position: absolute; top: 5px;right: 0;">
+        <li>
+          <a class="" style="margin: auto; padding: 5px; top: -10px" data-toggle="modal" data-target="#modal_search">
+            <i class="fa fa-search"></i></a>
+        </li>
+        <li>
+          <a class="navbar-toggle" id="menu-toggle" style="margin: auto; padding: 5px; "><i class="fa fa-bars"></i></a>
+        </li>
+      </ul>
     </div>
-    <!-- /.navbar-collapse -->
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="navbar-collapse collapse navbar-responsive-collapse" id="dropdown-links">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-link"></i></a>
+          <ul class="dropdown-menu">
+            <li><a class=""><i class="fa fa-facebook"></i></a></li>
+            <li><a class=""><i class="fa fa-linkedin"></i></a></li>
+            <li><a class=""><i class="fa fa-twitter"></i></a></li>
+            <li><a class=""><i class="fa fa-youtube"></i></a></li>
+          </ul>
+        </li>
+        <li>
+          <a class="" id="menu-dropdown" style=""><i class="fa fa-bars"></i></a>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-right" style="margin: auto;">
+        <input type="text" class="form-control col-lg-8" placeholder="<?php echo Yii::t("app", "Search"); ?>">
+      </form>
+    </div>
+  </div>
+
+  <div id="sidebar-wrapper" style="width: 0;">
+    <ul class="sidebar-nav">
+      <li class="sidebar-brand">
+        <a href="#"><?php echo Yii::t("app", 'Guild');?></a>
+      </li>
+      <li>
+        <a href="#"><?php echo Yii::t("app", 'Articles');?></a>
+      </li>
+      <li>
+        <a ><?php echo Yii::t("app", 'FAQ');?></a>
+      </li>
+      <li>
+        <a data-toggle="modal" data-target="#modal_login"><?php echo Yii::t("app", 'Login');?></a>
+      </li>
+    </ul>
   </div>
   <!-- /.container -->
+</nav>
+<nav class="navbar navbar-custom navbar-fixed-top nav-menu-fixed" role="navigation" style="background-color: black; display: none;
+     top: 50px;">
   <div class="container" id="top-menus">
-    <div class="navbar-header page-scroll">
-      <!--      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-              <i class="fa fa-bars"></i>
-            </button>-->
-      <button type="button" class="navbar-toggle" id="menu-toggle">
-        <i class="fa fa-bars"></i>
-      </button>
-      <a class="navbar-brand" href="index.html">
-        <h1>LOGO HERE</h1>
-      </a>
-    </div>
-
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
       <ul class="nav navbar-nav">
-        <li class="" style="display: none;">
-          <div class="input-group" style="width: 96%; padding-top: 2px;">
-            <input type="text" name="q" class="form-control" placeholder="Search...">
-          </div>
-        </li>
-        <li class=""><div class="separate-ver-line"></div></li>
         <li class="sign-up-collapse" id='sign_up_btn'>
           <a class="btn btn-primary" data-toggle="modal" data-target="#modal_sign_up">
             <?php echo _("Start your workout now"); ?>
           </a>
         </li>
-        <li class="">
-          <a href="#" class="" data-toggle="modal" data-target="#modal_search" style="padding: 3px 10px 3px;">
-            <i class="fa fa-search" style="font-size: 20px; color: white;"></i>
-          </a>
-        </li>
         <li class="login-button">
-          <a href="#" class="" data-toggle="modal" data-target="#modal_login">
+          <a class="" data-toggle="modal" data-target="#modal_login">
             <?php echo Yii::t('app', "Login"); ?>
           </a>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <!--<i class="fa fa-gear" style="font-size: 20px; color: white;"></i>-->
+          <a class="dropdown-toggle" data-toggle="dropdown">
             EN
           </a>
           <ul class="dropdown-menu">
@@ -125,107 +176,8 @@
         </li>
       </ul>
     </div>
-    <!-- /.navbar-collapse -->
   </div>
-  <div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-      <li class="sidebar-brand">
-        <a href="#">Project name</a>
-      </li>
-      <li>
-        <a href="#">Home</a>
-      </li>
-      <li>
-        <a href="#about">About</a>
-      </li>
-      <li>
-        <a href="#contact">Contact</a>
-      </li>
-    </ul>
-  </div>
-  <!-- /.container -->
 </nav>
 <style>
-  #sidebar-wrapper {
-    margin-right: -250px;
-    right: 0;
-    width: 250px;
-    background: rgb(0,0,0);
-    position: fixed;
-    height: 100%;
-    overflow-y: auto;
-    z-index: 1000;
-    transition: all 0.5s ease-in 0s;
-    -webkit-transition: all 0.5s ease-in 0s;
-    -moz-transition: all 0.5s ease-in 0s;
-    -ms-transition: all 0.5s ease-in 0s;
-    -o-transition: all 0.5s ease-in 0s;
-  }
 
-  .sidebar-nav {
-    position: absolute;
-    top: 0;
-    width: 250px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .sidebar-nav li {
-    line-height: 50px;
-    text-indent: 20px;
-  }
-
-  .sidebar-nav li a {
-    color: #999999;
-    display: block;
-    text-decoration: none;
-  }
-
-  .sidebar-nav li a:hover {
-    color: #fff;
-    background: rgba(255,255,255,0.2);
-    text-decoration: none;
-  }
-
-  .sidebar-nav li a:active, .sidebar-nav li a:focus {
-    text-decoration: none;
-  }
-
-  .sidebar-nav > .sidebar-brand {
-    height: 55px;
-    line-height: 55px;
-    font-size: 18px;
-  }
-
-  .sidebar-nav > .sidebar-brand a {
-    color: #999999;
-  }
-
-  .sidebar-nav > .sidebar-brand a:hover {
-    color: #fff;
-    background: none;
-  }
-
-  #menu-toggle {
-    top: 0;
-    right: 0;
-    position: fixed;
-    z-index: 1;
-  }
-
-  #sidebar-wrapper.active {
-    right: 250px;
-    width: 250px;
-    margin-right: 0;
-    transition: all 0.5s ease-out 0s;
-    -webkit-transition: all 0.5s ease-out 0s;
-    -moz-transition: all 0.5s ease-out 0s;
-    -ms-transition: all 0.5s ease-out 0s;
-    -o-transition: all 0.5s ease-out 0s;
-  }
-
-  .toggle {
-    margin: 5px 5px 0 0;
-  }
 </style>

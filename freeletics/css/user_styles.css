@@ -16,9 +16,13 @@ body > .header .navbar{
   /*margin-bottom: 20px;*/
 }
 
+.navbar {
+  min-height: 40px !important;
+  height: auto;
+}
+
 #navbar-main, #navbar-main2, .navbar-sub-container, .navbar-sub-container-2 {
   background-color: black;
-  height: 50px;
 }
 
 #navbar-main ul li a, .navbar-sub-container ul li a, .navbar-sub-container-2 ul li a {
@@ -50,7 +54,7 @@ body > .header .navbar{
 
 #navbar-main li.logo, #navbar-main2 li.logo {
   margin-top: 5px;
-  margin-left: -5px;
+  margin-left: 5px;
   background-position: 52px 0px; 
   width: 52px; 
   height: 30px;
