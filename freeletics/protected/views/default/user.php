@@ -4,10 +4,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$ads = true;
 ?>
 <div id="main-container">
-  <?php if (!Yii::app()->user->isGuest) { ?>
-    <?php $this->renderPartial('//partials/user_information'); ?>
+  <?php if (Yii::app()->controller->id != 'training') { ?>
+    <?php $this->renderPartial('//partials/user_information', $data); ?>
   <?php } else { 
     $this->redirect('/default/');?>
   <?php } ?>

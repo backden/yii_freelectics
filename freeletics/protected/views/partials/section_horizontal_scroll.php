@@ -59,23 +59,6 @@
     display: none !important;
   }
 
-  .prevPage, .nextPage{
-    background: transparent;
-    border: 0;
-    color: #fff;
-    opacity: 1;
-    font-size: 60px;
-    position: absolute;
-    left: 15px;
-    top: 35%;
-    display: block;
-  }
-  
-  .nextPage {
-    left: auto !important;
-    right: 15px;
-  }
-
 </style>
 <!-- Section: contact -->
 <section id="section2" class="home-section text-center">
@@ -125,10 +108,3 @@
 
 </section>
 <!-- /Section: contact -->
-
-<!-- section image -->
-<section id="section3" class="" style="">
-  <div class="container">
-    <button class="btn btn-primary btn-lg pull-right btn-specify-tab-3"><?php echo Yii::t('app', "button"); ?></button>
-  </div>
-</section>

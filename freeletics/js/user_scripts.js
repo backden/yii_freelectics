@@ -35,9 +35,9 @@ $(function () {
   $("body").resize(function() {
     $("footer").css('top', $("body").outerHeight(true) + 'px');
   });
-
+  var navSub = undefined;
   $("#navbar-container").find("a").mouseenter(function () {
-    var navSub = $($(this).attr("href"));
+    navSub = $($(this).attr("href"));
     if (undefined !== navSub && navSub.length > 0) {
       $(".sub-navbar .navbar-sub-container").hide("fast");
       $("#navbar-main a span i").addClass("fa-chevron-left");

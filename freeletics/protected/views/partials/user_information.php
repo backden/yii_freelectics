@@ -12,7 +12,8 @@ $baseUrl = Yii::app()->baseUrl;
     <div class="col-lg-3" id="avatar" style="text-align: center;
          height: 160px; width: 160px; 
          -webkit-clip-path: polygon(57.6px 0, 139.2px 22.4px, 160px 102.4px, 102.399px 160px, 22.4px 139.2px, 0 57.6px, 57.6px 0); 
-         clip-path: url('<?php echo $baseUrl; ?>/files/hexagon_icon.svg#hexagon-clip-large');">
+         clip-path: url('<?php echo $baseUrl; ?>/files/hexagon_icon.svg#hexagon-clip-large');
+         margin: auto;">
       <img height="100%" width="100%" style="
            height: 160px;
            width: 160px;
@@ -28,28 +29,33 @@ $baseUrl = Yii::app()->baseUrl;
         font-size: 20px;
       }
     </style>
-    <div class="col-lg-10">
+    <div class="col-lg-9 col-md-9 col-xs-9">
       <div class="row">
         <div class="col-lg-6">
-          <div class="user-name" style="font-size: 30px; color: whitesmoke;"><?php echo Yii::app()->user->role; ?></div>
-          <div class="description-join-date-user" style="font-size: 13px; color: whitesmoke;">Free Athlete since 2 days ago.</div>
+          <div class="user-name" style="font-size: 30px; color: whitesmoke;"><?php echo $user->email; ?></div>
+          <div class="description-join-date-user" style="font-size: 13px; color: whitesmoke;">
+            <?php //$dateDiff = date_diff(date_create($user->create_date), date_create(date('Y-m-d', time())));
+//            echo Yii::t(
+//              "app", "Free Athlete since [0] [1] ago.", 
+//              array("[0]" => $dateDiff->m > 0 ? $dateDiff->m : $dateDiff->d, "[1]" => $dateDiff->m > 0 ? Yii::t('app', 'months') : Yii::t('app', 'days'))); ?>
+          </div>
         </div>
-        <div class="col-lg-6 pull-right statics-workout-follow" style="color: whitesmoke; font-size: 14px;">
+        <div class="col-lg-6 col-md-12 col-xs-12 pull-right statics-workout-follow" style="color: whitesmoke; font-size: 14px;">
           <div class="row text-right">
-            <div class="col-md-3">
-              <p> 10 </p>
+            <div class="col-md-3 col-xs-6">
+              <p> <?php echo 10; ?> </p>
               <span><?php echo Yii::t('app', "WORKOUTS"); ?>&nbsp;</span>
             </div>
-            <div class="col-md-3">
-              <p>0</p>
+            <div class="col-md-3 col-xs-6">
+              <p><?php echo $user->follower->total; ?></p>
               <span><?php echo Yii::t('app', "FOLLOWERS"); ?>&nbsp;</span>
             </div>
-            <div class="col-md-3">
-              <p> 10 </p>
+            <div class="col-md-3 col-xs-6">
+              <p> <?php echo $user->following->total; ?> </p>
               <span><?php echo Yii::t('app', "FOLLOWINGS"); ?>&nbsp;</span>
             </div>
-            <div class="col-md-3">
-              <p> 10 </p>
+            <div class="col-md-3 col-xs-6">
+              <p> <?php echo 10; ?> </p>
               <span><?php echo Yii::t('app', "POINTS"); ?>&nbsp;</span>
             </div>
           </div>
@@ -64,7 +70,7 @@ $baseUrl = Yii::app()->baseUrl;
       </div>
       <div class="row text-primary">
         <div class="col-lg-5">
-          <strong><?php echo Yii::t('app', "Level [0]"); ?></strong>
+          <strong><?php echo Yii::t('app', "Level [0]", array("[0]" => $user->level->level_id)); ?></strong>
         </div>
         <div class="col-lg-3 pull-right text-right">
           <strong><?php echo Yii::t('app', "[0] Points to Level [1]"); ?></strong>

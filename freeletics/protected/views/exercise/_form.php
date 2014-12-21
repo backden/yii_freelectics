@@ -48,18 +48,23 @@
 		<?php echo $form->textField($model,'type'); ?>
 		<?php echo $form->error($model,'type'); ?>
 	</div>
+ 
+ <div class="row">
+		<?php echo $form->labelEx($model,'video_round'); ?>
+		<?php echo $form->textArea($model,'video_round',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'videos'); ?>
-		<?php echo $form->textArea($model,'videos',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'videos'); ?>
+<!--	<div class="row">
+		<?php // echo $form->labelEx($model,'videos'); ?>
+		<?php // echo $form->textArea($model,'videos',array('rows'=>6, 'cols'=>50)); ?>
+		<?php // echo $form->error($model,'videos'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'rounds'); ?>
-		<?php echo $form->textArea($model,'rounds',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'rounds'); ?>
-	</div>
+		<?php // echo $form->labelEx($model,'rounds'); ?>
+		<?php // echo $form->textArea($model,'rounds',array('rows'=>6, 'cols'=>50)); ?>
+		<?php // echo $form->error($model,'rounds'); ?>
+	</div>-->
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

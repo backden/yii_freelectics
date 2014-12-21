@@ -3,10 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/views/default/index.php</file>
+            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/views/layouts/default_main.php</file>
+            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/models/Exercise.php</file>
+            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/js/custom.js</file>
             <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/controllers/UserController.php</file>
-            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/controllers/DefaultController.php</file>
-            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/config/main.php</file>
+            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/js/user_scripts.js</file>
+            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/views/partials/script_css.php</file>
+            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/views/user/training.php</file>
+            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/models/ExerciseCategory.php</file>
+            <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/views/user/play.php</file>
             <file>file:/K:/%5BFreelancer%5D%20Sources/projects/yii/freeletics/protected/models/User.php</file>
         </group>
     </open-files>

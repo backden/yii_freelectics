@@ -26,8 +26,9 @@ class UserExercise extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, exercise_ids', 'required'),
+			array('user_id', 'required'),
 			array('user_id, exercise_ids', 'length', 'max'=>20),
+			array('exercise_ids', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, user_id, exercise_ids', 'safe', 'on'=>'search'),

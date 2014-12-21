@@ -23,9 +23,7 @@ class SiteController extends Controller
 	}
 
  protected function beforeAction($action) {
-  $this->forward('/default');
-  Yii::app()->end();
-  exit;
+   return parent::beforeAction($action);
  }
  
 	/**

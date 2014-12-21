@@ -45,10 +45,10 @@ return array(
 //        ),
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => 'mysql:host=mysql4.000webhost.com;dbname=a8654507_free',
+            'connectionString' => 'mysql:host=localhost;dbname=yii',
             'emulatePrepare' => true,
-            'username' => 'a8654507_free',
-            'password' => 'long1184759',
+            'username' => 'root',
+            'password' => 'root',
             'charset' => 'utf8',
         ),
         'errorHandler' => array(
@@ -84,5 +84,6 @@ return array(
         'adminEmail' => 'webmaster@example.com',
         'stringcode' => '$2a$0778$1xx0sX0HxhjjjmMMjJ8ahKMh9MbMjbh2O81mx7L7$',
         'durationLogin' => 3600 * 24 * 7,
+        'code_coupon_length' => 20
     ),
 );

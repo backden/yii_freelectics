@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+$ads = true;
 ?>
 
 <div class="<?php echo $ads ? 'col-lg-3' : 'col-lg-3'; ?> right-siderbar roll-bottom">
@@ -20,4 +20,4 @@
     </div>
   </div>
 </div>
-<?php $this->renderPartial('//partials/advertisment'); ?>
+<?php $this->renderPartial('//partials/advertisment', array('ads' => $ads)); ?>

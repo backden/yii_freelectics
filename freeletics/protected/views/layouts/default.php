@@ -5,6 +5,7 @@
  * and open the template in the editor.
  */
 $baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->clientScript;
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,42 +15,8 @@ $baseUrl = Yii::app()->baseUrl;
     <meta name="author" content="">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="language" content="en" />
-
   </head>
-  <body id="page-top" class="main" data-spy="scroll" data-target=".navbar-custom">
-    <style>
-      .dynamicTile .col-sm-2.col-xs-4{
-        padding:5px;
-      }
-
-      .dynamicTile .col-sm-4.col-xs-8{
-        padding:5px;
-      }
-    </style>
-    <script>
-      $(function () {
-        $(".view.effect").width("100%");
-        $(".view.effect img").width("100%");
-//        $(".tile").height($("#tile1").width());
-//        $(".carousel").height($("#tile1").width());
-//        $(".item").height($("#tile1").width());
-
-//        $(window).resize(function () {
-//          if (this.resizeTO)
-//            clearTimeout(this.resizeTO);
-//          this.resizeTO = setTimeout(function () {
-//            $(this).trigger('resizeEnd');
-//          }, 10);
-//        });
-//
-//        $(window).bind('resizeEnd', function () {
-//          $(".tile").height($("#tile1").width());
-//          $(".carousel").height($("#tile1").width());
-//          $(".item").height($("#tile1").width());
-//        });
-      });
-    </script>
-
+  <body id="page-top" class="main" data-spy="scroll" data-target=".navbar-custom" style="overflow-x: hidden;">
     <!-- Preloader -->
     <div id="preloader">
       <div id="load"></div>
@@ -58,6 +25,29 @@ $baseUrl = Yii::app()->baseUrl;
 
     <?php echo $content; ?>
 
+    <?php $this->renderPartial("//partials/footer"); ?>
+    <style>
+      .menu-bottom-links-container ul {
+        list-style: none !important;
+        padding: 5px;
+      }
+      .prevPage, .nextPage{
+        background: transparent;
+        border: 0;
+        opacity: 1;
+        font-size: 60px;
+        position: absolute;
+        left: 1%;
+        top: 35%;
+        display: block;
+      }
+
+      .nextPage {
+        left: auto !important;
+        right: 1%;
+      }
+
+    </style>
     <nav class="navbar navbar-custom nav-footer-fixed" role="navigation" style="background-color: black">
       <div class="">
         <h5 class="text-center" style="color: #ffffff;">Copyright © 2014. All Rights Reserved.</h5>
@@ -81,7 +71,6 @@ $baseUrl = Yii::app()->baseUrl;
         </div>
       </div>
     </div>
-  </div>
 </body>
-
+<?php $this->renderPartial("//partials/script_css"); ?>
 </html>

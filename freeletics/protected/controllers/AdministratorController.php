@@ -12,4 +12,13 @@ class AdministratorController extends Controller {
   public function actionIndex() {
     $this->render('index');
   }
+  
+  public function actionCreateCodeCoupon() {
+    if (Yii::app()->request->getIsPostRequest()) {
+      $this->forward('//coupon/create');
+    } else {
+      $this->forward("//coupon/create");
+    }
+  }
+  
 }

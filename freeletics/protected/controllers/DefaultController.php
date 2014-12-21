@@ -26,26 +26,48 @@ class DefaultController extends Controller {
   }
 
   protected function beforeAction($action) {
-    if (Yii::app()->user->isGuest) {
-      $model_user = new User();
-      $this->render('index', array('model' => $model_user));
-      return true;
-    } else {
-      $this->forward('/user');
-      Yii::app()->end();
+    if (!Yii::app()->user->isGuest) {
+      $this->redirect(Yii::app()->baseUrl . '/index.php/user');
       return false;
+    } else {
+      if (Yii::app()->controller->action->id != 'index') {
+        $this->layout = '//layouts/default_2';
+      }
+      return parent::beforeAction($action);
     }
   }
-  
+
   public function actionIndex() {
-    
+    $model_user = new User();
+    $this->render('index', array('model' => $model_user));
   }
-  
+
   public function actionAdmin() {
     $this->layout = "//layouts/default_main";
     $this->render('admin');
   }
-  
+
+  public function actionArticles() {
+    $id = $this->getActionParams();
+    if (isset($id) != null) {
+      $this->render("article_detail", array("data" => $this->getActionParams()));
+    } else {
+      $this->render("articles");
+    }
+  }
+
+  public function actionLegal() {
+    $this->render("summary");
+  }
+
+  public function actionCompany() {
+    $this->render("summary");
+  }
+
+  public function actionGuild() {
+    $this->render("summary");
+  }
+
   public function actionSupport() {
     $this->layout = "//layouts/default_main";
 

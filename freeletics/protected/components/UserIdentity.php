@@ -38,7 +38,7 @@ class UserIdentity extends CUserIdentity {
         if ($user->active) {
           $results['status'] = true;
           $this->_id = $user->id;
-          $this->setState('role', $user->role);
+          //$this->setState('_user', $user);
         } else {
           $results['message'] = Yii::t("app", "Account inactive, check email again");
         }

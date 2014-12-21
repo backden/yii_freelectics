@@ -13,150 +13,16 @@
  */
 $baseUrl = Yii::app()->baseUrl;
 ?>
-
-<style>
-  .col-sm-3, .col-xs-12 {
-    margin-bottom: 1%;
-  }
-
-  .tiled .content {
-    width: 100%;
-    margin: auto;
-    padding: 50px;
-  }
-
-  #content-scroll-h img{
-    width: 70%;
-    margin: auto;
-  }
-
-  @media (max-width: 480px) {
-    #content-scroll-h .caption {
-      text-align: center;
-      margin: auto;
-      margin-top: -10px;
-      margin-bottom: 0px;
-      color: white;
-    }
-
-    #content-scroll-h .caption > span{
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    #content-scroll-h .caption > span > p{
-      font-size: 10px;
-      font-weight: 700;
-    }
-  }
-  
-  @media (min-width: 480px) {
-    #content-scroll-h .caption {
-      text-align: center;
-      margin: auto;
-      margin-top: -10px;
-      margin-bottom: 0px;
-      color: white;
-    }
-
-    #content-scroll-h .caption > span{
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    #content-scroll-h .caption > span > p{
-      font-size: 10px;
-      font-weight: 700;
-    }
-  }
-
-  @media (min-width: 900px) {
-    #content-scroll-h .caption {
-      text-align: center;
-      margin: auto;
-      margin-top: -90px;
-      margin-bottom: 20px;
-      color: white;
-    }
-
-    #content-scroll-h .caption > span{
-      font-size: 40px;
-      font-weight: 700;
-    }
-
-    #content-scroll-h .caption > span > p{
-      font-size: 25px;
-      font-weight: 700;
-    }
-  }
-
-</style>
-<script src="<?php echo $baseUrl; ?>/js/scroll/jquery.touchSwipe.min.js" type="text/javascript"></script>
-<script>
-  var IMG_WIDTH = 1000;
-  var currentImg = 0;
-  var maxImages = 3;
-  var speed = 500;
-  var imgs;
-
-  var swipeOptions = {
-    autoplay: true,
-    infinite: true,
-    autoplaySpeed: 2000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false
-  };
-
-  $(function () {
-    $('.single-item').slick(swipeOptions);
-    $("#content-scroll-h .prevPage").click(function() {
-      $("#content-scroll-h").slickPrev();
-    });
-    $("#content-scroll-h .nextPage").click(function() {
-      $("#content-scroll-h").slickNext();
-    });
-  });
-
-</script>
-<?php echo $this->renderPartial("//partials/script_css"); ?>
-<!-- Section: intro -->
-<section id="intro" class="intro">
-  <div id="content-scroll-h" class="slider single-item" style="">
-    <!-- Wrapper for slides -->
-    <div class="">
-      <img src="https://www.freeletics.com/images/landing_page/hero.jpg" alt="...">
-      <div class="caption">
-        <span class=""><?php echo Yii::t("app", "THE SHAPE OF YOUR LIFE. PERIOD."); ?>
-          <p><?php echo Yii::t("app", "Your individual training plan. High intensity workouts. Perfectly adapted to you."); ?></p>
-        </span>
-      </div>
-    </div>
-    <div class="">
-      <img src="https://www.freeletics.com/images/landing_page/hero.jpg" alt="...">
-      <div class="caption">
-        <span class=""><?php echo Yii::t("app", "THE SHAPE OF YOUR LIFE. PERIOD."); ?>
-          <p><?php echo Yii::t("app", "Your individual training plan. High intensity workouts. Perfectly adapted to you."); ?></p>
-        </span>
-      </div>
-    </div>
-
-    <button class="prevPage"><i class="fa fa-chevron-left"></i></button>
-    <button class="nextPage"><i class="fa fa-chevron-right"></i></button>
-  </div>
-  <div style="text-align: center;">
-    <button id='btnSignUp' data-toggle="modal" data-target="#modal_sign_up" class="btn btn-primary">
-      <span class="ng-binding"><?php echo Yii::t('app', "Start your workout now"); ?></span>
-    </button>
-  </div> 
-  <div class="page-scroll">
-    <a order="1" href="#section1" class="btn btn-circle first-next-section">
-      <i class="fa fa-chevron-down animated"></i>
-    </a>
-  </div>
-</section>
-<!-- /Section: intro -->
-
+<?php
+$this->renderPartial("//partials/scroll_dots", array(
+    "sections" => array("intro", "section1", "section2", "section3", "section4", "section5")
+));
+?>
+<?php
+echo $this->renderPartial("//partials/section_intro_home", array(
+    "width" => "70%"
+));
+?>
 <!-- Section: about -->
 <section id="section1" class="home-section text-center">
   <div class="heading-about">
@@ -241,6 +107,30 @@ $baseUrl = Yii::app()->baseUrl;
 
 <?php echo $this->renderPartial("//partials/section_horizontal_scroll"); ?>
 <!-- section end -->
+
+<!-- section image -->
+<section id="section3" class="" style="">
+  <div class="container">
+    <button class="btn btn-primary btn-lg pull-right btn-specify-tab-3"><?php echo Yii::t('app', "Success Stories"); ?></button>
+  </div>
+</section>
+<!-- section end -->
+
+<style>
+  .dynamicTile .col-sm-2.col-xs-4{
+    padding:5px;
+  }
+
+  .dynamicTile .col-sm-4.col-xs-8{
+    padding:5px;
+  }
+</style>
+<script>
+  $(function () {
+    $(".view.effect").width("100%");
+    $(".view.effect img").width("100%");
+  });
+</script>
 <script>
 
   $(function () {
@@ -284,7 +174,7 @@ $baseUrl = Yii::app()->baseUrl;
           <p class="title truncate"><?php echo ""; ?></p>
           <p class="author truncate"><?php echo ""; ?></p>
           <p class="location truncate"></p>
-          <a href="#" class="btn btn-primary btn-transparent" data-toggle="modal" data-target="#modal_sign_up">
+          <a href="#" class="btn btn-primary btn-transparent" data-toggle="modal" data-target="">
             <?php echo Yii::t("app", 'Watch'); ?>
           </a>
         </div>  
@@ -580,23 +470,27 @@ $baseUrl = Yii::app()->baseUrl;
               <legend style="font-weight: 700; font-size: 30px"><?php echo Yii::t('app', "START YOUR WORKOUT"); ?></legend>
               <div class="form-group">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <?php echo $form->labelEx($model, 'first'); ?>
                   <?php echo $form->textField($model, 'first', array('class' => 'form-control', 'placeholder' => Yii::t('app', "First"), 'size' => 20, 'maxlength' => 20)); ?>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <?php echo $form->labelEx($model, 'last'); ?>
                   <?php echo $form->textField($model, 'last', array('class' => 'form-control', 'placeholder' => Yii::t('app', "Last"), 'size' => 20, 'maxlength' => 20)); ?>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-lg-12">
+                  <?php echo $form->labelEx($model, 'email'); ?>
                   <?php echo $form->textField($model, 'email', array('class' => 'form-control', 'placeholder' => Yii::t('app', "Email"), 'size' => 50, 'maxlength' => 50)); ?>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-lg-12">
+                  <?php echo $form->labelEx($model, 'password'); ?>
                   <?php echo $form->passwordField($model, 'password', array('class' => 'form-control', 'placeholder' => Yii::t('app', "Password"), 'size' => 50, 'maxlength' => 50)); ?>
                   <div class="checkbox">
                     <label>
-                      <?php echo $form->checkBox($model, 'notice', array('class' => '')); ?>
+                      <?php echo $form->checkBox($model, 'notice', array('class' => '',)); ?>
                       <?php echo Yii::t('app', "Yes Freeletics, send me emails with training-specific tips and information regarding new Freeletics features, products & specials!"); ?>
                     </label>
                   </div>
@@ -640,56 +534,6 @@ $baseUrl = Yii::app()->baseUrl;
   </div>
 </div>
 
-<!-- footer -->
-<footer class="main-footer" id="section-footer">
-  <div class="footer-sidebars-wrapper">
-
-    <div id="footer-sidebars" style="text-align: center;">
-      <div class="row" data-num="0" style="">
-        <aside class="col-md-2 col-sm-6 col-xs-12" style="text-align: center;">
-          <div id="text-2" class="widget widget_text">	
-            <div class="textwidget">
-              <img style="margin: auto; margin-top: 20%;" src="http://medigenehomoeocare.com/PBYINC/wp-content/uploads/2014/09/f_logo.png">
-            </div>
-          </div>						
-        </aside>
-        <aside class="col-md-3 col-sm-6 col-xs-12">
-          <div id="text-3" class="widget widget_text"><h4 class="widget-title">CONTACT  US</h4>			<div class="textwidget"><p>P.O. Box 3036<br>
-                Hyattsville, Maryland 20784<br>
-                United States</p>
-              <p>Tel: 240-459-8265<br>
-                E-mail:info@pbyinc.com</p>
-              <p><a style="color:#ED2B94;" href="">Get Directions on the map</a></p>
-            </div>
-          </div>						</aside>
-        <aside class="col-md-2 col-sm-6 col-xs-12" style="text-align: center;">
-          <div id="nav_menu-13" style="" class="widget widget_nav_menu">
-            <h4 class="widget-title">MAIN LINKS</h4>
-            <div class="menu-bottom-links-container">
-              <ul id="menu-bottom-links" class="menu">
-                <li id="menu-item-22573" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-22472 current_page_item menu-item-22573"><a href="http://medigenehomoeocare.com/PBYINC/">HOME</a></li>
-                <li id="menu-item-22734" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22734"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22619">ABOUT US</a></li>
-                <li id="menu-item-22748" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22748"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22178">PROGRAM</a></li>
-                <li id="menu-item-22733" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22733"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22546">GET INVOLVED</a></li>
-                <li id="menu-item-22577" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22577"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22548">MEDIA</a></li>
-                <li id="menu-item-22735" class="menu-item menu-item-type-taxonomy menu-item-object-tribe_events_cat menu-item-22735"><a href="http://medigenehomoeocare.com/PBYINC/?tribe_events_cat=events">EVENTS</a></li>
-                <li id="menu-item-22731" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22731"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=277">BLOG</a></li>
-                <li id="menu-item-22732" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-22732"><a href="http://medigenehomoeocare.com/PBYINC/?page_id=22179">CONTACT US</a></li>
-              </ul></div></div>						</aside>
-        <aside class="col-md-5 col-sm-6 col-xs-12" style="">
-          <div id="text-5" class="widget widget_text"><h4 class="widget-title">WHY US</h4>			<div class="textwidget">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
-          </div>						</aside>
-      </div>
-    </div>
-
-  </div>
-</footer>
-<style>
-  .menu-bottom-links-container ul {
-    list-style: none !important;
-    padding: 5px;
-  }
-</style>
 <?php echo $this->renderPartial('//partials/dialogs'); ?>
 <script>
   function validate(data) {
@@ -698,13 +542,13 @@ $baseUrl = Yii::app()->baseUrl;
       $.each(data.data, function (key, value) {
         text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
       });
-      $("#modal_error .modal-body").html(text);
+      $("#modal_error .modal-body .message").html(text);
       $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
       $("#modal_error").modal("show");
     } else if (undefined !== data.email) {
       var message = '<?php echo Yii::t('app', 'Registr successfully. Check [0] to confirm.'); ?>';
       message = message.replace("[0]", data.email);
-      $("#modal_success .modal-body").text(message);
+      $("#modal_success .modal-body .message").text(message);
       $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
       $("#modal_success").modal("show");
     }
@@ -724,6 +568,10 @@ $baseUrl = Yii::app()->baseUrl;
       $.each(data.data, function (key, value) {
         text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
       });
+    } else if (data.data) {
+      for(key in data.data) {
+        text += "<strong style='color: red'>" + key + ":</strong> " + data.data[key].join("<br/>") + "<br/>";
+      }
     }
     if (data.message) {
       text = data.message;
@@ -737,7 +585,7 @@ $baseUrl = Yii::app()->baseUrl;
     if (data.status == true && (undefined !== data.email)) {
       var message = '<?php echo Yii::t('app', 'Send successfully. Check [0] to confirm.'); ?>';
       message = message.replace("[0]", data.email);
-      $("#modal_success .modal-body").text(message);
+      $("#modal_success .modal-body .message").text(message);
       $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
       $("#modal_success").modal("show");
     } else {

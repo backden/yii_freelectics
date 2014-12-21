@@ -6,3 +6,11 @@
  * and open the template in the editor.
  */
 ?>
+
+<section style="top: 50px;">
+  <div class="container">
+    <button id="btn-create-coupon-code">
+      <?php echo Yii::t('app', 'Create Coupon'); ?>
+    </button>
+  </div>
+</section>

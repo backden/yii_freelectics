@@ -19,16 +19,39 @@
  * @property integer $role
  * @property integer $active
  */
-class User extends CActiveRecord {
+class User extends BaseModel {
 
+  protected $tables_relative = array(
+      'user_level',
+      'user_exercise',
+      'user_follower',
+      'user_following',
+  );
+  public $data = array(
+      'follower' => array(),
+      'following' => array(),
+      'points' => 0,
+      'level' => 1
+  );
+  protected $isUpdated = false; //TRue is find all relation
   public $password;
   public $remember = false;
+  protected $isNew = false;
+//  public $follower = array();
+//  public $following = array();
+  public $exercises = array();
   public $changePW = false;
   public $unitWeight = 'kg';
   public $unitHeight = 'lbs';
   public $day;
   public $month;
   public $year;
+
+  public function __construct($scenario = 'insert', $isUpdated = false) {
+    parent::__construct($scenario);
+
+    $this->isUpdated = $isUpdated;
+  }
 
   /**
    * @return string the associated database table name
@@ -51,6 +74,7 @@ class User extends CActiveRecord {
         array('first, last', 'length', 'min' => 3),
         array('language', 'length', 'max' => 4),
         array('birthday', 'safe'),
+//        array('birthday, create_date, last_update', 'type', 'type'=>'date', 'dateFormat' => DateTime::W3C, 'on' => 'update'),
         array('city', 'length', 'max' => 50),
         array('notice', 'boolean'),
         array('password', 'length', 'min' => 8),
@@ -69,6 +93,10 @@ class User extends CActiveRecord {
     // NOTE: you may need to adjust the relation name and the related
     // class name for the relations automatically generated below.
     return array(
+        'level' => array(self::HAS_ONE, 'UserLevel', 'user_id'),
+        'follower' => array(self::HAS_ONE, 'UserFollower', 'user_id'),
+        'following' => array(self::HAS_ONE, 'UserFollowing', 'user_id'),
+        'exercise' => array(self::HAS_ONE, 'UserExercise', 'user_id'),
     );
   }
 
@@ -151,35 +179,52 @@ class User extends CActiveRecord {
     if (!empty($this->password) && $this->changePW) {
       $this->password = hash('sha256', $this->password . Yii::app()->params['stringcode']);
     }
-    if (!isset($this->height)) {
-      $this->height = serialize(array('value' => 0, 'unit' => 'cm'));
-    }
     $arr = array();
     $arr['value'] = $this->weight != '' ? $this->weight : 0;
-    $arr['unit'] = $_POST['User']['unitWeight'] ? $_POST['User']['unitWeight'] : 0;
+    $arr['unit'] = isset($_POST['User']['unitWeight']) ? $_POST['User']['unitWeight'] : 0;
     $this->weight = serialize($arr);
-    
+
+    $arr = array();
     $arr['value'] = $this->height != '' ? $this->height : 0;
-    $arr['unit'] = $_POST['User']['unitHeight'] ? $_POST['User']['unitHeight'] : 0;
+    $arr['unit'] = isset($_POST['User']['unitHeight']) ? $_POST['User']['unitHeight'] : 0;
     $this->height = serialize($arr);
-    
-    if (date('Y-m-d H:i:s', $this->birthday) !== FALSE) {
-      $this->birthday = date('Y-m-d H:i:s', strtotime($this->birthday));
+
+    if (isset($_POST['User']['birthday']) == false || date('Y-m-d H:i:s', strtotime($_POST['User']['birthday'])) === FALSE) {
+      $this->birthday = time();
+    } else {
+      $this->birthday = strtotime($_POST['User']['birthday']);
     }
+
+    $this->isNew = $this->getIsNewRecord();
     return true;
   }
 
   protected function beforeValidate() {
-    $this->create_date = $this->create_date != null ? $this->create_date : date("Y-m-d H:i:s", time());
-    $this->last_update = date("Y-m-d H:i:s", time());
-    if (date('Y-m-d H:i:s', $this->birthday) !== FALSE) {
-      $this->birthday = date('Y-m-d', strtotime($this->birthday));
+    $this->create_date = $this->create_date != null ? $this->create_date : time();
+    $this->last_update = time();
+    if (date("Y-m-d H:i:s", strtotime($this->birthday)) !== FALSE) {
+      
+    } else {
+      $this->birthday = time();
     }
     return parent::beforeValidate();
   }
 
   public function afterSave() {
+    //if ($this->active == true) {
+    if ($this->active !== true) {
+      //update user to other tables
+      // user_exercise, user_exercise_result, user_level, user_comment, user_follower, user_following, user_payment v.v.
+      $attrs = array("user_id" => $this->id);
 
+      if ($this->isNew) {
+        foreach ($this->tables_relative as $table) {
+          $relativeModel = ModelUtils::returnModelByUnderScore($table);
+          $relativeModel->attributes = $attrs;
+          $relativeModel->save();
+        }
+      }
+    }
     return parent::afterSave();
   }
 
@@ -194,14 +239,21 @@ class User extends CActiveRecord {
       $this->unitHeight = $arr['unit'] ? $arr['unit'] : 0;
       $this->height = $arr['value'] ? $arr['value'] : 0;
     }
-    if (!empty($this->birthday)) {
-      $date = new DateTime($this->birthday);
-      $this->birthday = $date->format("Y-m-d");
-      $this->day = $date->format("d");
-      $this->month = $date->format("m");
-      $this->year = $date->format("Y");
+    if ($this->birthday > 0) {
+      $this->birthday = date('Y-m-d', $this->birthday);
+    } else {
+      $this->birthday = date('Y-m-d', time());
+    }
+    if ($this->create_date > 0) {
+      $this->create_date = date('Y-m-d', $this->create_date);
+    } else {
+      $this->create_date = date('Y-m-d', time());
     }
     return parent::afterFind();
+  }
+
+  public function getRelationData() {
+    
   }
 
 }

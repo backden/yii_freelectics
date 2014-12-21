@@ -5,7 +5,6 @@
  * and open the template in the editor.
  */
 ?>
-<div class="page-scroll">
   <style>
     .dot-scroll-vertical {
       /*              display: inline-block;*/
@@ -43,7 +42,7 @@
   <script>
     
     var mouseEnter = false;
-    $(document).ready(function () {
+    $(function () {
 
       $("#menu-toggle").click(function (e) {
         e.preventDefault();
@@ -56,18 +55,16 @@
 
       $("#menu-dropdown").click(function (e) {
         e.preventDefault();
-        $("#top-menus").parent().toggle();
+        $("#top-menus").parent().animate({width: 'toggle'}, 350);
       });
 
       $("#dropdown-links").on('show.bs.dropdown', function () {
         $("#top-menus").parent().hide();
       });
       
-      $("#sidebar-wrapper").mouseenter(function () {
+      $("#sidebar-wrapper").hover(function () {
         mouseEnter = true;
-      });
-      
-      $("#sidebar-wrapper").mouseenter(function () {
+      },function () {
         mouseEnter = false;
       });
 
@@ -82,19 +79,10 @@
       });
     });
   </script>
-  <!--bullet navigator container--> 
-  <div class="bullet-vertical" style="position: absolute;bottom: 42%;right: 1px;">
-    <!--bullet navigator item prototype--> 
-    <div class="dot-scroll-vertical"><i class="fa fa-circle" ref="#intro"></i></div>
-    <a href="#intro" class="btn btn-square btn-top-scroll">
-      <i class="fa fa-chevron-up animated"></i>
-    </a>
-  </div>
-</div>
 
 <nav class="navbar navbar-custom navbar-fixed-top nav-menu-fixed" role="navigation" style="background-color: black">
   <div class="container top-fixed open-header-scroll" id="navbar-main">
-    <div class="navbar-header page-scroll">
+    <div class="navbar-header">
       <li class="logo" style="display: inline-block;">
 
       </li>

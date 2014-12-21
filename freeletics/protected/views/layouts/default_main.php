@@ -5,6 +5,7 @@
  * and open the template in the editor.
  */
 $baseUrl = Yii::app()->baseUrl;
+Yii::app()->clientScript;
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,9 +24,11 @@ $baseUrl = Yii::app()->baseUrl;
     <?php $this->renderPartial("//partials/script_css") ?>
   </head>
   <body style="background: rgba(0, 0, 0, 0.1); ">
-    <?php if (!Yii::app()->user->isGuest && Yii::app()->user->role == 1) { ?>
+    <!-- Modal setting user -->
+    <?php $this->renderPartial("//partials/your_account_form"); ?>
+    <?php if (!Yii::app()->user->isGuest && User::model()->findByPk(Yii::app()->user->id)->role == 1) { ?>
       <?php echo $this->renderPartial("//partials/navbar_user") ?>
-    <?php } else if (!Yii::app()->user->isGuest && Yii::app()->user->role == 2) { ?>
+    <?php } else if (!Yii::app()->user->isGuest && User::model()->findByPk(Yii::app()->user->id)->role == 2) { ?>
       <?php echo $this->renderPartial("//partials/navbar_admin") ?>
     <?php } else { ?>
       <?php echo $this->renderPartial("//partials/navbar_help_support") ?>
@@ -33,7 +36,7 @@ $baseUrl = Yii::app()->baseUrl;
     <div style="background: url('<?php echo $baseUrl; ?>/img/profile-bg.jpg') top; 
          margin-bottom: 20px; background-size: 100%;
          background-repeat: no-repeat;">
-        <?php echo $content; ?>
+         <?php echo $content; ?>
     </div>
     <div class="modal fade" id="modal_search" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow-y: hidden">
       <div class="modal-dialog">
@@ -55,10 +58,7 @@ $baseUrl = Yii::app()->baseUrl;
         </div>
       </div>
     </div>
-
-    <!-- Modal setting user -->
-    <?php $this->renderPartial("//partials/your_account_form") ?>
-
+    
     <?php $this->renderPartial("//partials/footer") ?>
   </body>
 </html>

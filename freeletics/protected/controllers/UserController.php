@@ -106,13 +106,13 @@ class UserController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
-    $this->render('home');
+//    $this->render('home');
+    $user = User::model()->findByPk(Yii::app()->user->id);
+    //UserServices::getInstance()->getRelation($user, 'level', 'user_level');
+    $data = array("user" => $user);
+    $this->render('//default/user', array('data' => $data));
   }
-  
-  public function actionTraining() {
-    $this->render('training');
-  }
-  
+
   public function actionInfo() {
     $this->render('//default/user');
   }
@@ -165,19 +165,26 @@ class UserController extends Controller {
   }
 
   public function actionLogin() {
-    $model = new User('login');
-    $this->performAjaxValidation($model, array("email", "password"));
+    $results = array("status" => true, 'message' => '');
+    if (Yii::app()->user->isGuest) {
+      $model = new User('login');
+      $this->performAjaxValidation($model, array("email", "password"));
+      if (isset($_POST['User']) || !Yii::app()->user->isGuest) {
+        $userIdentity = new UserIdentity($model->email, $model->password, array('email' => $model->email));
+        $results = $userIdentity->authenticate();
 
-    if (isset($_POST['User'])) {
+        $duration = $model->remember ? Yii::app()->params['durationLogin'] : 3600 * 2;
+        Yii::app()->user->login($userIdentity, $duration);
+      }
+    } else {
+      $model = User::model()->findByPk(Yii::app()->user->id);
       $userIdentity = new UserIdentity($model->email, $model->password, array('email' => $model->email));
-      $results = $userIdentity->authenticate();
-
-      $duration = $model->remember ? Yii::app()->params['durationLogin'] : 3600 * 2;
-      Yii::app()->user->login($userIdentity, $duration);
-
-      echo json_encode($results);
-      Yii::app()->end();
     }
+    $duration = $model->remember ? Yii::app()->params['durationLogin'] : 3600 * 2;
+    Yii::app()->user->login($userIdentity, $duration);
+
+    echo json_encode($results);
+    Yii::app()->end();
   }
 
   public function actionForgot() {
@@ -236,6 +243,30 @@ class UserController extends Controller {
   public function actionLogout() {
     Yii::app()->user->logout();
     $this->forward('/default');
+  }
+
+  public function actionTraining() {
+    $myExercises = unserialize(User::model()->findByPk(Yii::app()->user->id)->getRelated('exercise')->exercise_ids);
+    if (isset(Yii::app()->controller->actionParams['t']) && Yii::app()->controller->actionParams['t']) {
+      $exeId = Yii::app()->controller->actionParams['t'];
+      $exercise = Exercise::model()->findByPk($exeId);
+
+      if ($exercise && in_array($exercise->id, $myExercises)) {
+        $this->render('play', array(
+            'exercise' => $exercise,
+          )
+        );
+      } else {
+        $this->redirect(Yii::app()->baseUrl . "/index.php/user/training/");
+      }
+    } else {
+      $exercises = ExerciseCategory::model()->findAll();
+      $this->render('training', array(
+          'myExercises' => $myExercises,
+          'exercises' => $exercises
+        )
+      );
+    }
   }
 
 }
