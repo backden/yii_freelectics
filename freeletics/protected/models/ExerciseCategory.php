@@ -7,7 +7,9 @@
  * @property string $id
  * @property string $name
  * @property string $exercises
- * @property string $collect
+ * @property boolean $collect
+ * @property boolean $timer
+ * @property string $default
  */
 class ExerciseCategory extends CActiveRecord
 {
@@ -29,10 +31,10 @@ class ExerciseCategory extends CActiveRecord
 		return array(
 			array('name, exercises', 'required'),
 			array('name', 'length', 'max'=>50),
-			array('collect, visible', 'safe'),
+			array('collect, visible, timer, default', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, exercises, collect, visible', 'safe', 'on'=>'search'),
+			array('id, name, exercises, collect, visible, timer, default', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +59,8 @@ class ExerciseCategory extends CActiveRecord
 			'name' => 'Name',
 			'exercises' => 'Exercises',
 			'collect' => 'Collect',
+			'timer' => 'Is Timer',
+			'default' => 'Times efault',
 		);
 	}
 
@@ -82,6 +86,8 @@ class ExerciseCategory extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('exercises',$this->exercises,true);
 		$criteria->compare('collect',$this->collect,true);
+		$criteria->compare('timer',$this->timer,true);
+		$criteria->compare('default',$this->default,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -126,6 +132,7 @@ class ExerciseCategory extends CActiveRecord
      $exercises = unserialize(trim($this->exercises));
      $this->exercises = implode(",", $exercises);
    }
+   $this->timer = $this->timer == 1 ? true : false;
    return parent::afterFind();
  }
 }

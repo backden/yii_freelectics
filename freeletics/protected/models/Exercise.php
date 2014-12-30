@@ -13,6 +13,7 @@
  * @property string $videos
  * @property string $rounds
  * @property string $video_round
+ * @property int $total
  */
 class Exercise extends CActiveRecord {
 
@@ -31,7 +32,8 @@ class Exercise extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('name', 'required'),
-        array('reward, volumn, type', 'numerical', 'integerOnly' => true),
+        array('reward, type, total', 'numerical', 'integerOnly' => true),
+        array('volumn', 'type', 'type'=>'float'),
         array('name', 'length', 'max' => 100),
         array('equiments, videos, rounds, video_round', 'safe'),
         array('video_round', 'videoRoundPattern'),
@@ -65,6 +67,7 @@ class Exercise extends CActiveRecord {
         'videos' => 'Videos',
         'rounds' => 'Rounds',
         'video_round' => 'Video links, [0] round name, number of round 1, number of round 2,...',
+        'total' => 'Number of sub-exercises',
     );
   }
 
@@ -137,10 +140,10 @@ class Exercise extends CActiveRecord {
 
   protected function beforeSave() {
     if (strlen($this->equiments) > 0) {
-      $eqs = explode(PHP_EOL, $this->equiments);
-      if (count($eqs) > 0) {
-        $this->equiments = serialize($eqs);
-      }
+//      $eqs = explode(PHP_EOL, $this->equiments);
+//      if (count($eqs) > 0) {
+//        $this->equiments = serialize($eqs);
+//      }
     }
 
     if (strlen($this->video_round) > 0) {
@@ -157,6 +160,8 @@ class Exercise extends CActiveRecord {
         }
         $this->video_round = $stringSave;
       }
+      $regexTotal = '/(\.?),(\.?)*([0-9]+)/';
+      $this->total = preg_match_all($regexTotal, $stringSave);
     }
 
 //    if (strlen($this->videos) > 0) {
@@ -185,8 +190,8 @@ class Exercise extends CActiveRecord {
 
   protected function afterFind() {
     if (strlen($this->equiments) > 0) {
-      $this->equiments = unserialize($this->equiments);
-      $this->equiments = implode(PHP_EOL, $this->equiments);
+//      $this->equiments = unserialize($this->equiments);
+//      $this->equiments = implode(PHP_EOL, $this->equiments);
     }
 //    if (strlen($this->videos) > 0) {
 //      $this->videos = unserialize($this->videos);

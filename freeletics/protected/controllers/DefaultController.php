@@ -27,7 +27,12 @@ class DefaultController extends Controller {
 
   protected function beforeAction($action) {
     if (!Yii::app()->user->isGuest) {
-      $this->redirect(Yii::app()->baseUrl . '/index.php/user');
+      if (in_array(strtolower($this->action->id), array("articles", "legal", "company", "guild"))) {
+        $this->layout = '//layouts/default_2';
+        return parent::beforeAction($action);
+      } else {
+        $this->redirect(Yii::app()->baseUrl . '/index.php/user');
+      }
       return false;
     } else {
       if (Yii::app()->controller->action->id != 'index') {
@@ -48,12 +53,7 @@ class DefaultController extends Controller {
   }
 
   public function actionArticles() {
-    $id = $this->getActionParams();
-    if (isset($id) != null) {
-      $this->render("article_detail", array("data" => $this->getActionParams()));
-    } else {
-      $this->render("articles");
-    }
+    $this->redirect(Yii::app()->createUrl('/articles'));
   }
 
   public function actionLegal() {
@@ -65,7 +65,9 @@ class DefaultController extends Controller {
   }
 
   public function actionGuild() {
-    $this->render("summary");
+    $this->render("summary", array(
+        'type' => Yii::app()->request->getParam("link"),
+    ));
   }
 
   public function actionSupport() {

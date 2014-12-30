@@ -45,3 +45,4 @@ $action = Yii::app()->getController()->action;
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/social.script.js"></script>
 <script src="<?php echo $baseUrl; ?>/js/scroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/js/jquery-te-1.4.0.min.js" type="text/javascript"></script>
+<script src="<?php echo $baseUrl; ?>/js/bootstrap.youtubepopup.min.js" type="text/javascript"></script>

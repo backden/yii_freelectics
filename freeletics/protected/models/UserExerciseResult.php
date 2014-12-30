@@ -6,14 +6,26 @@
  * The followings are the available columns in table 'user_exercise_result':
  * @property string $id
  * @property string $user_id
+ * @property string $feed_id
  * @property string $time
- * @property string $details
  * @property string $comment_id
  * @property string $points
  * @property integer $exercise_id
+ * @property string $PB
+ * @property boolean $star
  */
 class UserExerciseResult extends CActiveRecord
 {
+  const ID = 'id';
+  const USER_ID = 'user_id';
+  const FEED_ID = 'feed_id';
+  const TIME = 'time';
+  const PB = 'PB';
+  const STAR = 'star';
+  const COMMENT_ID = 'comment_id';
+  const POINT = 'points';
+  const EXERCISE_ID = 'exercise_id';
+  
 	/**
 	 * @return string the associated database table name
 	 */
@@ -30,13 +42,13 @@ class UserExerciseResult extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, time, comment_id', 'required'),
-			array('exercise_id', 'numerical', 'integerOnly'=>true),
+			array('user_id', 'required'),
+			array('exercise_id, time, comment_id, exercise_id, feed_id', 'numerical', 'integerOnly'=>true),
 			array('user_id, comment_id', 'length', 'max'=>20),
-			array('details, points', 'safe'),
+			array('points, PB, star', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, time, details, comment_id, points, exercise_id', 'safe', 'on'=>'search'),
+			array('id, user_id, time, comment_id, points, exercise_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,6 +76,7 @@ class UserExerciseResult extends CActiveRecord
 			'comment_id' => 'Comment',
 			'points' => 'Points',
 			'exercise_id' => 'Exercise',
+			'PB' => 'PB',
 		);
 	}
 
@@ -85,13 +98,14 @@ class UserExerciseResult extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
 		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('time',$this->time,true);
 		$criteria->compare('details',$this->details,true);
 		$criteria->compare('comment_id',$this->comment_id,true);
 		$criteria->compare('points',$this->points,true);
 		$criteria->compare('exercise_id',$this->exercise_id);
+		$criteria->compare('PB',$this->PB);
+		$criteria->compare('star',$this->star);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,4 +122,8 @@ class UserExerciseResult extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+ 
+ protected function afterFind() {
+   return parent::afterFind();
+ }
 }

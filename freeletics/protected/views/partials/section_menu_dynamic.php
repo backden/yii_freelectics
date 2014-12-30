@@ -88,11 +88,11 @@
 <script>
   $(function () {
     $('#list-articles-first').slimScroll({
-      height: '400px',
+      height: '450px',
       alwaysVisible: false
     });
     $('#list-articles-second').slimScroll({
-      height: '400px',
+      height: '450px',
       alwaysVisible: false
     });
 
@@ -122,10 +122,11 @@
     <div class="btn-group">
       <?php
       $subs = array();
+      $subLinks = array();
       foreach ($menus as $name => $menu) {
-        if (count($menu) == 0) {
+        if (count($menu['menus']) == 0) {
           ?>
-          <a href="#" class="btn btn-default"><?php echo Yii::t("app", $name); ?></a>
+      <a href="?c=<?php echo $menu['links'][0]; ?>" class="btn btn-default"><?php echo Yii::t("app", $name); ?></a>
         <?php } else { ?>
           <a href="#<?php echo $menu["id"]; ?>" class="btn btn-default"><?php echo Yii::t("app", $name); ?>&nbsp;<span class="caret"></span></a>
           <?php
@@ -135,11 +136,11 @@
       <?php } ?>
     </div>
   </div>
-  <?php foreach ($subs as $sub) : ?>
+  <?php foreach ($subs as $index => $sub) : ?>
     <div class="container sub-container closed" id="<?php echo $sub["id"]; ?>">
       <div class="btn-group">
-        <?php foreach ($sub["menus"] as $menu) : ?>
-          <a href="#" class="btn btn-default"><?php echo Yii::t("app", $menu); ?></a>
+        <?php foreach ($sub["menus"] as $index => $menu) : ?>
+          <a href="?c=<?php echo $sub['links'][$index]; ?>" class="btn btn-default"><?php echo Yii::t("app", $menu); ?></a>
         <?php endforeach; ?>
       </div>
     <?php endforeach; ?>

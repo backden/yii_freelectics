@@ -22,6 +22,9 @@ Yii::app()->clientScript;
       }
     </style>
     <?php $this->renderPartial("//partials/script_css") ?>
+    <script type="text/javascript">var switchTo5x = true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>
   </head>
   <body style="background: rgba(0, 0, 0, 0.1); ">
     <!-- Modal setting user -->
@@ -58,7 +61,12 @@ Yii::app()->clientScript;
         </div>
       </div>
     </div>
-    
+
     <?php $this->renderPartial("//partials/footer") ?>
   </body>
+  <script type="text/javascript">stLight.options({publisher: "46a0a6ee-1473-410b-99df-6075184a2903", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+<script>
+var options={ "publisher": "46a0a6ee-1473-410b-99df-6075184a2903", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["facebook", "twitter", "linkedin", "pinterest", "email", "sharethis"]}};
+var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
+</script>
 </html>

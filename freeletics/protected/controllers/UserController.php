@@ -30,7 +30,7 @@ class UserController extends Controller {
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
-            'actions' => array('create', 'update', 'logout', 'home', 'training', 'info'),
+            'actions' => array('create', 'update', 'logout', 'home', 'training', 'info', 'feeds'),
             'users' => array('@'),
         ),
         array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -246,27 +246,73 @@ class UserController extends Controller {
   }
 
   public function actionTraining() {
-    $myExercises = unserialize(User::model()->findByPk(Yii::app()->user->id)->getRelated('exercise')->exercise_ids);
-    if (isset(Yii::app()->controller->actionParams['t']) && Yii::app()->controller->actionParams['t']) {
-      $exeId = Yii::app()->controller->actionParams['t'];
+    $user = User::model()->findByPk(Yii::app()->user->id);
+    $myExercises = unserialize($user->getRelated('exercise')->exercise_ids);
+    if (isset(Yii::app()->controller->actionParams['category']) && Yii::app()->controller->actionParams['category'] && isset(Yii::app()->controller->actionParams['exercise']) && Yii::app()->controller->actionParams['exercise']) {
+      $exeId = Yii::app()->controller->actionParams['exercise'];
+      $categoryId = Yii::app()->controller->actionParams['category'];
       $exercise = Exercise::model()->findByPk($exeId);
+      $exerciseCategory = ExerciseCategory::model()->findByPk($categoryId);
+      $myResults = $user->getRelated("result_exercise", false, array('exercise_id' => $exeId));
+      $criteria = new CDbCriteria;
+      $criteria->condition = 'exercise_id = :exeId and user_id = :id';
+      $criteria->params = array(':exeId' => $exeId, ':id' => $user->id);
+      $criteria->select = 'min(PB) as PB, star';
+      $criteria->group = 'PB';
+      $bestPB = UserExerciseResult::model()->find($criteria);
 
-      if ($exercise && in_array($exercise->id, $myExercises)) {
+      if ($exerciseCategory && $exercise && in_array($exercise->id, $myExercises)) {
         $this->render('play', array(
             'exercise' => $exercise,
+            'category' => $exerciseCategory,
+            'myResults' => $myResults,
+            'bestPB' => $bestPB,
+            'feed' => new UserFeeds,
           )
         );
       } else {
         $this->redirect(Yii::app()->baseUrl . "/index.php/user/training/");
       }
     } else {
-      $exercises = ExerciseCategory::model()->findAll();
+      $exerciseCategory = ExerciseCategory::model()->findAll();
       $this->render('training', array(
           'myExercises' => $myExercises,
-          'exercises' => $exercises
+          'exercises' => $exerciseCategory
         )
       );
     }
+  }
+
+  public function actionFeeds() {
+    $criteria = new CDbCriteria();
+    $criteria->limit = 20;
+    $criteria->order = 'last_update desc';
+    $userFeeds = UserFeeds::model()->findAll($criteria);
+
+    $feeds = array();
+    if ($userFeeds) {
+      foreach ($userFeeds as $feed) {
+        $comment = UserCommunityComment::model()->findbyPk($feed->comment_id);
+        $userResult = UserExerciseResult::model()->findByPk($feed->user_result_id);
+        $feedDTO = new FeedDTO;
+        $feedDTO->__set("id", $feed->id);
+        $feedDTO->__set("user_id", $feed->user_id);
+        $feedDTO->__set("comment_id", $feed->comment_id);
+        $feedDTO->__set("comment_text", $comment->comments);
+        $feedDTO->__set("extra_comments", unserialize($feed->extra_comments));
+        $feedDTO->__set("like", strpos($feed->extra_like, Yii::app()->user->id) !== false ? true : false);
+        $results = array();
+        foreach ($userResult as $key => $value) {
+          $results[$key] = $value;
+        }
+        $feedDTO->__set("result", $results);
+        $feedDTO->__set("create_date", $feed->create_date);
+        $feeds[$feed->id] = $feedDTO;
+      }
+    }
+    $this->render('feed', array(
+        'feeds' => $feeds
+    ));
   }
 
 }

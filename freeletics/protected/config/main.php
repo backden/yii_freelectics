@@ -35,6 +35,7 @@ return array(
         'urlManager' => array(
             'urlFormat' => 'path',
             'rules' => array(
+                '<controller:articles>/<id:.+>' => '<controller>/articles/',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -46,6 +47,7 @@ return array(
         // uncomment the following to use a MySQL database
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=yii',
+//            'connectionString' => 'mysql:host=sql210.byethost15.com;dbname=b15_15548491_dev_site',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => 'root',
@@ -84,6 +86,7 @@ return array(
         'adminEmail' => 'webmaster@example.com',
         'stringcode' => '$2a$0778$1xx0sX0HxhjjjmMMjJ8ahKMh9MbMjbh2O81mx7L7$',
         'durationLogin' => 3600 * 24 * 7,
-        'code_coupon_length' => 20
+        'code_coupon_length' => 20,
+        'app_id_facebook' => '322142577992142'
     ),
 );

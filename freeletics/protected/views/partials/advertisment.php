@@ -9,9 +9,7 @@
 ?>
 
 <div class="col-lg-2" style="<?php echo $ads ? '' : ''; ?>">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      Basic panel
-    </div>
+  <div class="">
+    <img src="<?php echo Yii::app()->baseUrl; ?>/img/Coach_Teaser.jpg" width="100%"/>
   </div>
 </div>

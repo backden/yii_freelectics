@@ -25,11 +25,11 @@ echo $this->renderPartial("//partials/section_intro_articles", array(
 <?php
 $this->renderPartial("//partials/section_menu_dynamic", array(
     "menus" => $menus = array(
-      "Training Advice" => array(),
-      "Nutrition Advice" => array(),
-      "Motivation" => array(),
-      "Lifestyle" => array(),
-      "Success Stories" => array("id" => "SStories", "menus" => array("Blog", "Mod written"))
+      "Training Advice" => array("id" => "training", 'links' => array('articles_training'), "menus" => array()),
+      "Nutrition Advice" => array("id" => "nutrition", 'links' => array('articles_nutrition'), "menus" => array()),
+      "Motivation" => array("id" => "motivation", 'links' => array('articles_motivation'), "menus" => array()),
+      "Lifestyle" => array("id" => "lifestyle", 'links' => array('articles_lifestyle'), "menus" => array()),
+      "Success Stories" => array("id" => "SStories", 'links' => array('blog', 'mod_written'), "menus" => array("Blog", "Mod written"))
     )
 ));
 ?>
@@ -164,11 +164,11 @@ $article = array(
     display: inherit; 
     right: 30px;
   }
-  
+
   .nextPage.page-top-right {
     right: 0px;
   }
-  
+
   .page-top-right.disabled {
     color: white;
   }

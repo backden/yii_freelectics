@@ -9,4 +9,8 @@
 class Constant {
   const RS_ST_OK = 'OK';
   const RS_ST_ERROR = 'ERROR';
+  
+  const TIMER_BEFORE_START = 5;
+  // 2 second
+  const TIME_CHECKPOINT = 0;
 }

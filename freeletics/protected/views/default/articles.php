@@ -58,7 +58,9 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
               while ($i < 4) {
                 ?>
                 <a href="#" class="list-group-item">
-                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                  <img src="<?php ?>"/>
+                  <p class="list-group-item-text">
+                    Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
                 </a>
                 <?php
                 $i++;

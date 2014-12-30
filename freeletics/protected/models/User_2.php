@@ -21,6 +21,9 @@
  */
 class User extends BaseModel {
 
+  const ID = 'id';
+  const USER_ID = 'user_id';
+  
   protected $tables_relative = array(
       'user_level',
       'user_exercise',
@@ -97,6 +100,8 @@ class User extends BaseModel {
         'follower' => array(self::HAS_ONE, 'UserFollower', 'user_id'),
         'following' => array(self::HAS_ONE, 'UserFollowing', 'user_id'),
         'exercise' => array(self::HAS_ONE, 'UserExercise', 'user_id'),
+        'result_exercise' => array(self::HAS_MANY, 'UserExerciseResult', 'user_id'),
+        'user_feeds' => array(self::HAS_MANY, 'UserFeeds', 'user_id'),
     );
   }
 

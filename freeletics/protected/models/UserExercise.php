@@ -10,6 +10,7 @@
  */
 class UserExercise extends CActiveRecord
 {
+  const USER_ID = 'user_id';
 	/**
 	 * @return string the associated database table name
 	 */

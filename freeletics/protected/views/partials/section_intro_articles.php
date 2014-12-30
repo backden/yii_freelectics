@@ -93,6 +93,10 @@
     }
   }
 
+  .sidebar-nav li.active a {
+    color: #087;
+  }
+
 </style>
 <script>
   var IMG_WIDTH = 1000;
@@ -122,44 +126,60 @@
 
 </script>
 <!-- Section: intro -->
-<section id="intro" class="intro">
-  <div id="content-scroll-h" class="slider single-item" style="">
-    <?php if (isset($data) && count($data) > 0) { ?>
-      <?php foreach ($data as $d) { ?>
+<section id="intro" class="intro" style="<?php echo isset($type) && $type == 'ref_foundation' ? 'background: rgba(255, 255, 255, 0.1)' : ''; ?>">
+  <?php if (isset($type) == false || $type != 'ref_foundation') { ?>
+    <div id="content-scroll-h" class="slider single-item" style="">
+      <?php if (isset($data) && count($data) > 0) { ?>
+        <?php foreach ($data as $d) { ?>
+          <div class="">
+            <img src="<?php echo $d['img'] ?>" alt="...">
+            <div class="caption">
+              <span class=""><?php echo Yii::t("app", $d['caption']); ?>
+                <p><?php echo Yii::t("app", isset($d['description']) ? $d['description'] : ''); ?></p>
+              </span>
+              <a class="btn btn-lg" href="<?php echo $d['href'] ?>">
+                <?php echo Yii::t('app', 'Read more'); ?>
+              </a>
+            </div>
+          </div>
+        <?php } ?>
+      <?php } else { ?>
+        <!-- Wrapper for slides -->
         <div class="">
-          <img src="<?php echo $d['img'] ?>" alt="...">
+          <img src="https://www.freeletics.com/images/landing_page/hero.jpg" alt="...">
           <div class="caption">
-            <span class=""><?php echo Yii::t("app", $d['caption']); ?>
-              <p><?php echo Yii::t("app", isset($d['description']) ? $d['description'] : ''); ?></p>
+            <span class=""><?php echo Yii::t("app", "THE SHAPE OF YOUR LIFE. PERIOD."); ?>
+              <p><?php echo Yii::t("app", "Your individual training plan. High intensity workouts. Perfectly adapted to you."); ?></p>
             </span>
-            <a class="btn btn-lg" href="<?php echo $d['href'] ?>">
-              <?php echo Yii::t('app', 'Read more'); ?>
-            </a>
           </div>
         </div>
-      <?php } ?>
-    <?php } else { ?>
-      <!-- Wrapper for slides -->
-      <div class="">
-        <img src="https://www.freeletics.com/images/landing_page/hero.jpg" alt="...">
-        <div class="caption">
-          <span class=""><?php echo Yii::t("app", "THE SHAPE OF YOUR LIFE. PERIOD."); ?>
-            <p><?php echo Yii::t("app", "Your individual training plan. High intensity workouts. Perfectly adapted to you."); ?></p>
-          </span>
+        <div class="">
+          <img src="https://www.freeletics.com/images/landing_page/hero.jpg" alt="...">
+          <div class="caption">
+            <span class=""><?php echo Yii::t("app", "THE SHAPE OF YOUR LIFE. PERIOD."); ?>
+              <p><?php echo Yii::t("app", "Your individual training plan. High intensity workouts. Perfectly adapted to you."); ?></p>
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="">
-        <img src="https://www.freeletics.com/images/landing_page/hero.jpg" alt="...">
-        <div class="caption">
-          <span class=""><?php echo Yii::t("app", "THE SHAPE OF YOUR LIFE. PERIOD."); ?>
-            <p><?php echo Yii::t("app", "Your individual training plan. High intensity workouts. Perfectly adapted to you."); ?></p>
-          </span>
-        </div>
-      </div>
 
-      <!-- /Section: intro -->
-    <?php } ?>
-    <button class="prevPage"><i class="fa fa-chevron-circle-left"></i></button>
-    <button class="nextPage"><i class="fa fa-chevron-circle-right"></i></button>
-  </div>
+        <!-- /Section: intro -->
+      <?php } ?>
+      <button class="prevPage"><i class="fa fa-chevron-circle-left"></i></button>
+      <button class="nextPage"><i class="fa fa-chevron-circle-right"></i></button>
+    </div>
+  <?php } else { ?>
+    <div class="container" style="">
+      <div class="text-center">
+        <?php foreach ($data as $d) { ?>
+          <div class="col-md-4 col-xs-12">
+            <div class="row" style="background: url('/yii/freeletics/img/pattern.jpg')">
+              <img src="<?php echo $d['img']; ?>" style="padding-top: 40px;"/>
+              <div class="clearfix" style="top: 10px;"></div>
+              <h4 style="padding: 20px; color:white"><?php echo $d['caption']; ?></h4>
+            </div>
+          </div>
+        <?php } ?>
+      </div>
+    </div>
+  <?php } ?>
 </section>
