@@ -33,12 +33,6 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
     )
 ));
 ?>
-<?php
-$article = array(
-    "title" => 'ABC',
-    "content" => '<h1><b><u><span style="color:rgb(56, 118, 29);font-size: 40px;">WYSIWYG</span></u></b></h1><div style="font-size:16px;">In computing, a <b><span style="font-size:16px;">WYSIWYG</span></b> editor is a system in which content (text and graphics) displayed onscreen during editing appears in a form closely corresponding to its appearance when printed or displayed as a finished product, which might be a printed document, web page, or slide presentation. <b><span style="font-size:16px;">WYSIWYG</span></b> is an acronym for "<i><b><span style="font-size:16px;">what you see is what you get</span></b></i>".</div><img src="http://jqueryte.com//img/sazova-park.jpg" style="float:left; margin:0 10px 10px 0" alt="Sazova Park, Eskisehir"><span style="font-size:16px;"><div style="font-size:16px; color: rgb(51, 51, 51);">WYSIWYG implies a user interface that allows the user to view something very similar to the end result while the document is being created. In general <b><span style="font-size:16px;">WYSIWYG</span></b> implies the ability to directly manipulate the layout of a document without having to type or remember names of layout commands The actual meaning depends on the users perspective, e.g.</div><div style="font-size:16px;">Modern software does a good job of optimizing the screen display for a particular type of output. For example, a word processor is optimized for output to a typical printer. The software often emulates the resolution of the printer in order to get as close as possible to <b><span style="font-size:16px;">WYSIWYG</span></b>. However, that is not the main attraction of <b><span style="font-size:18px;">WYSIWYG</span></b>, which is the ability of the user to be able to visualize what he or she is producing.</div><div style="font-size:16px;"><p></div><div style="font-size:16px;"></p></div><div style="font-size:16px;"><span style="font-size:14px;color: rgb(102, 102, 102);"><a href="http://en.wikipedia.org/wiki/WYSIWYG">Source: wikipedia.org</a></span></div></span>'
-);
-?>
 <style>
   #section_content .container{
     padding: 15px 5px;
@@ -60,11 +54,75 @@ $article = array(
         <div class="col-md-9 col-xs-8">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4><?php echo html_entity_decode($article['title']); ?></h4>
+              <h3><?php echo html_entity_decode($article['title']); ?></h3>
             </div>
-            <div class="panel panel-body">
-              <div class="content">
-                <?php echo html_entity_decode($article['content']); ?>
+            <div class="panel panel-body" >
+              <div class="row" style="font-size: 14px;">
+                <div class="col-md-6">
+                  <span class="text-muted"><?php echo $author->first . $author->last; ?></span>
+                  <span class="text-muted"><?php echo $article->create_date; ?></span>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-3 pull-right btn-shares">
+                      <a class="col-md-12 col-xs-12 share-icons">
+                        <i class="fa fa-star"></i>&nbsp;<span class=""><?php echo $article->like_total; ?></span>
+                      </a>
+                      <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>&t=<?php echo $article->title; ?>"
+                               target="blank">
+                              <i class="fa fa-facebook"></i>
+                            </a>
+                            <span class="article_FB_<?php echo $article->id; ?>">0</span>
+                          </div>
+                          <div class="col-md-6">
+                            <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>">
+                              <i class="fa fa-twitter"></i>
+                            </a>
+                            <span class="article_TW_<?php echo $article->id; ?>">0</span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>" class="">
+                              <i class="fa fa-google-plus"></i>
+                            </a>
+                            <span class="article_GP_<?php echo $article->id; ?>">0</span>
+                          </div>
+                          <div class="col-md-6"><a class=""><i class="fa fa-comment"></i></a></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-1 pull-right">
+                      <a class="" onclick="printDiv('article-content');">
+                        <i class="fa fa-print"></i>
+                      </a>
+                    </div>
+                    <div class="col-md-1 pull-right">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-share-alt"></i>
+                      </a>
+                      <ul class="dropdown-menu" style="min-width: 0;">
+                        <li><a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>&t=<?php echo $article->title; ?>"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>"><i class="fa fa-google-plus"></i></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" id="article-summary">
+                <div class="col-md-12">
+                  <?php echo html_entity_decode($article['summary']); ?>
+                </div>
+              </div>
+              <div class="clearfix" style="margin-top: 10px;"></div>
+              <div class="row" id="article-content">
+                <div class="col-md-12">
+                  <?php echo html_entity_decode($article['content']); ?>
+                </div>
               </div>
             </div>
           </div>
@@ -72,26 +130,75 @@ $article = array(
         <div class="col-md-3 col-xs-4">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4><?php echo "Username"; ?></h4>
+              <h4><?php echo "Title Column"; ?></h4>
             </div>
-            <div class="panel panel-body" style="height: 600px">
-              <div class="content">
+            <div class="panel panel-body">
+              <div class="list-group" id='list-articles-first'>
+                <?php
+                foreach ($articles as $article) {
+                  ?>
+                  <div class="row list-group-item">
+                    <div class="col-md-12 pull-left">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $article->id)); ?>" class="">
+                            <img src="data:image/png;base64,<?php $article->image_title; ?>" width="100%"/>
+                          </a>
+                        </div>
+                        <div class="col-md-6 btn-shares">
+                          <a class="col-md-12 col-xs-12 share-icons">
+                            <i class="fa fa-star"></i>&nbsp;<span class=""><?php echo $article->like_total; ?></span>
+                          </a>
+<!--                          <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>&t=<?php echo $article->title; ?>"
+                                   target="blank">
+                                  <i class="fa fa-facebook"></i>
+                                </a>
+                                <span class="article_FB_<?php echo $article->id; ?>">0</span>
+                              </div>
+                              <div class="col-md-6">
+                                <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>">
+                                  <i class="fa fa-twitter"></i>
+                                </a>
+                                <span class="article_TW_<?php echo $article->id; ?>">0</span>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>" class="">
+                                  <i class="fa fa-google-plus"></i>
+                                </a>
+                                <span class="article_GP_<?php echo $article->id; ?>">0</span>
+                              </div>
+                              <div class="col-md-6"><a class=""><i class="fa fa-comment"></i></a></div>
+                            </div>
+                          </div>-->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $article->id)); ?>" class="">
+                        <p class="list-group-item-text">
+                          <?php echo CString::truncate($article->title, 150); ?>
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+                  <?php
+                }
+                ?>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-md-3 col-xs-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4><?php echo Yii::app()->user->id; ?></h4>
-        </div>
-        <div class="panel panel-body" style="height: 400px">
-          <div class="content">
-          </div>
-        </div>
-      </div>
+    <div class="col-md-3 col-xs-12" style="margin-top: 10px;">
+      <a href="#" class="">
+        <img src="<?php echo Yii::app()->baseUrl; ?>/img/Coach_Teaser.jpg" width="100%"/>
+      </a>
     </div>
   </div>
   <div class="container">
@@ -103,11 +210,38 @@ $article = array(
 
 
 <script type = "text/javascript" >
+//  $('.btn-shares').popover({
+//    html: true,
+//    content: function() {
+//      return $(this).find(".pop-share").html();
+//    },
+//    placement: "bottom",
+//    container: 'body'
+//  });
+
+  $('body').on('click', function(e) {
+    //did not click a popover toggle or popover
+    if (!$(e.target).parent().hasClass("share-icons")) {
+      if ($('.popover.in').length != 0) {
+        $('.popover.in').popover('hide');
+      }
+    } else {
+      if ($('.popover.in').length > 1) {
+        $('.popover.in').first().popover('hide');
+      }
+    }
+  });
+
+  $('#list-articles-first').slimScroll({
+    height: '450px',
+    alwaysVisible: false
+  });
+
   /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
   var disqus_shortname = 'hahaha'; // required: replace example with your forum shortname
 
   /* * * DON'T EDIT BELOW THIS LINE * * */
-  (function () {
+  (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
@@ -141,6 +275,14 @@ $article = array(
 </section>
 
 <style>
+  #article-content img {
+    width: 100%;
+  }
+
+  #article-content {
+    font-family: "Arial", Times, serif;
+  }
+
   #frame ul li {
     float: left;
     width: 300px;
@@ -200,9 +342,42 @@ $article = array(
     width: 100%;
     height: 200px;
   }
+
+  .btn-socials {
+    padding: 5px 15px;
+    font-size: 18px;
+  }
+
+  .top-heading-article .panel .panel-body {
+    min-height: 150px;
+  }
+
+  .popover { 
+    min-width: 137px;
+  }
+
+  .popover .popover-content span {
+    float: right;
+  }
+
+  .popover .popover-content {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .popover .arrow:after {
+    border-bottom-color: rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .pop-share a {
+    border: black 1px solid;
+  }
+
+  .share-icons {
+    color: black;
+  }
 </style>
 <script>
-  $(function () {
+  $(function() {
     var $frame = $('#frame');
     var $slidee = $frame.children('ul').eq(0);
     var $wrap = $frame.parent();
@@ -237,7 +412,7 @@ $article = array(
     });
 
     // To End button
-    $wrap.find('.toEnd').on('click', function () {
+    $wrap.find('.toEnd').on('click', function() {
       var item = $(this).data('item');
       // Animate a particular item to the end of the frame.
       // If no item is provided, the whole content will be animated.
@@ -245,4 +420,14 @@ $article = array(
     });
 
   });
+  function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+  }
 </script>

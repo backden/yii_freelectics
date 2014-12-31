@@ -36,7 +36,7 @@ class Articles extends CActiveRecord {
     // will receive user inputs.
     return array(
         array('hot, like_total, category_id', 'numerical', 'integerOnly' => true),
-        array('user_id, comment_id', 'length', 'max' => 20),
+        array('id, user_id, comment_id', 'length', 'max' => 20),
         array('title', 'length', 'max' => 300),
         array('create_date, last_update, extra_like, tags, content, image_title, summary', 'safe'),
         // The following rule is used by search().
@@ -137,6 +137,10 @@ class Articles extends CActiveRecord {
     } else {
       unset($this->create_date);
     }
+    
+    if (isset($this->category_id) == false || $this->category_id == '') {
+      $this->category_id = 1;
+    }
     $this->last_update = time();
     return parent::beforeSave();
   }
@@ -148,16 +152,30 @@ class Articles extends CActiveRecord {
   }
 
   public function afterSave() {
-    if ($this->newRecord) {
+    $ar2 = Articles2::model()->findByPk($this->category_id);
+    $arIds = explode(";", $ar2->article_ids);
+    if (!in_array($this->id, $arIds)) {
+      $arIds[] = trim($this->id);
+      $ar2->article_ids = implode(";", $arIds);
+      try {
+        $ar2->update();
+      } catch (CDbException $cde) {
+        throw new Exception($cde->getMessage(), $cde->getCode(), $cde->getPrevious());
+      }
+    }
+
+    if ($this->comment_id == 0) {
       // create new comment for article
       $comment = new Comments;
       $comment->create_date = time();
       $comment->last_update = time();
       try {
         if ($comment->save()) {
-          $this->comment_id = $comment->id;
-          $this->newRecord = $this->isNewRecord = false;
-          $this->update();
+          $model = new Articles;
+          $model->attributes = $this->attributes;
+          $model->isNewRecord = false;
+          $model->comment_id = $comment->id;
+          $model->update();
         }
       } catch (CDbException $cde) {
         throw new Exception($cde->getMessage(), $cde->getCode(), $cde->getPrevious());

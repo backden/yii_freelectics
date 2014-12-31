@@ -78,19 +78,31 @@ class ArticleService extends BaseService {
   }
 
   public function getSpecifyArticle($category = null) {
-    $arrAtricleIds = $category->getNewestArticleIdsLimit(null);
-    $criteria = new CDbCriteria();
-    $criteria->condition = "id in ('" . implode("', '", $arrAtricleIds) . "')";
-    $criteria->order = "create_date desc";
-    
+    $arrAtricleIds = array();
+    if ($category) {
+      $arrAtricleIds = $category->getNewestArticleIdsLimit(null);
+      $criteria = new CDbCriteria();
+      $criteria->condition = "id in ('" . implode("', '", $arrAtricleIds) . "')";
+      $criteria->order = "create_date desc";
+      
+      $criteria->condition = "category_id = $category->id";
+      $criteria->order = "create_date desc";
+    } else {
+      $criteria = new CDbCriteria();
+      $criteria->order = "create_date desc";
+    }
     $summarize = array();
     $summarize['news'] = Articles::model()->findAll($criteria);
     
     $criteria->addCondition("hot = 1");
     $hots = Articles::model()->find($criteria);
-    $summarize['hot'] = isset($hots[0]) ? $hots[0] : $summarize['news'][0];
+    if (isset($hots)) {
+      $summarize['hot'] = isset($hots[0]) ? $hots[0] : $summarize['news'][0];
+    } else {
+      $summarize['hot'] = $summarize['news'][0];
+    }
+    $summarize[isset($category) ? $category->name : ""] = $summarize['news'];
 
-    $summarize[$category->name] = $summarize['news'];
     return $summarize;
   }
 

@@ -168,41 +168,40 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
                     <img src="https://www.freeletics.com/images/landing_page/hero.jpg" width="100%"/>
                   </div>
                   <div class="clearfix"></div>
-                  <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $hotArticle->id)); ?>" class="col-md-10 col-xs-10 title-article">
+                  <a href="<?php echo Yii::app()->createUrl("articles/?a=" . $hotArticle->id); ?>" class="col-md-10 col-xs-10 title-article">
                     <?php echo CString::truncate($hotArticle->title, 40); ?>
                   </a>
-                  <button type="button" class="btn btn-default btn-transparent btn-sm btn-shares">
-                    <a class="col-md-2 col-xs-2 share-icons">
+                  <div class="col-md-2 btn-shares">
+                    <a class="col-md-12 col-xs-12 share-icons">
                       <i class="fa fa-star"></i>&nbsp;<span class=""><?php echo $hotArticle->like_total; ?></span>
                     </a>
-                    <div class="pop-share" style="width: 40px; height: 40px; background-color: black; display: none">
+                    <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
                       <div class="row">
                         <div class="col-md-6">
                           <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $hotArticle->id)); ?>&t=<?php echo $hotArticle->title; ?>"
                              target="blank">
                             <i class="fa fa-facebook"></i>
                           </a>
+                          <span class="article_FB_<?php echo $hotArticle->id; ?>">0</span>
                         </div>
                         <div class="col-md-6">
-                          <a href="https://twitter.com/share?
-                             url=https%3A%2F%2Fdev.twitter.com%2Fweb%2Ftweet-button&
-                             via=twitterdev&
-                             related=twitterapi%2Ctwitter&
-                             hashtags=example%2Cdemo&
-                             text=custom%20share%20text">
-                            Tweet
-                          </a>
                           <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $hotArticle->id)); ?>">
                             <i class="fa fa-twitter"></i>
                           </a>
+                          <span class="article_TW_<?php echo $hotArticle->id; ?>">0</span>
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-md-6"><a class=""><i class="fa fa-google-plus"></i></a></div>
+                        <div class="col-md-6">
+                          <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $hotArticle->id)); ?>" class="">
+                            <i class="fa fa-google-plus"></i>
+                          </a>
+                          <span class="article_GP_<?php echo $hotArticle->id; ?>">0</span>
+                        </div>
                         <div class="col-md-6"><a class=""><i class="fa fa-comment"></i></a></div>
                       </div>
                     </div>
-                  </button>
+                  </div>
                 </div>
                 <span class="summary-article">
                   <?php echo CString::truncate($hotArticle->summary, 150); ?>
@@ -215,18 +214,55 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
               <?php
               foreach ($articles as $article) {
                 ?>
-                <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $article->id)); ?>" class="list-group-item">
-                  <div class="row">
-                    <div class="col-md-12 text-center">
-                      <img src="data:image/png;base64,<?php $article->image_title; ?>" width="50%"/>
+                <div class="row list-group-item">
+                  <div class="col-md-12 pull-left">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <a href="<?php echo Yii::app()->createUrl("articles/?a=" . $article->id); ?>" class="">
+                          <img src="data:image/png;base64,<?php $article->image_title; ?>" width="100%"/>
+                        </a>
+                      </div>
+                      <div class="col-md-6 btn-shares">
+                        <a class="col-md-12 col-xs-12 share-icons">
+                          <i class="fa fa-star"></i>&nbsp;<span class=""><?php echo $article->like_total; ?></span>
+                        </a>
+                        <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>&t=<?php echo $article->title; ?>"
+                                 target="blank">
+                                <i class="fa fa-facebook"></i>
+                              </a>
+                              <span class="article_FB_<?php echo $article->id; ?>">0</span>
+                            </div>
+                            <div class="col-md-6">
+                              <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>">
+                                <i class="fa fa-twitter"></i>
+                              </a>
+                              <span class="article_TW_<?php echo $article->id; ?>">0</span>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>" class="">
+                                <i class="fa fa-google-plus"></i>
+                              </a>
+                              <span class="article_GP_<?php echo $article->id; ?>">0</span>
+                            </div>
+                            <div class="col-md-6"><a class=""><i class="fa fa-comment"></i></a></div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-md-12">
+                  </div>
+                  <div class="col-md-12">
+                    <a href="<?php echo Yii::app()->createUrl("articles/?a=" . $article->id); ?>" class="">
                       <p class="list-group-item-text">
                         <?php echo CString::truncate($article->title, 150); ?>
                       </p>
-                    </div>
+                    </a>
                   </div>
-                </a>
+                </div>
                 <?php
               }
               ?>
@@ -248,7 +284,7 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
                             <img src="data:image/png;base64,<?php echo $new->image_title; ?>" width="100%"/>
                           </div>
                           <div class="col-md-6 pull-right">
-                            <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $new->id)); ?>" 
+                            <a href="<?php echo Yii::app()->createUrl("articles/?a=" . $new->id); ?>" 
                                class="title-article" style="word-break: break-all;">
                                  <?php echo CString::truncate($new->title, 70); ?>
                             </a>
@@ -350,6 +386,14 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
     padding: 0;
   }
 
+  .popover { 
+    min-width: 137px;
+  }
+
+  .popover .popover-content span {
+    float: right;
+  }
+
   .popover .popover-content {
     background: rgba(0, 0, 0, 0.3);
   }
@@ -360,6 +404,10 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
 
   .pop-share a {
     border: black 1px solid;
+  }
+
+  .share-icons {
+    color: black;
   }
 
   .nextPage.page-top-right, .prevPage.page-top-right {
@@ -436,8 +484,24 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
 
     $('.btn-shares').popover({
       html: true,
-      content: $(".pop-share").html(),
-      placement: "bottom"
+      content: function () {
+        return $(this).find(".pop-share").html();
+      },
+      placement: "bottom",
+      container: 'body'
+    });
+
+    $('body').on('click', function (e) {
+        //did not click a popover toggle or popover
+        if (!$(e.target).parent().hasClass("share-icons")) { 
+          if ($('.popover.in').length != 0) {
+            $('.popover.in').popover('hide');
+          }
+        } else {
+          if ($('.popover.in').length > 1) {
+            $('.popover.in').first().popover('hide');
+          }
+        }
     });
 
     $(".youtube").YouTubeModal({
@@ -468,6 +532,110 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
     });
 
     $("#YouTubeModalContent").find(".modal-header").remove();
+
+    $.get(
+            'http://graph.facebook.com/<?php echo Yii::app()->createAbsoluteUrl('articles') . "/" . $hotArticle->id; ?>',
+            function (data) {
+              if (undefined !== data.shares) {
+                $("span.article_FB_<?php echo $hotArticle->id; ?>").each(function () {
+                  $(this).text(data.shares);
+                });
+              }
+            },
+            'json'
+            );
+
+    $.ajax({
+      type: "POST",
+      dataType: 'jsonp',
+      url: 'http://urls.api.twitter.com/1/urls/count.json?url=<?php echo Yii::app()->createAbsoluteUrl('articles') . "/" . $hotArticle->id; ?>',
+      success: function (data) {
+        console.log(data);
+        if (undefined !== data.count) {
+          $("span.article_TW_<?php echo $hotArticle->id; ?>").each(function () {
+            $(this).text(data.count);
+          });
+        }
+      }
+    });
+    $.ajax({
+      cache: false,
+      type: "POST",
+      url: "https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ",
+      data: [{"method": "pos.plusones.get", "id": "p", "params": {"nolog": true, "id": "<?php echo Yii::app()->createAbsoluteUrl('articles') . "/" . $hotArticle->id; ?>", "source": "widget", "userId": "@viewer", "groupId": "@self"}, "jsonrpc": "2.0", "key": "p", "apiVersion": "v1"}],
+      dataType: "jsonp",
+      success: function (data) {
+        console.log(data);
+      },
+      error: function (data) {
+        console.log(data);
+      }
+    });
+    $.ajax({
+      type: "POST",
+      dataType: 'jsonp',
+      url: 'https://plusone.google.com/_/+1/fastbutton?url=<?php echo Yii::app()->createAbsoluteUrl('articles') . "/" . $hotArticle->id; ?>',
+      success: function (data) {
+        console.log(data);
+        if (undefined !== data.count) {
+          $("span.article_GP_<?php echo $hotArticle->id; ?>").each(function () {
+            $(this).text(data.count);
+          });
+        }
+      }
+    });
+<?php foreach ($articles as $article) { ?>
+      $.get(
+              'http://graph.facebook.com/<?php echo Yii::app()->createAbsoluteUrl('articles') . "/" . $article->id; ?>',
+              function (data) {
+                if (undefined !== data.shares) {
+                  $("span.article_FB_<?php echo $article->id; ?>").each(function () {
+                    $(this).text(data.shares);
+                  });
+                }
+              },
+              'json'
+              );
+      $.ajax({
+        type: "POST",
+        dataType: 'jsonp',
+        url: 'http://urls.api.twitter.com/1/urls/count.json?url=<?php echo Yii::app()->createAbsoluteUrl('articles') . "/" . $article->id; ?>',
+        success: function (data) {
+          console.log(data);
+          if (undefined !== data.count) {
+            $("span.article_TW_<?php echo $article->id; ?>").each(function () {
+              $(this).text(data.count);
+            });
+          }
+        }
+      });
+      $.ajax({
+        cache: false,
+        type: "POST",
+        url: "https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ",
+        data: [{"method": "pos.plusones.get", "id": "p", "params": {"nolog": true, "id": "<?php echo Yii::app()->createAbsoluteUrl('articles') . "/" . $article->id; ?>", "source": "widget", "userId": "@viewer", "groupId": "@self"}, "jsonrpc": "2.0", "key": "p", "apiVersion": "v1"}],
+        dataType: "jsonp",
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      });
+      $.ajax({
+        type: "GET",
+        dataType: 'jsonp',
+        url: 'https://plusone.google.com/_/+1/fastbutton?url=<?php echo Yii::app()->createAbsoluteUrl('articles') . "/" . $article->id; ?>',
+        success: function (data) {
+          console.log(data);
+          if (undefined !== data.count) {
+            $("span.article_GP_<?php echo $article->id; ?>").each(function () {
+              $(this).text(data.count);
+            });
+          }
+        }
+      });
+<?php } ?>
   });
 
   window.fbAsyncInit = function () {

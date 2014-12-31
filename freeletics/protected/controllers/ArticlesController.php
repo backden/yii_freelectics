@@ -66,7 +66,7 @@ class ArticlesController extends Controller {
     if (isset($_POST['Articles'])) {
       $model->attributes = $_POST['Articles'];
       if ($model->save())
-        $this->redirect(array('view', 'id' => $model->id));
+        $this->redirect('?a=' . $model->id);
     }
 
     $this->render('create', array(
@@ -160,30 +160,50 @@ class ArticlesController extends Controller {
   }
 
   public function actionArticles() {
-    $id = Yii::app()->request->getParam('id', null);
+    $id = Yii::app()->request->getParam('a', null);
     $category = Yii::app()->request->getParam('c', null);
+    $isNew = Yii::app()->request->getParam('new', null);
+    $auth = User::model()->findByPk(Yii::app()->user->id);
+    if (isset($isNew) && isset($auth) && in_array($auth->role, array(2, 3))) {
+      $this->render('create', array(
+          'model' => new Articles,
+      ));
+      Yii::app()->end();
+    }
     if (isset($id)) {
-      $this->render("article_detail", array("data" => $this->getActionParams()));
+      $article = Articles::model()->findByPk($id);
+      $results = ArticleService::getInstance()->getSpecifyArticle();
+      if (isset($article)) {
+        $user = User::model()->findByPk($article->user_id);
+        $this->render("article_detail", array(
+            "articles" => $results['news'],
+            "article" => $article,
+            'author' => $user,
+        ));
+      } else {
+        $this->redirect(Yii::app()->createUrl("default"));
+      }
     } else if (isset($category)) {
       $category = Articles2::model()->findByAttributes(array("name" => $category));
+      $results = ArticleService::getInstance()->getSpecifyArticle($category);
       if ($category == null) {
         $this->redirect('/default');
         Yii::app()->end();
       }
-      $results = ArticleService::getInstance()->getSpecifyArticle($category);
       $hotNew = $results['hot'];
       $news = $results['news'];
       $newsOther[] = $results[$category->name];
-      
+
+      $pageCurrent = Yii::app()->request->getParam('page', 1) - 1;
       $pages = new CPagination(count($news));
-      $pages->pageSize = 10;
-      $pages->setCurrentPage(Yii::app()->request->getParam('page', 1));
-      
+      $pages->pageSize = 5;
+      $pages->setCurrentPage($pageCurrent);
+      $news = array_slice($news, $pageCurrent * 5, 5);
       $this->render("articles", array(
           'articles' => $news,
           'hotArticle' => $hotNew,
           'others' => $newsOther,
-          'pages'=> $pages,
+          'pages' => $pages,
       ));
     } else {
       $article_other = array(

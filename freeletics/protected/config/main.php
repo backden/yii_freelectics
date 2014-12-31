@@ -35,7 +35,6 @@ return array(
         'urlManager' => array(
             'urlFormat' => 'path',
             'rules' => array(
-                '<controller:articles>/<id:.+>' => '<controller>/articles/',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -49,7 +48,9 @@ return array(
             'connectionString' => 'mysql:host=localhost;dbname=yii',
 //            'connectionString' => 'mysql:host=sql210.byethost15.com;dbname=b15_15548491_dev_site',
             'emulatePrepare' => true,
+//            'username' => 'b15_15548491',
             'username' => 'root',
+//            'password' => '1184759',
             'password' => 'root',
             'charset' => 'utf8',
         ),

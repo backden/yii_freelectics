@@ -103,7 +103,7 @@ class Articles2 extends CActiveRecord {
 
   public function getNewestArticleIdsLimit($limit = 10) {
     $articles = $this->unserializeArticleIds();
-    $new = $articles;
+    $new = array();
     if (isset($limit) && count($articles) > $limit) {
       $new = array_slice($articles, -$limit, $limit);
     } else if ($limit == null) {
