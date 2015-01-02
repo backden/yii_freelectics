@@ -27,15 +27,40 @@ class SystemUtils {
     }
     return implode("", $merge);
   }
-  
-  public static function date_diff($date1, $date2) { 
-    $current = $date1; 
-    $datetime2 = date_create($date2); 
-    $count = 0; 
-    while(date_create($current) < $datetime2){ 
-        $current = gmdate("Y-m-d", strtotime("+1 day", strtotime($current))); 
-        $count++; 
-    } 
-    return $count; 
-} 
+
+  public static function date_diff($date1, $date2) {
+    $current = $date1;
+    $datetime2 = date_create($date2);
+    $count = 0;
+    while (date_create($current) < $datetime2) {
+      $current = gmdate("Y-m-d", strtotime("+1 day", strtotime($current)));
+      $count++;
+    }
+    return $count;
+  }
+
+  public static function getCsvToArray($csvFileName) {
+    $webroot = Yii::getPathOfAlias('webroot');
+    $file = $webroot . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . $csvFileName;
+    $fp = fopen($file, "r");
+    $csvArr = array();
+    $arr = array(
+    );
+    if ($fp) {
+      $headers = fgetcsv($fp);
+      $index = 0;
+      while (($line = fgetcsv($fp))) {
+        $arr[$index] = array();
+        foreach ($line as $key => $value) {
+          $arr[$index][$headers[$key]] = $value;
+        }
+        $index++;
+      }
+      fclose($fp);
+      $csvArr = $arr;
+    }
+    
+    return $csvArr;
+  }
+
 }

@@ -22,9 +22,7 @@ class BaseDTO {
   }
 
   public function __set($name, $value) {
-    if (isset($this->data[$name])) {
-      $this->data[$name] = $value;
-    }
+    $this->data[$name] = $value;
   }
-
+  
 }

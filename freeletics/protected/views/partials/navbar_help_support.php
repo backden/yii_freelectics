@@ -80,7 +80,7 @@
     border-radius: 50%;
   }
   .navbar.navbar-custom.nav-menu-fixed {
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
     min-height: 40px !important;
     border-radius: 0;
   }

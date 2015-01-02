@@ -96,19 +96,46 @@ and open the template in the editor.
 }
 
 .col-lg-3.col-sm-3.col-xs-6.tiled .view .content {
-  top: -25px;
+  top: -30px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 320px) {
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content {
+    top: -25px !important;
+  }
   .col-lg-3.col-sm-3.col-xs-6.tiled .view .content p {
-    font-size: 6px !important;
+    font-size: 8px !important;
   }
   .col-lg-3.col-sm-3.col-xs-6.tiled .view .content a.btn {
     padding: 1px 10px;
-    font-size: 6px;
+    font-size: 8px;
   }
   .tiled .content {
-    padding: 30px 5px 0px;
+    padding: 30px 5px 0px !important;
+  }
+
+  .col-lg-6.col-sm-6.col-xs-12.tiled .view .content p {
+    font-size: 14px !important;
+  }
+  .col-lg-6.col-sm-6.col-xs-12.tiled .view .content a.btn {
+    padding: 1px 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content {
+    top: -10px;
+  }
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content p {
+    font-size: 8px !important;
+  }
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content a.btn {
+    padding: 1px 10px;
+    font-size: 8px;
+  }
+  .tiled .content {
+    padding: 30px 5px 0px !important;
   }
 
   .col-lg-6.col-sm-6.col-xs-12.tiled .view .content p {
@@ -121,10 +148,20 @@ and open the template in the editor.
 }
 
 @media (max-width: 768px) {
+  .col-lg-3.col-sm-3.col-xs-6.tiled .view .content p, .col-lg-3.col-sm-3.col-xs-6.tiled .view .content .btn {
+    font-size: 8px !important;
+  }
+  
+  .col-lg-6.col-sm-6.col-xs-12.tiled .view .content p {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 1024px) {
   .col-lg-6.col-sm-6.col-xs-12.tiled .view .content p {
     font-size: 18px;
   }
-  
+
   .view .content p.title {
     font-size: 18px;
     font-weight: 700;
@@ -135,9 +172,9 @@ and open the template in the editor.
   }
 
   .view .content p.location {
-    font-size: 16px;
+    font-size: 14px;
   }
-  
+
   .col-lg-6.col-sm-6.col-xs-12.tiled .view .content a.btn {
     padding: 1px 10px;
     font-size: 14px;
@@ -148,11 +185,11 @@ and open the template in the editor.
   }
 
   .col-lg-3.col-sm-3.col-xs-6.tiled .view .content p {
-    font-size: 8px;
+    font-size: 12px;
   }
   .col-lg-3.col-sm-3.col-xs-6.tiled .view .content a.btn {
     padding: 1px 10px;
-    font-size: 14px;
+    font-size: 12px;
     margin-top: 0%;
   }
 }
@@ -186,6 +223,9 @@ and open the template in the editor.
     margin-top: 5%;
   }
 
+  .col-lg-3.col-sm-3.col-xs-6 .title, .col-lg-3.col-sm-3.col-xs-6 .btn{
+    font-size: 12px;
+  }
 }
 
 .col-lg-3.col-sm-3.col-xs-6.tiled .view .content p {
@@ -211,7 +251,7 @@ and open the template in the editor.
 }
 
 .view .content p.title {
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 700;
 }
 

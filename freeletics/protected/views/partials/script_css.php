@@ -25,6 +25,7 @@ $action = Yii::app()->getController()->action;
 <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/css/hovereffect.css" />
 <link href="<?php echo $baseUrl; ?>/js/scroll/slick.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $baseUrl; ?>/css/jquery-te-1.4.0.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="<?php echo $baseUrl; ?>/js/venobox/venobox.css" type="text/css" media="screen" />
 
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
@@ -46,3 +47,4 @@ $action = Yii::app()->getController()->action;
 <script src="<?php echo $baseUrl; ?>/js/scroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/js/jquery-te-1.4.0.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/js/bootstrap.youtubepopup.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="<?php echo $baseUrl; ?>/js/venobox/venobox.min.js"></script>

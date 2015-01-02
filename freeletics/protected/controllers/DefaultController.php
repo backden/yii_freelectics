@@ -77,7 +77,10 @@ class DefaultController extends Controller {
       $data['message'] = $this->actionParams['id'];
       $this->render('support_view', $data);
     } else {
-      $this->render('support');
+      $cates = FAQService::getInstance()->findAll();
+      $this->render('//support/support', array(
+          "faqs" => $cates
+      ));
     }
   }
 

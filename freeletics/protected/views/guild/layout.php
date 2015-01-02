@@ -7,21 +7,7 @@
 $webroot = Yii::getPathOfAlias('webroot');
 $file = $webroot . DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . "GroupsList.csv";
 $fp = fopen($file, "r");
-$groupArray = array(
-);
-if ($fp) {
-  $headers = fgetcsv($fp);
-  $index = 0;
-  while (($line = fgetcsv($fp))) {
-    $groupArray[$index] = array();
-    foreach ($line as $key => $value) {
-      $groupArray[$index][$headers[$key]] = $value;
-    }
-    $index++;
-  }
-  fclose($fp);
-  $groups = $groupArray;
-}
+$groupArray = SystemUtils::getCsvToArray("GroupsList.csv");
 ?>
 
 <div class="">

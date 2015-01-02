@@ -16,6 +16,10 @@ class BaseService {
     }
     return self::$instance;
   }
+  
+  protected function getRootDir() {
+    return Yii::getPathOfAlias('webroot');
+  }
 
   public function getRelation($model, $attrName, $tableRelativeName) {
     $modelRelativeName = ModelUtils::returnClassName($tableRelativeName);

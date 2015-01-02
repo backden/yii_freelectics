@@ -116,6 +116,11 @@
 <script>
   /* dot nav */
   $(window).bind('scroll', function (e) {
+    if($(this).scrollTop() < $("section").first().height() / 2) {
+      $("#dotNav").parent().hide("slow");
+    } else {
+      $("#dotNav").parent().show("slow");
+    }
     redrawDotNav();
   });
 

@@ -5,80 +5,80 @@
  * and open the template in the editor.
  */
 ?>
-  <style>
-    .dot-scroll-vertical {
-      /*              display: inline-block;*/
-      padding: 2px;
-      cursor: pointer;
-    }
+<style>
+  .dot-scroll-vertical {
+    /*              display: inline-block;*/
+    padding: 2px;
+    cursor: pointer;
+  }
 
-    #top-menus li a {
-      margin: auto;
-      padding: 10px;
-      margin-right: 5px;
-    }
+  #top-menus li a {
+    margin: auto;
+    padding: 10px;
+    margin-right: 5px;
+  }
 
-    .nav>li {
-      display: inline-block !important;
-    }
+  .nav>li {
+    display: inline-block !important;
+  }
 
-    #modal_search {
-      top: 50px;
-    }
+  #modal_search {
+    top: 50px;
+  }
 
-    #modal_search .modal.in .modal-dialog {
-      margin: auto;
-    }
+  #modal_search .modal.in .modal-dialog {
+    margin: auto;
+  }
 
-    #modal_search .modal-body {
-      padding: 1px;
-    }
-    
-    #dropdown-links .dropdown-menu {
-      min-width: 50px;
-      
-    }
-  </style>
-  <script>
-    
-    var mouseEnter = false;
-    $(function () {
+  #modal_search .modal-body {
+    padding: 1px;
+  }
 
-      $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        if ($("#sidebar-wrapper").width() > 0) {
-          $("#sidebar-wrapper").width(0);
-        } else {
-          $("#sidebar-wrapper").width(250);
-        }
-      });
+  #dropdown-links .dropdown-menu {
+    min-width: 50px;
 
-      $("#menu-dropdown").click(function (e) {
-        e.preventDefault();
-        $("#top-menus").parent().animate({width: 'toggle'}, 350);
-      });
+  }
+</style>
+<script>
 
-      $("#dropdown-links").on('show.bs.dropdown', function () {
-        $("#top-menus").parent().hide();
-      });
-      
-      $("#sidebar-wrapper").hover(function () {
-        mouseEnter = true;
-      },function () {
-        mouseEnter = false;
-      });
+  var mouseEnter = false;
+  $(function() {
 
-      $(document).click(function () {
-        var exit = false;
-        $(event.target).closest("#menu-toggle").each(function () {
-          exit = true;
-        });
-        if (!exit && !mouseEnter) {
-          $("#sidebar-wrapper").width(0);
-        }
-      });
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      if ($("#sidebar-wrapper").width() > 0) {
+        $("#sidebar-wrapper").width(0);
+      } else {
+        $("#sidebar-wrapper").width(250);
+      }
     });
-  </script>
+
+    $("#menu-dropdown").click(function(e) {
+      e.preventDefault();
+      $("#top-menus").parent().animate({width: 'toggle'}, 350);
+    });
+
+    $("#dropdown-links").on('show.bs.dropdown', function() {
+      $("#top-menus").parent().hide();
+    });
+
+    $("#sidebar-wrapper").hover(function() {
+      mouseEnter = true;
+    }, function() {
+      mouseEnter = false;
+    });
+
+    $(document).click(function() {
+      var exit = false;
+      $(event.target).closest("#menu-toggle").each(function() {
+        exit = true;
+      });
+      if (!exit && !mouseEnter) {
+        $("#sidebar-wrapper").width(0);
+      }
+    });
+  });
+</script>
 
 <nav class="navbar navbar-custom navbar-fixed-top nav-menu-fixed" role="navigation" style="background-color: black">
   <div class="container top-fixed open-header-scroll" id="navbar-main">
@@ -99,6 +99,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="navbar-collapse collapse navbar-responsive-collapse" id="dropdown-links">
       <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a class="btn-search-form" ><i class="fa fa-search"></i></a>
+        </li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-link"></i></a>
           <ul class="dropdown-menu">
@@ -112,7 +115,7 @@
           <a class="" id="menu-dropdown" style=""><i class="fa fa-bars"></i></a>
         </li>
       </ul>
-      <form class="navbar-form navbar-right" style="margin: auto;">
+      <form class="navbar-form navbar-right search-hidden" style="margin: auto;display: none;" id="search">
         <input type="text" class="form-control col-lg-8" placeholder="<?php echo Yii::t("app", "Search"); ?>">
       </form>
     </div>
@@ -121,16 +124,16 @@
   <div id="sidebar-wrapper" style="width: 0;">
     <ul class="sidebar-nav">
       <li class="sidebar-brand">
-        <a href="#"><?php echo Yii::t("app", 'Guild');?></a>
+        <a href="#"><?php echo Yii::t("app", 'Guild'); ?></a>
       </li>
       <li>
-        <a href="#"><?php echo Yii::t("app", 'Articles');?></a>
+        <a href="#"><?php echo Yii::t("app", 'Articles'); ?></a>
       </li>
       <li>
-        <a ><?php echo Yii::t("app", 'FAQ');?></a>
+        <a ><?php echo Yii::t("app", 'FAQ'); ?></a>
       </li>
       <li>
-        <a data-toggle="modal" data-target="#modal_login"><?php echo Yii::t("app", 'Login');?></a>
+        <a data-toggle="modal" data-target="#modal_login"><?php echo Yii::t("app", 'Login'); ?></a>
       </li>
     </ul>
   </div>
@@ -169,3 +172,21 @@
 <style>
 
 </style>
+<script>
+  $(function() {
+    $(".navbar-form.navbar-right").hide("slide", {direction: "right"}, "slow");
+    $(".btn-search-form").click(function() {
+      if ($(".navbar-form.navbar-right").hasClass("search-hidden")) {
+        $(".navbar-form.navbar-right").show("slide", {direction: "right" }, "slow");
+        $(".navbar-form.navbar-right").removeClass("search-hidden");
+        $(this).find("i").removeClass("fa-search");
+        $(this).find("i").addClass("fa-times");
+      } else {
+        $(".navbar-form.navbar-right").hide("slide", {direction: "right"}, "slow");
+        $(".navbar-form.navbar-right").addClass("search-hidden");
+        $(this).find("i").removeClass("fa-times");
+        $(this).find("i").addClass("fa-search");
+      }
+    });
+  });
+</script>

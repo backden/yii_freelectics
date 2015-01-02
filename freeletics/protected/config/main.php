@@ -13,6 +13,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
+        'application.components.facebook.*',
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -88,6 +89,7 @@ return array(
         'stringcode' => '$2a$0778$1xx0sX0HxhjjjmMMjJ8ahKMh9MbMjbh2O81mx7L7$',
         'durationLogin' => 3600 * 24 * 7,
         'code_coupon_length' => 20,
-        'app_id_facebook' => '322142577992142'
+        "max_file_size" => 5 * 1024 * 1024,
+        'app_id_facebook' => '322142577992142',
     ),
 );

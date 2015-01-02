@@ -28,12 +28,16 @@ Yii::app()->clientScript;
   </head>
   <body style="background: rgba(0, 0, 0, 0.1); ">
     <!-- Modal setting user -->
-    <?php $this->renderPartial("//partials/your_account_form"); ?>
-    <?php if (!Yii::app()->user->isGuest && User::model()->findByPk(Yii::app()->user->id)->role == 1) { ?>
-      <?php echo $this->renderPartial("//partials/navbar_user") ?>
-    <?php } else if (!Yii::app()->user->isGuest && User::model()->findByPk(Yii::app()->user->id)->role == 2) { ?>
-      <?php echo $this->renderPartial("//partials/navbar_admin") ?>
-    <?php } else { ?>
+    <?php if (!in_array(Yii::app()->controller->action->id, array("support"))
+      && !in_array(Yii::app()->controller->id, array("support"))) { ?>
+      <?php if (!Yii::app()->user->isGuest && User::model()->findByPk(Yii::app()->user->id)->role == 1) { ?>
+        <?php echo $this->renderPartial("//partials/navbar_user") ?>
+      <?php } else if (!Yii::app()->user->isGuest && User::model()->findByPk(Yii::app()->user->id)->role == 2) { ?>
+        <?php echo $this->renderPartial("//partials/navbar_admin") ?>
+      <?php }
+      $this->renderPartial("//partials/your_account_form");
+    } else {
+      ?>
       <?php echo $this->renderPartial("//partials/navbar_help_support") ?>
     <?php } ?>
     <div style="background: url('<?php echo $baseUrl; ?>/img/profile-bg.jpg') top; 
@@ -65,8 +69,8 @@ Yii::app()->clientScript;
     <?php $this->renderPartial("//partials/footer") ?>
   </body>
   <script type="text/javascript">stLight.options({publisher: "46a0a6ee-1473-410b-99df-6075184a2903", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
-<script>
-var options={ "publisher": "46a0a6ee-1473-410b-99df-6075184a2903", "position": "left", "ad": { "visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": { "items": ["facebook", "twitter", "linkedin", "pinterest", "email", "sharethis"]}};
-var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
-</script>
+  <script>
+    var options = {"publisher": "46a0a6ee-1473-410b-99df-6075184a2903", "position": "left", "ad": {"visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": {"items": ["facebook", "twitter", "linkedin", "pinterest", "email", "sharethis"]}};
+    var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
+  </script>
 </html>

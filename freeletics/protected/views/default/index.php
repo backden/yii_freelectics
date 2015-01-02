@@ -109,9 +109,20 @@ echo $this->renderPartial("//partials/section_intro_home", array(
 <!-- section end -->
 
 <!-- section image -->
-<section id="section3" class="" style="">
+<section id="section3" class="" style="background: url(<?php echo Yii::app()->baseUrl; ?>/img/pattern.jpg);
+         height: 400px;">
   <div class="container">
-    <button class="btn btn-primary btn-lg pull-right btn-specify-tab-3"><?php echo Yii::t('app', "Success Stories"); ?></button>
+    <div class="col-md-8 col-xs-8 pull-left" style="">
+      <div class="" style="background: url(<?php echo Yii::app()->baseUrl; ?>/img/anja-arne.png);
+           background-size: contain; background-repeat: no-repeat;
+           height: 350px; width: 50%; margin: auto;"></div>
+    </div>
+    <div class="col-md-4 col-xs-4">
+      <h1 class="text-primary"><?php echo Yii::t("app", "FREELETICS ROLE MODELS"); ?></h1>
+      <button class="btn btn-primary btn-lg btn-specify-tab-3">
+        <?php echo Yii::t('app', "Success Stories"); ?>
+      </button>
+    </div>
   </div>
 </section>
 <!-- section end -->
@@ -126,14 +137,14 @@ echo $this->renderPartial("//partials/section_intro_home", array(
   }
 </style>
 <script>
-  $(function () {
+  $(function() {
     $(".view.effect").width("100%");
     $(".view.effect img").width("100%");
   });
 </script>
 <script>
 
-  $(function () {
+  $(function() {
     var array = {
       "title": '<?php echo "This is video This is video This is video"; ?>',
       "img": "<?php echo "http://placehold.it/460x220"; ?>",
@@ -142,7 +153,7 @@ echo $this->renderPartial("//partials/section_intro_home", array(
       "author": "name of blogger"
     };
     var tiles = $(".tiled");
-    $.each([array, array, array, array, array, array, array, array, array, array, array, array], function (i, e) {
+    $.each([array, array, array, array, array, array, array, array, array, array, array, array], function(i, e) {
       var prototype = $("#prototype_tile").clone().removeAttr('id').show();
       $(prototype).find("img").attr("src", e.img);
       $(prototype).find(".content .title").text(e.title);
@@ -150,7 +161,7 @@ echo $this->renderPartial("//partials/section_intro_home", array(
       $(prototype).find(".content .location").text(e.location);
       $(prototype).find(".content .author").text(e.author);
 
-      $(prototype).find(".content a").click(function (e) {
+      $(prototype).find(".content a").click(function(e) {
 
         return false;
       });
@@ -161,6 +172,24 @@ echo $this->renderPartial("//partials/section_intro_home", array(
 //        return false;
       }
     });
+
+    /* default settings */
+    $('.venobox').venobox();
+
+
+    /* custom settings */
+    $('.venobox_custom').venobox({
+      framewidth: '400px', // default: ''
+      frameheight: '300px', // default: ''
+      border: '10px', // default: '0'
+      bgcolor: '#5dff5e', // default: '#fff'
+      titleattr: 'data-title', // default: 'title'
+      numeratio: true, // default: false
+      infinigall: true            // default: false
+    });
+
+    /* auto-open #firstlink on page load */
+    $("#firstlink").venobox().trigger('click');
   });
 </script>
 <div id="prototype_tile" class="tile" style="display: none;">
@@ -174,8 +203,9 @@ echo $this->renderPartial("//partials/section_intro_home", array(
           <p class="title truncate"><?php echo ""; ?></p>
           <p class="author truncate"><?php echo ""; ?></p>
           <p class="location truncate"></p>
-          <a href="#" class="btn btn-primary btn-transparent" data-toggle="modal" data-target="">
-            <?php echo Yii::t("app", 'Watch'); ?>
+          <a href="#" class="btn btn-primary btn-transparent venobox"
+             data-type="vimeo" href="http://vimeo.com/75976293">
+               <?php echo Yii::t("app", 'Watch'); ?>
           </a>
         </div>  
       </div>
@@ -539,7 +569,7 @@ echo $this->renderPartial("//partials/section_intro_home", array(
   function validate(data) {
     if (!data.status) {
       var text = '';
-      $.each(data.data, function (key, value) {
+      $.each(data.data, function(key, value) {
         text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
       });
       $("#modal_error .modal-body .message").html(text);
@@ -565,11 +595,11 @@ echo $this->renderPartial("//partials/section_intro_home", array(
   function showError(data) {
     var text = '';
     if (data.data && $.isArray(data.data)) {
-      $.each(data.data, function (key, value) {
+      $.each(data.data, function(key, value) {
         text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
       });
     } else if (data.data) {
-      for(key in data.data) {
+      for (key in data.data) {
         text += "<strong style='color: red'>" + key + ":</strong> " + data.data[key].join("<br/>") + "<br/>";
       }
     }
@@ -592,5 +622,36 @@ echo $this->renderPartial("//partials/section_intro_home", array(
       showError(data);
     }
   }
-</script>
+  $(function() {
+    
+  });
+  window.fbAsyncInit = function() {
+      FB.init({
+        appId: '322142577992142',
+        xfbml: true,
+        version: 'v2.1'
+      });
+    };
 
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    FB.login(function(response) {
+      if (response.authResponse) {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+          console.log('Good to see you, ' + response.name + '.');
+        });
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    });
+    
+</script>
