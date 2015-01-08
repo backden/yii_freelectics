@@ -13,7 +13,6 @@ foreach ($supp_headers as $index => $data) {
     }
   }
 }
-//var_dump($faqs);exit;
 ?>
 <div id="main-container">
   <style>
@@ -26,13 +25,30 @@ foreach ($supp_headers as $index => $data) {
     }
 
   </style>
-
-  <div class="container" id="adminContainter" style="min-height: 700px;">
+  <script>
+    $(function() {
+      $("#search_input").keydown(function(event) {
+        if (event.which == 13) {
+          var form = $("<form />", {
+            action: "<?php echo Yii::app()->createUrl("support/search"); ?>",
+            method: "POST"
+          });
+          $(this).appendTo(form);
+          $(form).submit();
+        }
+      });
+    });
+  </script>
+  <div class="container" id="adminContainter" style="min-height: 400px;">
+    <div class="col-lg-8 col-md-8 col-xs-12">
+      <input id="search_input" type="text" name="name" class="form-control" placeholder="<?php echo Yii::t("app", "Search"); ?>" style="margin-bottom: 20px;"/>
+    </div>
     <div class="col-lg-8 col-md-8 col-xs-12">
       <div class="panel">
-        <div class="panel-body change-content" style="">
+        <div class="panel-body change-content" style="min-height: 400px;">
           <ul class="nav nav-pills" style="border-bottom: 1px solid #dddddd; margin-bottom: 15px">
-            <li class="active"><a class="active" data-toggle="tab"  href="#tab0">
+            <li class="<?php echo Yii::app()->request->getParam("header", null) == null || Yii::app()->request->getParam("header") == $supp_headers[0]["name"] ? "active" : "" ?>">
+              <a class="" data-toggle="tab"  href="#tab0">
                 <i class="fa fa-lightbulb-o"></i>&nbsp;<?php echo Yii::t('app', $supp_headers[0]["name"]); ?></a>
               <ul class="dropdown-menu" style="display: none;">
                 <li><a href="#"><?php echo Yii::t('app', "BASICS"); ?></a></li>
@@ -41,27 +57,29 @@ foreach ($supp_headers as $index => $data) {
                 <li><a href="#"><?php echo Yii::t('app', "COMMUNITY"); ?></a></li>
               </ul>
             </li>
-            <li class=""><a class="" data-toggle="tab"  href="#tab1">
+            <li class="<?php echo Yii::app()->request->getParam("header", null) == $supp_headers[1]["name"] ? "active" : "" ?>"><a class="" data-toggle="tab"  href="#tab1">
                 <i class="fa fa-globe"></i>&nbsp;<?php echo Yii::t('app', $supp_headers[1]["name"]); ?></a>
               <ul class="dropdown-menu" style="display: none;">
                 <li><a href="#"><?php echo Yii::t('app', "YOUR ACCOUNT"); ?></a></li>
               </ul>
             </li>
-            <li class=""><a class="" data-toggle="tab"  href="#tab2">
+            <li class="<?php echo Yii::app()->request->getParam("header", null) == $supp_headers[2]["name"] ? "active" : "" ?>">
+              <a class="" data-toggle="tab"  href="#tab2">
                 <i class="fa fa-square-o"></i>&nbsp;<?php echo Yii::t('app', $supp_headers[2]["name"]); ?></a>
               <ul class="dropdown-menu" style="display: none;">
                 <li><a href="#"><?php echo Yii::t('app', "ABOUT THE COACH"); ?></a></li>
                 <li><a href="#"><?php echo Yii::t('app', "USING THE COACH"); ?></a></li>
               </ul>
             </li>
-            <li class=""><a class="" data-toggle="tab"  href="#tab3">
+            <li class="<?php echo Yii::app()->request->getParam("header", null) == $supp_headers[3]["name"] ? "active" : "" ?>">
+              <a class="" data-toggle="tab"  href="#tab3">
                 <i class="fa fa-cutlery"></i>&nbsp;<?php echo Yii::t('app', $supp_headers[3]["name"]); ?></a>
               <ul class="dropdown-menu" style="display: none;">
                 <li><a href="#"><?php echo Yii::t('app', "ABOUT THE GUIDE"); ?></a></li>
                 <li><a href="#"><?php echo Yii::t('app', "USING THE GUIDE"); ?></a></li>
               </ul>
             </li>
-            <li class="">
+            <li class="<?php echo Yii::app()->request->getParam("header", null) == $supp_headers[4]["name"] ? "active" : "" ?>">
             <li class="dropdown"><a class="" data-toggle="tab"  href="#tab4">
                 <i class="fa fa-mobile"></i>&nbsp;<?php echo Yii::t('app', $supp_headers[4]["name"]); ?>
               </a>
@@ -90,7 +108,7 @@ foreach ($supp_headers as $index => $data) {
                       <h5>
                         <a href="<?php echo Yii::app()->createUrl("support/category", array("cat" => $tmpModel->category_subheader)); ?>"
                            class="text-black">
-                          <?php echo Yii::t('app', $tmpModel->category_subheader); ?>
+                             <?php echo Yii::t('app', $tmpModel->category_subheader); ?>
                         </a>
                       </h5>
                       <ul class="article-list">
@@ -109,7 +127,7 @@ foreach ($supp_headers as $index => $data) {
                       </ul>
                     </div>
                     <?php if ($cate + 1 > 1 && $cate + 1 & 1) { ?>
-                  <div class="clearfix" style="margin-bottom: 30px;"></div>
+                      <div class="clearfix" style="margin-bottom: 30px;"></div>
                     <?php } ?>
                   <?php } ?>
                 <?php } ?>

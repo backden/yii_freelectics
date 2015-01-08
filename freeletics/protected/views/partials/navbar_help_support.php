@@ -23,13 +23,13 @@
   </div>
 </div>-->
 
-<?php $this->renderPartial("//partials/script_css");?>
+<?php $this->renderPartial("//partials/script_css"); ?>
 
 <script>
-  $(function () {
+  $(function() {
     jQuery("#preloader").delay(100).fadeOut("slow");
     jQuery("#load").delay(100).fadeOut("slow");
-    $(window).scroll(function () {
+    $(window).scroll(function() {
       var scrollTo = $(window).scrollTop() + $(window).height();
       var offsetBottom = $(".roll-bottom").height() - $(window).height();
       if ($(window).height() > $(".roll-bottom").height()) {
@@ -52,6 +52,19 @@
             $("#navbar-container").outerHeight(true) -
             $("footer").outerHeight(true));
   });
+  $(function() {
+    $("#search_input").keydown(function(event) {
+      if (event.which == 13) {
+        var form = $("<form />", {
+          action: "<?php echo Yii::app()->createUrl("support/search"); ?>",
+          method: "POST"
+        });
+        $(this).appendTo(form);
+        $(form).submit();
+      }
+    });
+  });
+
 </script>
 
 <style>
@@ -64,16 +77,16 @@
     height: 37px;
     background-image: url('https://www.freeletics.com/images/freeletics-logo.svg');
   }
-  
+
   nav.navbar {
     padding: 5px 0;
   }
-  
+
   nav.navbar .container {
     margin-left: 5px;
     width: 99%;
   }
-  
+
   .nav.navbar-nav li a {
     font-size: 12px;
     margin: 2px 6px;

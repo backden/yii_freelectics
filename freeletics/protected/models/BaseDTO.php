@@ -10,6 +10,10 @@ class BaseDTO {
 
   protected $data = array();
 
+  public function set($name, $value) {
+    $this->data[$name] = $value;
+  }
+
   public function toArray() {
     return $this->data;
   }
@@ -24,5 +28,5 @@ class BaseDTO {
   public function __set($name, $value) {
     $this->data[$name] = $value;
   }
-  
+
 }

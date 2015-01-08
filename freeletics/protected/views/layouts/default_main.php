@@ -66,6 +66,7 @@ Yii::app()->clientScript;
       </div>
     </div>
 
+    <?php $this->renderPartial("//partials/dialogs") ?>
     <?php $this->renderPartial("//partials/footer") ?>
   </body>
   <script type="text/javascript">stLight.options({publisher: "46a0a6ee-1473-410b-99df-6075184a2903", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>

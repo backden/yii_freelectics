@@ -13,6 +13,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
+        'application.services.*',
         'application.components.facebook.*',
     ),
     'modules' => array(
@@ -64,7 +65,7 @@ return array(
             'routes' => array(
                 array(
                     'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
+                    'levels' => 'info, error, warning',
                 ),
             // uncomment the following to show log messages on web pages
             /*
@@ -80,6 +81,16 @@ return array(
             "class" => "CGettextMessageSource",
             "useMoFile" => FALSE,
         ),
+        'Paypal' => array(
+            'class' => 'application.components.Paypal',
+            'apiUsername' => 'exp.hl.pc-facilitator_api1.gmail.com',
+            'apiPassword' => '3L6QDBMT49UYNT3W',
+            'apiSignature' => 'A9aYuU1hn9usruegVTtU7cF1jCmXA7opT1vp1Ctz4ot9eOWScd9tYDpG',
+            'apiLive' => false,
+            'email' => "exphlpc buyer !!!",
+            'returnUrl' => 'paypal/confirm/', //regardless of url management component
+            'cancelUrl' => 'paypal/cancel/', //regardless of url management component
+        ),
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
@@ -91,5 +102,7 @@ return array(
         'code_coupon_length' => 20,
         "max_file_size" => 5 * 1024 * 1024,
         'app_id_facebook' => '322142577992142',
+        'currency' => 'EUR',
+        'transactionTimeout' => 60 * 5 // 5 minutes
     ),
 );

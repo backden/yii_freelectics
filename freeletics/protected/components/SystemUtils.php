@@ -8,13 +8,23 @@
 
 class SystemUtils {
 
-  public static function randomString() {
+  public static function randomString($length = null) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
-    $length = Yii::app()->params['code_coupon_length'];
+    if (!isset($length)) {
+      $length = Yii::app()->params['code_coupon_length'];
+    }
+    $count = 0;
+    $maxCount = 5;
     for ($i = 0; $i < $length; $i++) {
-      $randomString .= $characters[rand(0, $charactersLength - 1)];
+      if ($count < $maxCount) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+        $count++;
+      } else {
+        $randomString .= "-" . $characters[rand(0, $charactersLength - 1)];
+        $count = 0;
+      }
     }
     return $randomString;
   }
@@ -59,7 +69,7 @@ class SystemUtils {
       fclose($fp);
       $csvArr = $arr;
     }
-    
+
     return $csvArr;
   }
 

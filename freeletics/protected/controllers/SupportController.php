@@ -47,17 +47,60 @@ class SupportController extends Controller {
 
     $this->render("support_list", array(
         "cat" => $id,
-        "faqs" => $faqs
+        "faqs" => $faqs,
     ));
   }
 
   public function actionQuestion() {
-    $type = $this->actionParams["type"];
-    $dataForm = FAQService::getInstance()->generateForm($type);
+    if (!Yii::app()->request->isPostRequest) {
 
-    $this->render("support_question", array(
-        "dataForm" => $dataForm,
-    ));
+      if (!isset($this->actionParams["type"])) {
+        $this->render("support_question", array(
+            "dataForm" => null,
+            "type" => "0",
+        ));
+      } else {
+        $type = $this->actionParams["type"];
+        $dataForm = FAQService::getInstance()->generateForm($type);
+        $this->render("support_question", array(
+            "dataForm" => $dataForm,
+            "type" => $type,
+        ));
+      }
+    } else {
+      $type = Yii::app()->request->getPost("type");
+      if (isset($type) && trim($type) != '') {
+        $dataForm = FAQService::getInstance()->generateForm($type);
+        $filetype = $dataForm["name"];
+        $data = $_POST[(string) $filetype];
+        $requiredFields = array();
+        foreach ($dataForm['data'] as $d) {
+          if (isset($d['required']) && $d['required'] == true) {
+            $requiredFields[] = $d["name"];
+          }
+        }
+        $arrKeys = array_keys($data);
+        $error = false;
+        foreach ($arrKeys as $key) {
+          if (in_array($key, $requiredFields)) {
+            if (trim($data[$key]) == '') {
+              $error = true;
+              break;
+            }
+          } else {
+            
+          }
+        }
+        if ($error) {
+          Yii::app()->end();
+        }
+        /*
+         * TODO: send mail
+         */
+      } else {
+        Yii::app()->end();
+      }
+    }
   }
 
   public function actionUpload() {
@@ -67,13 +110,26 @@ class SupportController extends Controller {
         "status" => Constant::RS_ST_OK,
     ));
   }
-  
+
   public function actionDeleteFile() {
     $response = FAQService::getInstance()->deleteFile();
     return json_encode(array(
         "message" => $response,
         "status" => Constant::RS_ST_OK,
     ));
+  }
+  
+  public function actionSearch() {
+    if (Yii::app()->request->getParam("name") != null) {
+      $faqs = FAQService::getInstance()->search(Yii::app()->request->getParam("name"));
+      Yii::app()->session->add("keyword_support", Yii::app()->request->getParam("name"));
+      $this->render("support_list", array(
+          'faqs' => $faqs,
+          'cat' => 'Results',
+      ));
+    } else {
+      $this->redirect("support");
+    }
   }
 
 }

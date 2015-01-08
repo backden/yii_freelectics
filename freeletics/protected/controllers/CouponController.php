@@ -172,8 +172,9 @@ class CouponController extends Controller {
         foreach ($model->attributeNames() as $attr) {
           $stringRaw .= $model->$attr;
         }
-        $stringRaw .= SystemUtils::randomString(40);
+        $stringRaw .= $code = SystemUtils::randomString();
         $resultData['code'] = hash('SHA256', $stringRaw);
+        $resultData['code2'] = $code;
         $resultData['status'] = Constant::RS_ST_OK;
       } else {
         $resultData['status'] = Constant::RS_ST_ERROR;

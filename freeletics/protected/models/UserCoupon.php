@@ -1,24 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "user_payment".
+ * This is the model class for table "user_coupon".
  *
- * The followings are the available columns in table 'user_payment':
+ * The followings are the available columns in table 'user_coupon':
  * @property string $id
  * @property string $user_id
- * @property string $details
- * @property string $detail_payment
- * @property string $create_date
- * @property string $last_update
+ * @property string $coupon_id
  */
-class UserPayment extends CActiveRecord
+class UserCoupon extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'user_payment';
+		return 'user_coupon';
 	}
 
 	/**
@@ -29,12 +26,10 @@ class UserPayment extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('create_date', 'required'),
-			array('user_id', 'length', 'max'=>20),
-			array('details, detail_payment, last_update', 'safe'),
+			array('user_id, coupon_id', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, details, detail_payment, create_date, last_update', 'safe', 'on'=>'search'),
+			array('id, user_id, coupon_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,10 +52,7 @@ class UserPayment extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
-			'details' => 'Details',
-			'detail_payment' => 'Detail payment',
-			'create_date' => 'Create Date',
-			'last_update' => 'Last Update',
+			'coupon_id' => 'Coupon',
 		);
 	}
 
@@ -84,10 +76,7 @@ class UserPayment extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('details',$this->details,true);
-		$criteria->compare('detail_payment',$this->detail_payment,true);
-		$criteria->compare('create_date',$this->create_date,true);
-		$criteria->compare('last_update',$this->last_update,true);
+		$criteria->compare('coupon_id',$this->coupon_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -98,7 +87,7 @@ class UserPayment extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UserPayment the static model class
+	 * @return UserCoupon the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
