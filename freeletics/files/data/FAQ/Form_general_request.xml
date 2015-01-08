@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Form prefix = "refund_">
-  <Element name="email" type="text" max-length="100" required="true">
+<Form name="Feedback">
+  <Element name="email" title="Your Email Here" type="text" max-length="100" required="true">
   </Element>
-  <Element name="subject" type="text" max-length="255" required="true">
+  <Element name="subject" title="Subject" type="text" max-length="255" required="true">
   </Element>
-  <Element name="description" type="text" max-length="null" required="true">
+  <Element name="description" title="Description" type="text" max-length="null" required="true">
     Please enter the details of your request. A member of our support staff will respond as soon as possible.
   </Element>
-  <Element name="feedback" type="text" max-length="null" required="false">
-    If you have any feedback, ideas or suggestions feel free to write us.
-  </Element>
-  <Element name="attachments" type="upload" max-length="null" required="false">
-    If you have any feedback, ideas or suggestions feel free to write us.
+  <Element name="attachments" title="Add file" type="upload" max-length="null" required="false">
   </Element>
 </Form>

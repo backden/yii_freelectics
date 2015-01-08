@@ -7,9 +7,14 @@
   <Element name="description" title="Description" type="text" max-length="null" required="true">
     Please enter the details of your request. A member of our support staff will respond as soon as possible.
   </Element>
-  <Element name="feedback" title="Feedback" type="text" max-length="null" required="false">
-    If you have any feedback, ideas or suggestions feel free to write us.
+  <Element name="product" title="Product" type="select" max-length="null" required="true" values="Workout Coach, Nutrition Guide">
+    Which product do you want to return?
   </Element>
-  <Element name="attachments" title="Add file" type="upload" max-length="null" required="false">
+  <Element name="purchase_date" title="Purchase date" type="date" max-length="null" required="true">
+    Note: You will get refunded only within 14 days of purchase.
+  </Element>
+  <Element name="payment_method" title="Payment Method" type="select" max-length="null" required="true"
+           values="PayPal, Credit, Google Play, iTunes">
+    The payment method you chose on our website.
   </Element>
 </Form>
