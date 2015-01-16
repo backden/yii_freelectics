@@ -30,7 +30,7 @@ class UserController extends Controller {
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
-            'actions' => array('create', 'update', 'logout', 'home', 'training', 'info', 'feeds'),
+            'actions' => array('create', 'update', 'logout', 'home', 'training', 'info', 'feeds', 'personal', 'profile', 'settings'),
             'users' => array('@'),
         ),
         array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -106,11 +106,32 @@ class UserController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
-//    $this->render('home');
+    $category = Yii::app()->request->getParam("c", "");
+    if (Yii::app()->user->isGuest) {
+      $this->redirect("default");
+      Yii::app()->end();
+    }
     $user = User::model()->findByPk(Yii::app()->user->id);
-    //UserServices::getInstance()->getRelation($user, 'level', 'user_level');
-    $data = array("user" => $user);
-    $this->render('//default/user', array('data' => $data));
+    if (trim($category) != '' && in_array($category, array("training", "nutrition", "community"))) {
+      switch ($category) {
+        case "training":
+          $this->forward("training");
+          break;
+        case "nutrition":
+          break;
+        case "community":
+          break;
+      }
+    } else {
+      //UserServices::getInstance()->getRelation($user, 'level', 'user_level');
+      $data = array("user" => $user);
+      $this->render('//default/user_index', array(
+          'data' => $data,
+          'dataPayment' => PaymentService::getInstance()->getCostFromCSV(),
+          'typePage' => ''
+        )
+      );
+    }
   }
 
   public function actionInfo() {
@@ -150,7 +171,8 @@ class UserController extends Controller {
    * @param User $model the model to be validated
    */
   protected function performAjaxValidation($model, $attributes = null, $show = true) {
-    if (isset($_GET['form']) && $_GET['form'] === 'user-form') {
+    if ((isset($_POST['form']) && $_POST['form'] === 'user-form') ||
+      (isset($_GET['form']) && $_GET['form'] === 'user-form')) {
       $result = CActiveForm::validate($model, $attributes);
       if (count(json_decode($result)) > 0) {
         if ($show) {
@@ -226,18 +248,20 @@ class UserController extends Controller {
         $model->last_update = date("Y-m-d H:i:s", time());
         $model->attributes = $_POST['User'];
         if ($model->update()) {
-          echo json_encode(array('status' => TRUE));
+          echo json_encode(array('status' => TRUE, 'message' => ''));
         } else {
-          echo json_encode(array('status' => FALSE));
+          echo json_encode(array('status' => FALSE, 'messasge' => "Can't update"));
         }
-        Yii::app()->end();
       } else {
-        echo json_encode($result);
-        Yii::app()->end();
+        var_dump($result);
+        exit;
+        echo json_encode(array('status' => FALSE, 'messasge' => "Input invalid"));
       }
     } else {
-      $this->forward('/user');
+      //$this->forward('/user');
+      echo json_encode(array('status' => FALSE, 'messasge' => ''));
     }
+    $this->redirect(Yii::app()->createUrl("/user/profile"));
   }
 
   public function actionLogout() {
@@ -313,6 +337,70 @@ class UserController extends Controller {
     $this->render('feed', array(
         'feeds' => $feeds
     ));
+  }
+
+  public function actionPersonal() {
+    $user = User::model()->findByPk(Yii::app()->user->id);
+    $type = Yii::app()->request->getParam('c', '');
+    if (trim($type) != '') {
+      switch ($type) {
+        case 'feed':
+          $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_feeds', 'data' => array()),));
+          break;
+        case 'recent':
+          $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_recent', 'data' => array()),));
+          break;
+        case 'PB':
+          $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_PB', 'data' => array()),));
+          break;
+        case 'network':
+          $followings = UserServices::getInstance()->getListFollowings();
+          $followers = UserServices::getInstance()->getListFollowers();
+          $this->render("user", array('user' => $user, 'data' => array(
+                  'partial' => 'personal_network',
+                  'data' => array(
+                      'followings' => $followings,
+                      'followers' => $followers,
+                  )),
+          ));
+          break;
+      }
+    } else {
+      $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_feeds', 'data' => array()),));
+    }
+  }
+
+  public function actionProfile() {
+    $user = User::model()->findByPk(Yii::app()->user->id);
+    $this->render("profile", array('model' => $user));
+  }
+
+  public function actionSettings() {
+    $this->forward('profile');
+  }
+
+  public function actionBlog() {
+    $this->forward("blogarticle");
+  }
+
+  public function actionFollowing() {
+    $following = Yii::app()->request->getParam("follow", '');
+    if (trim($following) != '') {
+      Yii::app()->end();
+    }
+    $rs = UserServices::getInstance()->updateFollowing(array('following' => $following));
+    echo json_encode($rs);
+    Yii::app()->end();
+  }
+
+  public function actionFollower() {
+    $following = Yii::app()->request->getParam("follow", '');
+    if (trim($following) != '') {
+      Yii::app()->end();
+    }
+    $rs = UserServices::getInstance()->updateFollowing(array('following' => $following));
+    echo json_encode($rs);
+    Yii::app()->end();
   }
 
 }

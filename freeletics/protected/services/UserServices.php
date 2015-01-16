@@ -52,4 +52,63 @@ class UserServices extends BaseService {
     return $results;
   }
 
+  public function getListFollowings() {
+    $followings = array();
+    $userFL = UserFollowing::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
+    if ($userFL != null) {
+      $fls = explode("***", $userFL->following);
+      foreach ($fls as $index => $f) {
+        $followings[] = User::model()->findByPk($f);
+      }
+    }
+    return $followings;
+  }
+
+  public function getListFollowers() {
+    $followers = array();
+    $userFL = UserFollower::model()->findByAttributes(array('user_id' => Yii::app()->user->id));
+    if ($userFL != null) {
+      $fls = explode("***", $userFL->follower);
+      foreach ($fls as $index => $f) {
+        $followers[] = User::model()->findByPk($f);
+      }
+    }
+    return $followers;
+  }
+
+  public function updateFollowing($params) {
+    $results = array(
+        'status' => Constant::RS_ST_OK,
+        'message' => '',
+    );
+    $following = $params['following'];
+    $rs = User::model()->findByPk($following);
+    if ($rs != null) {
+      $userFL = UserFollowing::model()->findByAttribute(array('user_id' => Yii::app()->user->id));
+      $fls = explode("***", $userFL->following);
+      if ($fls != false) {
+        $isExisted = false;
+        foreach ($fls as $index => $f) {
+          if ($f == $following) {
+            $isExisted = true;
+            unset($fls[$index]);
+          }
+        }
+        if (!$isExisted) {
+          $fls[] = $following;
+        }
+        $userFL->following = implode("***", $fls);
+        $userFL->update();
+      } else {
+        $results['status'] = Constant::RS_ST_ERROR;
+      }
+    }
+    return $results;
+  }
+  
+  public function updateViewFeeds($params) {
+    $notifi = $params['notifis'];
+    
+  }
+
 }

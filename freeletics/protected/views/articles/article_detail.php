@@ -5,6 +5,10 @@
  * and open the template in the editor.
  */
 ?>
+<link href="<?php echo Yii::app()->baseUrl; ?>/css/jquery.comment.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.comment.js" type="text/javascript"></script>
+<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.autogrow-textarea.js" type="text/javascript"></script>
+<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.timeago.js" type="text/javascript"></script>
 <?php
 $this->renderPartial("//partials/scroll_dots", array(
     "sections" => array("intro", "section_menu", "section_content", "section_list_more_articles")
@@ -45,7 +49,12 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
 
   #section_content .container .row > div{
     padding: 0px 5px;
-  } 
+  }
+
+  .posted-comment-container .posted-comment-head .posted-comment-author,
+  .posted-comment-container .posted-comment-foot{
+    font-size: 12px;
+  }
 </style>
 <section id="section_content">
   <div class="container" >
@@ -135,53 +144,53 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
             <div class="panel panel-body">
               <div class="list-group" id='list-articles-first'>
                 <?php
-                foreach ($articles as $article) {
+                foreach ($articles as $art) {
                   ?>
                   <div class="row list-group-item">
                     <div class="col-md-12 pull-left">
                       <div class="row">
                         <div class="col-md-6">
-                          <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $article->id)); ?>" class="">
-                            <img src="data:image/png;base64,<?php $article->image_title; ?>" width="100%"/>
+                          <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $art->id)); ?>" class="">
+                            <img src="data:image/png;base64,<?php $art->image_title; ?>" width="100%"/>
                           </a>
                         </div>
                         <div class="col-md-6 btn-shares">
                           <a class="col-md-12 col-xs-12 share-icons">
-                            <i class="fa fa-star"></i>&nbsp;<span class=""><?php echo $article->like_total; ?></span>
+                            <i class="fa fa-star"></i>&nbsp;<span class=""><?php echo $art->like_total; ?></span>
                           </a>
-<!--                          <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
-                            <div class="row">
-                              <div class="col-md-6">
-                                <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>&t=<?php echo $article->title; ?>"
-                                   target="blank">
-                                  <i class="fa fa-facebook"></i>
-                                </a>
-                                <span class="article_FB_<?php echo $article->id; ?>">0</span>
-                              </div>
-                              <div class="col-md-6">
-                                <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>">
-                                  <i class="fa fa-twitter"></i>
-                                </a>
-                                <span class="article_TW_<?php echo $article->id; ?>">0</span>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-6">
-                                <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>" class="">
-                                  <i class="fa fa-google-plus"></i>
-                                </a>
-                                <span class="article_GP_<?php echo $article->id; ?>">0</span>
-                              </div>
-                              <div class="col-md-6"><a class=""><i class="fa fa-comment"></i></a></div>
-                            </div>
-                          </div>-->
+                          <!--                          <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
+                                                      <div class="row">
+                                                        <div class="col-md-6">
+                                                          <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $art->id)); ?>&t=<?php echo $art->title; ?>"
+                                                             target="blank">
+                                                            <i class="fa fa-facebook"></i>
+                                                          </a>
+                                                          <span class="article_FB_<?php echo $art->id; ?>">0</span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                          <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $art->id)); ?>">
+                                                            <i class="fa fa-twitter"></i>
+                                                          </a>
+                                                          <span class="article_TW_<?php echo $art->id; ?>">0</span>
+                                                        </div>
+                                                      </div>
+                                                      <div class="row">
+                                                        <div class="col-md-6">
+                                                          <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $art->id)); ?>" class="">
+                                                            <i class="fa fa-google-plus"></i>
+                                                          </a>
+                                                          <span class="article_GP_<?php echo $art->id; ?>">0</span>
+                                                        </div>
+                                                        <div class="col-md-6"><a class=""><i class="fa fa-comment"></i></a></div>
+                                                      </div>
+                                                    </div>-->
                         </div>
                       </div>
                     </div>
                     <div class="col-md-12">
-                      <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $article->id)); ?>" class="">
+                      <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $art->id)); ?>" class="">
                         <p class="list-group-item-text">
-                          <?php echo CString::truncate($article->title, 150); ?>
+                          <?php echo CString::truncate($art->title, 150); ?>
                         </p>
                       </a>
                     </div>
@@ -194,6 +203,24 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
           </div>
         </div>
       </div>
+      <div class="col-md-12">
+        <ul class="nav nav-tabs pull-right">
+          <li class="active">
+            <a order="0" href="#newest-comment" data-toggle="tab"><?php echo Yii::t("app", "Newest"); ?></a>
+          </li>
+          <li>
+            <a order="1" href="#most-views" data-toggle="tab"><?php echo Yii::t("app", "Most "); ?></a>
+          </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+          <div class="tab-pane fade active in" id="newest-comment">
+            <div class="comment-container"></div> 
+          </div>
+          <div class="tab-pane fade in" id="most-views">
+            <div class="comment-container"></div> 
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-md-3 col-xs-12" style="margin-top: 10px;">
       <a href="#" class="">
@@ -201,23 +228,18 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
       </a>
     </div>
   </div>
-  <div class="container">
-    <div class="col-md-9 col-xs-12">
-      <div id="disqus_thread"></div>
-    </div>
-  </div>
 </section>
 
 
 <script type = "text/javascript" >
-//  $('.btn-shares').popover({
-//    html: true,
-//    content: function() {
-//      return $(this).find(".pop-share").html();
-//    },
-//    placement: "bottom",
-//    container: 'body'
-//  });
+  //  $('.btn-shares').popover({
+  //    html: true,
+  //    content: function() {
+  //      return $(this).find(".pop-share").html();
+  //    },
+  //    placement: "bottom",
+  //    container: 'body'
+  //  });
 
   $('body').on('click', function(e) {
     //did not click a popover toggle or popover
@@ -236,18 +258,47 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
     height: '450px',
     alwaysVisible: false
   });
+  var comments = {};
+  $(document).ready(function() {
 
-  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-  var disqus_shortname = 'hahaha'; // required: replace example with your forum shortname
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+      var target = e.target; // newly activated tab
+      var pretarget = e.relatedTarget; // previous active tab
+      $('div.comment-container').remove();
+      var div = $('<div />', {class: 'comment-container'}).appendTo($($("" + $(target).attr("href"))));
+      if ($(this).attr("order") == 0) {
+        createComments('newest');
+      } else {
+        createComments('most');
+      }
+    });
 
-  /* * * DON'T EDIT BELOW THIS LINE * * */
-  (function() {
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
+    createComments('newest');
+  });
+
+  function createComments(type) {
+    $('div.comment-container').comment({
+      title: 'Comments',
+      url_like: '<?php echo Yii::app()->createUrl("articles/comments/") . '?id=' . $article->id . "&comments=like"; ?>',
+      url_get: '<?php echo Yii::app()->createUrl("articles/comments/") . '?id=' . $article->id . "&comments=list&order="; ?>' + type,
+      url_input: '<?php echo Yii::app()->createUrl("articles/comments/") . '?id=' . $article->id . "&comments=add"; ?>',
+      url_delete: '<?php echo Yii::app()->createUrl("articles/comments/") . '?id=' . $article->id . "&comments=delete"; ?>',
+      limit: 10,
+      auto_refresh: false,
+      refresh: 10000,
+      transition: 'slideToggle',
+      buttons: {
+        'reply': '<?php echo Yii::t("app", "Reply"); ?>',
+        'like': '<?php echo Yii::t("app", "Like"); ?>',
+        'unlike': '<?php echo Yii::t("app", "Unlike"); ?>'
+      },
+      onSubmitComplete: function(data) {
+        console.log(data);
+      },
+      onLike: function(data) {
+      }});
+  }
+
 </script>
 
 <section id="section_list_more_articles" class="">

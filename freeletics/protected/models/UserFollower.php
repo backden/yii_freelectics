@@ -28,10 +28,10 @@ class UserFollower extends CActiveRecord
 		return array(
 			array('user_id', 'required'),
 			array('user_id', 'length', 'max'=>20),
-			array('follower', 'safe'),
+			array('follower, feeds', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, follower', 'safe', 'on'=>'search'),
+			array('id, user_id, follower, feeds', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -95,4 +95,9 @@ class UserFollower extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+ 
+ protected function beforeSave() {
+   
+   return parent::beforeSave();
+ }
 }

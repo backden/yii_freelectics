@@ -73,4 +73,38 @@ class SystemUtils {
     return $csvArr;
   }
 
+  public static function getTmpFile($fileName) {
+    $webroot = Yii::getPathOfAlias('webroot');
+    $file = $webroot . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . $fileName;
+    $fp = fopen($file, "r");
+    $csvArr = array();
+    $arr = array(
+    );
+    if ($fp) {
+      $headers = fgets($fp);
+      $index = 0;
+      while (($line = fgets($fp))) {
+        $arr[$index] = array();
+        $arr[$index] = $value;
+        $index++;
+      }
+      fclose($fp);
+      $csvArr = $arr;
+    }
+
+    if (count($csvArr) == 0) {
+      
+    }
+    return $csvArr;
+  }
+
+  public static function appendTmpFile($fileName, $value) {
+    $webroot = Yii::getPathOfAlias('webroot');
+    $file = $webroot . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . $fileName;
+    $fp = fopen($file, "a+");
+    fwrite($fp, $value);
+    fflush($fp);
+    fclose($fp);
+  }
+
 }

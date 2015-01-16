@@ -32,40 +32,6 @@ class PaypalController extends Controller {
     }
   }
 
-  public function actionConfirm() {
-    $results = array('status' => Constant::RS_ST_OK, 'message' => Yii::t('app', 'Payment completed'));
-
-    $token = trim($_GET['token']);
-    $payerId = trim($_GET['PayerID']);
-
-    $confirm = PaymentService::getInstance()->confirmPayment(array(
-        'token' => $token,
-        'PayerID' => $payerId,
-    ));
-    if ($confirm['status'] == Constant::RS_ST_ERROR) {
-      $results['status'] = Constant::RS_ST_ERROR;
-      $results['message'] = $confirm['message'];
-    }
-    /**
-     * TODO: checking timeout transaction
-     * Yii::app()->session->add("payment_processing", null);
-     */
-    Yii::app()->session->add("payment_info", null);
-    echo json_encode($results);
-    Yii::app()->end();
-  }
-
-  public function actionCancel() {
-    //The token of the cancelled payment typically used to cancel the payment within your application
-    $token = $_GET['token'];
-    /**
-     * TODO: checking timeout transaction
-     * Yii::app()->session->add("payment_processing", null);
-     */
-    Yii::app()->session->add("payment_info", null);
-    $this->render('cancel');
-  }
-
   public function actionDirectPayment() {
     $paymentInfo = array('Member' =>
         array(

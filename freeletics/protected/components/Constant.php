@@ -32,4 +32,9 @@ class Constant {
   const TYPE_SMALLER = 1; // <=
   const TYPE_BETWEEN = 2; // a ~ b
   
+  const PAYMENT_PAYPAL = "PayPal";
+  const PAYMENT_NGANLUONG = "NganLuong";
+  const PAYMENT_VISA = "VISA";
+  
+  const LIMIT_COMMENTS_PERPAGE = 10;
 }

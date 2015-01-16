@@ -31,16 +31,18 @@ Yii::app()->clientScript;
     <?php if (!in_array(Yii::app()->controller->action->id, array("support"))
       && !in_array(Yii::app()->controller->id, array("support"))) { ?>
       <?php if (!Yii::app()->user->isGuest && User::model()->findByPk(Yii::app()->user->id)->role == 1) { ?>
-        <?php echo $this->renderPartial("//partials/navbar_user") ?>
+        <?php // echo $this->renderPartial("//partials/navbar_user") ?>
+        <?php echo $this->renderPartial("//partials/navbar_homepage"); ?>
       <?php } else if (!Yii::app()->user->isGuest && User::model()->findByPk(Yii::app()->user->id)->role == 2) { ?>
-        <?php echo $this->renderPartial("//partials/navbar_admin") ?>
+        <?php // echo $this->renderPartial("//partials/navbar_admin") ?>
+        <?php echo $this->renderPartial("//partials/navbar_homepage"); ?>
       <?php }
-      $this->renderPartial("//partials/your_account_form");
+      //$this->renderPartial("//partials/your_account_form");
     } else {
       ?>
       <?php echo $this->renderPartial("//partials/navbar_help_support") ?>
     <?php } ?>
-    <div style="background: url('<?php echo $baseUrl; ?>/img/profile-bg.jpg') top; 
+    <div style="
          margin-bottom: 20px; background-size: 100%;
          background-repeat: no-repeat;">
          <?php echo $content; ?>
@@ -67,11 +69,6 @@ Yii::app()->clientScript;
     </div>
 
     <?php $this->renderPartial("//partials/dialogs") ?>
-    <?php $this->renderPartial("//partials/footer") ?>
+    <?php in_array(Yii::app()->controller->action->id, array("support")) ? $this->renderPartial("//partials/footer") : ''; ?>
   </body>
-  <script type="text/javascript">stLight.options({publisher: "46a0a6ee-1473-410b-99df-6075184a2903", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
-  <script>
-    var options = {"publisher": "46a0a6ee-1473-410b-99df-6075184a2903", "position": "left", "ad": {"visible": false, "openDelay": 5, "closeDelay": 0}, "chicklets": {"items": ["facebook", "twitter", "linkedin", "pinterest", "email", "sharethis"]}};
-    var st_hover_widget = new sharethis.widgets.hoverbuttons(options);
-  </script>
 </html>

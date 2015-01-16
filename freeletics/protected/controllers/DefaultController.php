@@ -71,17 +71,7 @@ class DefaultController extends Controller {
   }
 
   public function actionSupport() {
-    $this->layout = "//layouts/default_main";
-
-    if (isset($this->actionParams['id'])) {
-      $data['message'] = $this->actionParams['id'];
-      $this->render('support_view', $data);
-    } else {
-      $cates = FAQService::getInstance()->findAll();
-      $this->render('//support/support', array(
-          "faqs" => $cates
-      ));
-    }
+    $this->redirect(Yii::app()->createUrl("support"));
   }
 
 }

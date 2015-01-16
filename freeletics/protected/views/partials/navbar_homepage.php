@@ -38,6 +38,12 @@
     min-width: 50px;
 
   }
+  .nav-menu-fixed{
+    padding: 0px;
+  }
+  .section-fixed-top-second {
+    top: 40px !important;
+  }
 </style>
 <script>
 
@@ -98,18 +104,48 @@
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="navbar-collapse collapse navbar-responsive-collapse" id="dropdown-links">
+      <ul class="nav navbar-nav navbar-left" style="padding: 5px;">
+        <li class="sign-up-collapse" id='sign_up_btn'>
+          <?php if (!Yii::app()->user->isGuest) { ?>
+          <a class="btn btn-primary" href="<?php echo Yii::app()->createUrl('user'); ?>" >
+              <?php echo _("Get Coach"); ?>
+            </a>
+          <?php } else { ?>
+            <a class="btn btn-primary" data-toggle="modal" data-target="#modal_sign_up">
+              <?php echo _("Start your workout now"); ?>
+            </a>
+          <?php } ?>
+        </li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
           <a class="btn-search-form" ><i class="fa fa-search"></i></a>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-link"></i></a>
-          <ul class="dropdown-menu">
-            <li><a class=""><i class="fa fa-facebook"></i></a></li>
-            <li><a class=""><i class="fa fa-linkedin"></i></a></li>
-            <li><a class=""><i class="fa fa-twitter"></i></a></li>
-            <li><a class=""><i class="fa fa-youtube"></i></a></li>
-          </ul>
+          <?php if (!Yii::app()->user->isGuest) { ?>
+            <a class="dropdown-toggle" data-toggle="dropdown" style="margin: 0; padding: 10px 8px;">
+              <div class="hexagon hexagon1 hexagon-sm" style="width:300px; height: 150px;">
+                <div class="hexagon-in1">
+                  <div class="hexagon-in2" style="background-image: url(<?php echo Yii::app()->baseUrl . '/img/X-man.jpg' ?>);"></div>
+                </div>
+              </div>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="" href="<?php echo Yii::app()->createUrl("user/personal"); ?>"><?php echo Yii::t("app", "Personal"); ?></a></li>
+              <li><a class="" href="<?php echo Yii::app()->createUrl("user/profile"); ?>"><?php echo Yii::t("app", "Profile"); ?></a></li>
+              <li><a class="" href="<?php echo Yii::app()->createUrl("user/settings"); ?>"><?php echo Yii::t("app", "Setting"); ?></a></li>
+              <li><a class="" href="<?php echo Yii::app()->createUrl("blog") . '?user=' . Yii::app()->user->id; ?>"><?php echo Yii::t("app", "Blog"); ?></a></li>
+              <li><a class="" href="<?php echo Yii::app()->createUrl("user/physical"); ?>"><?php echo Yii::t("app", "Physical"); ?></a></li>
+            </ul>
+          <?php } else { ?>
+            <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-link"></i></a>
+            <ul class="dropdown-menu">
+              <li><a class=""><i class="fa fa-facebook"></i></a></li>
+              <li><a class=""><i class="fa fa-linkedin"></i></a></li>
+              <li><a class=""><i class="fa fa-twitter"></i></a></li>
+              <li><a class=""><i class="fa fa-youtube"></i></a></li>
+            </ul>
+          <?php } ?>
         </li>
         <li>
           <a class="" id="menu-dropdown" style=""><i class="fa fa-bars"></i></a>
@@ -140,16 +176,11 @@
   <!-- /.container -->
 </nav>
 <nav class="navbar navbar-custom navbar-fixed-top nav-menu-fixed" role="navigation" style="background-color: black; display: none;
-     top: 50px;">
+     top: 42px;">
   <div class="container" id="top-menus">
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
       <ul class="nav navbar-nav">
-        <li class="sign-up-collapse" id='sign_up_btn'>
-          <a class="btn btn-primary" data-toggle="modal" data-target="#modal_sign_up">
-            <?php echo _("Start your workout now"); ?>
-          </a>
-        </li>
         <li class="login-button">
           <a class="" data-toggle="modal" data-target="#modal_login">
             <?php echo Yii::t('app', "Login"); ?>
@@ -177,7 +208,7 @@
     $(".navbar-form.navbar-right").hide("slide", {direction: "right"}, "slow");
     $(".btn-search-form").click(function() {
       if ($(".navbar-form.navbar-right").hasClass("search-hidden")) {
-        $(".navbar-form.navbar-right").show("slide", {direction: "right" }, "slow");
+        $(".navbar-form.navbar-right").show("slide", {direction: "right"}, "slow");
         $(".navbar-form.navbar-right").removeClass("search-hidden");
         $(this).find("i").removeClass("fa-search");
         $(this).find("i").addClass("fa-times");

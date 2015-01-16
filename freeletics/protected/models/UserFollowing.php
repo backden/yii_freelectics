@@ -28,10 +28,10 @@ class UserFollowing extends CActiveRecord
 		return array(
 			array('user_id', 'required'),
 			array('user_id', 'length', 'max'=>20),
-			array('following', 'safe'),
+			array('following, feeds', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, following', 'safe', 'on'=>'search'),
+			array('id, user_id, following, feeds', 'safe', 'on'=>'search'),
 		);
 	}
 

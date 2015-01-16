@@ -1,11 +1,9 @@
 <?php
-
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 ?>
 
 <style>
@@ -84,9 +82,19 @@
     width: 100%;
     height: 200px;
   }
+  
+  #sub-menus-dynamic {
+    float: none;
+    margin: auto;
+    width: <?php echo isset($width) ? $width : '70%'; ?>;
+  }
+  
+  #sub-menus-dynamic a {
+    margin: 0;
+  }
 </style>
 <script>
-  $(function () {
+  $(function() {
     $('#list-articles-first').slimScroll({
       height: '450px',
       alwaysVisible: false
@@ -96,53 +104,79 @@
       alwaysVisible: false
     });
 
-    $(window).on("scroll", function () {
-      if ($(this).scrollTop() > $("section:first").height()) {
-        $("#section_menu").addClass("section-fixed-top-second");
-        $("#section_menu").find(".sub-container").css("top", 50 + $("#section_menu").outerHeight(true));
-      } else {
-        $("#section_menu").removeClass("section-fixed-top-second");
-        $("#section_menu").find(".sub-container").css("top", $("#section_menu").offset().top - $(window).scrollTop() + $("#section_menu").outerHeight(true));
-      }
-    });
-
-    $("#section_menu div.container:first a").click(function () {
-      if ($($(this).attr("href")) !== undefined) {
+<?php if (isset($fixed) && $fixed == true) { ?>
+      $("#section_menu").addClass("section-fixed-top-second");
+<?php } else { ?>
+      $(window).on("scroll", function() {
+        if ($(this).scrollTop() > $("section:first").height()) {
+          $("#section_menu").addClass("section-fixed-top-second");
+          $("#section_menu").find(".sub-container").css("top", 40 + $("#section_menu").outerHeight(true));
+        } else {
+          $("#section_menu").removeClass("section-fixed-top-second");
+          $("#section_menu").find(".sub-container").css("top", $("#section_menu").offset().top - $(window).scrollTop() + $("#section_menu").outerHeight(true));
+        }
+      });
+<?php } ?>
+    $("#section_menu div.container:first a").click(function() {
+      if ($($(this).attr("href")).length > 0) {
         $($(this).attr("href")).toggleClass("closed");
         $($(this).attr("href")).css("position", "fixed");
         $($(this).attr("href")).css("top", $("#section_menu").offset().top - $(window).scrollTop() + $("#section_menu").outerHeight(true));
+        return false;
+      } else {
+        return true;
       }
-      return false;
     });
 
   });
 </script>
-<section id="section_menu" class="">
+<section id="section_menu" class=""  style="background: whitesmoke">
   <div class="container">
-    <div class="btn-group">
+    <ul class="nav navbar-nav" id="sub-menus-dynamic">
       <?php
       $subs = array();
       $subLinks = array();
+      $controller = Yii::app()->baseUrl . '/index.php/' . ((isset($controller) ? $controller : Yii::app()->controller->id) . '/') . (isset($actionName) ? $actionName : "") . "/?c=";
       foreach ($menus as $name => $menu) {
-        if (count($menu['menus']) == 0) {
+        if (isset($menu['menus']) == false || count($menu['menus']) == 0) {
           ?>
-      <a href="?c=<?php echo $menu['links'][0]; ?>" class="btn btn-default"><?php echo Yii::t("app", $name); ?></a>
+          <li class="">
+            <a href="<?php echo $controller . (isset($menu['links']) && isset($menu['links'][0]) ? $menu['links'][0] : ""); ?>" class="btn btn-default"><?php echo Yii::t("app", $name); ?></a>
+          </li>
         <?php } else { ?>
-          <a href="#<?php echo $menu["id"]; ?>" class="btn btn-default"><?php echo Yii::t("app", $name); ?>&nbsp;<span class="caret"></span></a>
-          <?php
-          $subs[] = $menu;
-        }
-        ?>
+          <li class="dropdown">
+            <a href="#<?php echo isset($menu["id"]) ? $menu["id"] : ""; ?>" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <?php echo Yii::t("app", $name); ?>
+            </a>
+            <ul class="dropdown-menu">
+              <?php
+              if (isset($menu['menus'])) {
+                foreach ($menu['menus'] as $index => $subs) {
+                  ?>
+                  <li>
+                    <a href="<?php echo $controller . (isset($menu['links']) && isset($menu['links'][$index]) ? $menu['links'][$index] : ""); ?>">
+                      <?php echo Yii::t("app", $subs); ?>
+                    </a>
+                  </li>
+                <?php } ?>
+              <?php } ?>
+            </ul>
+          </li>
+        <?php } ?>
       <?php } ?>
-    </div>
+    </ul>
   </div>
-  <?php foreach ($subs as $index => $sub) : ?>
-    <div class="container sub-container closed" id="<?php echo $sub["id"]; ?>">
-      <div class="btn-group">
-        <?php foreach ($sub["menus"] as $index => $menu) : ?>
-          <a href="?c=<?php echo $sub['links'][$index]; ?>" class="btn btn-default"><?php echo Yii::t("app", $menu); ?></a>
-        <?php endforeach; ?>
-      </div>
-    <?php endforeach; ?>
-  </div>
+<!--    <div class="container sub-container closed" id="<?php echo isset($sub["id"]) ? $sub["id"] : ""; ?>">
+<div class="btn-group">
+  <?php
+//  if (isset($sub['menus'])) {
+//    foreach ($sub["menus"] as $index => $menu) :
+  ?>
+            <a href="<?php // echo $controller . '/' . isset($sub['links']) && isset($sub['links'][$index]) ? $sub['links'][$index] : "";           ?>" class="btn btn-default"><?php // echo Yii::t("app", $menu); ?></a>
+  <?php
+//    endforeach;
+//  }
+  ?>
+</div>-->
+</div>
 </section>

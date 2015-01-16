@@ -70,9 +70,9 @@ class User extends BaseModel {
     // NOTE: you should only define rules for those attributes that
     // will receive user inputs.
     return array(
-        array('email, password, first, last, create_date, last_update', 'required'),
+        array('id, email, password, first, last, create_date, last_update', 'required'),
         array('gender, weight, height, role, active', 'numerical', 'integerOnly' => true),
-        array('email, password', 'length', 'max' => 50),
+        array('id, email, password', 'length', 'max' => 50),
         array('first, last', 'length', 'max' => 20),
         array('first, last', 'length', 'min' => 3),
         array('language', 'length', 'max' => 4),
@@ -181,6 +181,7 @@ class User extends BaseModel {
   }
 
   public function beforeSave() {
+    $this->id = uniqid("User_", true);
     if (!empty($this->password) && $this->changePW) {
       $this->password = hash('sha256', $this->password . Yii::app()->params['stringcode']);
     }

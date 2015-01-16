@@ -21,6 +21,33 @@ class PaymentService extends BaseService {
     
   }
 
+  public function getCostFromCSV($params = array()) {
+    /**
+     * TODO: checking timeout transaction
+     * Yii::app()->session->add("payment_processing", null);
+     */
+    $typePage = isset($params['typePage']) ? $params['typePage'] : '';
+    if ($typePage == 'training' || trim($typePage) == '') {
+      $costs = SystemUtils::getCsvToArray("data/Payment/Payment_cost.csv");
+      $typePage = 'training';
+    } else {
+      $costs = SystemUtils::getCsvToArray("data/Payment/Payment_nutrition.csv");
+    }
+    /**
+     * TODO: search by currency
+     */
+    $dataPayment = array();
+    foreach ($costs as $c) {
+      if ($c['currency'] === Yii::app()->params['currency']) {
+        $dataPayment['costArr'] = $c['costs'];
+        $dataPayment['$costTimes'] = $c['times'];
+        $dataPayment['$unit'] = $c['unit_time'];
+        break;
+      }
+    }
+    return $dataPayment;
+  }
+
   public function isValid($paymenInfo, $typePage) {
     if ($typePage == 'training') {
       $costs = SystemUtils::getCsvToArray("data/Payment/Payment_cost.csv");
@@ -50,12 +77,26 @@ class PaymentService extends BaseService {
     return true;
   }
 
-  public function createPayment($params) {
+  public function createPayment($params, $paymentType = Constant::PAYMENT_PAYPAL) {
+    switch ($paymentType) {
+      case Constant::PAYMENT_NGANLUONG:
+        return $this->createNganLuongPayment($params);
+      case Constant::PAYMENT_PAYPAL:
+        return $this->createPaypalPayment($params);
+      default :
+        return $this->createPaypalPayment($params);
+    }
+  }
+
+  public function createPaypalPayment($params) {
     $results = array("status" => Constant::RS_ST_OK, 'error' => '', 'url' => '');
     // set 
     $paymentInfo['Order']['theTotal'] = Yii::app()->session['theTotal'] = $params['cost'];
     $paymentInfo['Order']['description'] = "Freeletics";
     $paymentInfo['Order']['quantity'] = '1';
+    if (isset($params['returnUrl'])) {
+      Yii::app()->Paypal->returnUrl = $params['returnUrl'];
+    }
 
     // call paypal
     Yii::app()->Paypal->currency = Yii::app()->params["currency"];
@@ -78,6 +119,24 @@ class PaymentService extends BaseService {
       $results['url'] = $payPalURL;
       //$this->redirect($payPalURL);
     }
+    return $results;
+  }
+
+  public function createNganLuongPayment($params) {
+    $results = array("status" => Constant::RS_ST_OK, 'error' => '', 'url' => '');
+    $currentCurrency = Yii::app()->params['currency'];
+    if ($currentCurrency != 'VND') {
+      $costs = SystemUtils::getCsvToArray("data/Payment/Payment_rate.csv");
+      foreach ($costs as $cost) {
+        if ($cost['country1'] == $currentCurrency && $cost['country2'] = 'VND') {
+          $params['cost'] = (float) ($params['cost'] * $cost['rate']);
+          break;
+        }
+      }
+    }
+    Yii::app()->session['theTotal'] = $params['cost'];
+    Yii::log(__METHOD__ . " -- Cost NganLuong " . $params['cost']);
+    $results['url'] = $this->buildCheckoutNganLuongUrl($params['returnUrl'], Yii::app()->params['NL_Email_Receiver'], $params['cost']);
     return $results;
   }
 
@@ -339,6 +398,94 @@ class PaymentService extends BaseService {
       Yii::log(__METHOD__ . " -- Discount larger than price");
     }
     return number_format($disCount, 2, '.', '');
+  }
+
+  // URL checkout
+//  private $nganluong_url = 'https://www.nganluong.vn/checkout.php';
+  private $nganluong_url = 'https://www.nganluong.vn/advance_payment.php';
+  // merchante site ID 
+  private $merchant_site_code = '110587';  // Biến này được nganluong.vn cung cấp khi bạn đăng ký merchant site
+  // merchante site password
+  private $secure_pass = 'normprint'; // Biến này được nganluong.vn cung cấp khi bạn đăng ký merchant site
+
+  //Function to build checkout Url
+
+  public function buildCheckoutNganLuongUrl($return_url, $receiver, $price = 1, $transaction_info = '', $order_code = '') {
+
+
+//    $arr_param = array(
+//        'merchant_site_code' => strval($this->merchant_site_code), //merchante site ID
+//        'return_url' => strtolower(urlencode($return_url)), //return uri 
+//        'receiver' => strval($receiver), //receiver email
+//        'transaction_info' => strval($transaction_info), //transaction info
+//        'order_code' => strval($order_code), //order number
+//        'price' => strval($price)                                          //total price
+//    );
+
+    $arr_param = array(
+//        'merchant_site_code' => strval($this->merchant_site_code), //merchante site ID
+        'return_url' => strtolower(urlencode($return_url)), //return uri 
+        'receiver' => strval($receiver), //receiver email
+//        'transaction_info' => strval($transaction_info), //transaction info
+//        'order_code' => strval($order_code), //order number
+        'price' => strval($price), //total price
+        'product' => Yii::t('app', 'Freeletics Payment'), //total price
+        'comments' => Yii::t('app', 'Freeletics Payment Comments'), //total price
+    );
+
+    $secure_code = '';
+    $secure_code = implode(' ', $arr_param) . ' ' . $this->secure_pass;
+    $arr_param['secure_code'] = md5($secure_code);
+
+    //Check if $redirect_url exists or not
+    $redirect_url = $this->nganluong_url;
+    if (strpos($redirect_url, '?') === false) {
+      $redirect_url .= '?';
+    } else if (substr($redirect_url, strlen($redirect_url) - 1, 1) != '?' && strpos($redirect_url, '&') === false) {
+      // If $redirect_url have '?' at the end but dont have '&', we have to add it to $redirect_url
+      $redirect_url .= '&';
+    }
+
+    //Url contain parameters
+    $url = '';
+    foreach ($arr_param as $key => $value) {
+      if ($url == '') {
+        $url .= $key . '=' . $value;
+      } else {
+        $url .= '&' . $key . '=' . $value;
+      }
+    }
+
+    return $redirect_url . $url;
+  }
+
+  /* Function to verify infomations returned from nganluong
+   * @param $_GET contain parameters returned
+   * @return true if infomatinons is right, and otherwise is false 
+   */
+
+  public function verifyPaymentUrl($transaction_info, $order_code, $price, $payment_id, $payment_type, $error_text, $secure_code) {
+    // Tạo mã xác thực từ chủ web
+    $str = '';
+    $str .= ' ' . strval($transaction_info);
+    $str .= ' ' . strval($order_code);
+    $str .= ' ' . strval($price);
+    $str .= ' ' . strval($payment_id);
+    $str .= ' ' . strval($payment_type);
+    $str .= ' ' . strval($error_text);
+    $str .= ' ' . strval($this->merchant_site_code);
+    $str .= ' ' . strval($this->secure_pass);
+
+    // verification code from our site
+    $verify_secure_code = '';
+    $verify_secure_code = md5($str);
+
+    // compare verification code from our site with verification code returned from nganluong.vn
+    if ($verify_secure_code === $secure_code) {
+      return true;
+    }
+
+    return false;
   }
 
 }

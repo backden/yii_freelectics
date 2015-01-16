@@ -8,7 +8,7 @@ $ads = true;
 ?>
 <div id="main-container">
   <?php if (Yii::app()->controller->id != 'training') { ?>
-    <?php $this->renderPartial('//partials/user_information', $data); ?>
+    <?php $this->renderPartial('//partials/user_information', array('user' => $user, 'data' => $data)); ?>
   <?php } else { 
     $this->redirect('/default/');?>
   <?php } ?>

@@ -1,3 +1,4 @@
-costs,times,unit_time,currency,symbol
+costs,times,unit_time,currency,symbol,
 "34.99;59.99;79.99","3;6;12","months",USD,
 "34.99;59.99;79.99","3;6;12","weeks",EUR,
+"300000;700000;999999","3;6;12","Tuần",VND,

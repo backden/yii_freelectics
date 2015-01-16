@@ -48,3 +48,66 @@ $action = Yii::app()->getController()->action;
 <script src="<?php echo $baseUrl; ?>/js/jquery-te-1.4.0.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/js/bootstrap.youtubepopup.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/venobox/venobox.min.js"></script>
+
+<style>
+  .hexagon {
+    overflow: hidden;
+    visibility: hidden;
+    -webkit-transform: rotate(140deg);
+    -moz-transform: rotate(140deg);
+    -ms-transform: rotate(140deg);
+    -o-transform: rotate(140deg);
+    transform: rotate(140deg);
+    cursor: pointer;
+  }
+  .hexagon-in1 {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    -webkit-transform: rotate(-60deg);
+    -moz-transform: rotate(-60deg);
+    -ms-transform: rotate(-60deg);
+    -o-transform: rotate(-60deg);
+    transform: rotate(-60deg);
+  }
+  .hexagon-in2 {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-image: url(http://placekitten.com/240/240);
+    background-size: 100%;
+    visibility: visible;
+    -webkit-transform: rotate(-60deg);
+    -moz-transform: rotate(-60deg);
+    -ms-transform: rotate(-60deg);
+    -o-transform: rotate(-60deg);
+    transform: rotate(-60deg);
+  }
+  .hexagon-in2:hover {
+    background-image: url(http://placekitten.com/241/241);
+  }
+
+  .hexagon1 {
+    width: 200px;
+    height: 100px;
+    margin: auto;
+  }
+  .hexagon2 {
+    width: 200px;
+    height: 400px;
+    margin: -80px 0 0 20px;
+  }
+  .dodecagon {
+    width: 200px;
+    height: 200px;
+    margin: -80px 0 0 20px;
+  }
+
+  .hexagon-sm {
+    width: 28px !important;
+    height: 20px  !important;
+    padding: 0;
+    margin: 0;
+  }
+</style>

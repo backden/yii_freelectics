@@ -1,0 +1,5 @@
+country1,country2,rate,multiple
+EUR,VND,"18000",
+USD,VND,"21000",
+VND,EUR,"0.21",
+VND,USD,"0.18",

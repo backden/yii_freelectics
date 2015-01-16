@@ -26,7 +26,7 @@ class ArticlesController extends Controller {
   public function accessRules() {
     return array(
         array('allow', // allow all users to perform 'index' and 'view' actions
-            'actions' => array('index', 'view', 'articles'),
+            'actions' => array('index', 'view', 'articles', 'comments'),
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -60,8 +60,8 @@ class ArticlesController extends Controller {
   public function actionCreate() {
     $model = new Articles;
 
-    // Uncomment the following line if AJAX validation is needed
-    // $this->performAjaxValidation($model);
+// Uncomment the following line if AJAX validation is needed
+// $this->performAjaxValidation($model);
 
     if (isset($_POST['Articles'])) {
       $model->attributes = $_POST['Articles'];
@@ -82,8 +82,8 @@ class ArticlesController extends Controller {
   public function actionUpdate($id) {
     $model = $this->loadModel($id);
 
-    // Uncomment the following line if AJAX validation is needed
-    // $this->performAjaxValidation($model);
+// Uncomment the following line if AJAX validation is needed
+// $this->performAjaxValidation($model);
 
     if (isset($_POST['Articles'])) {
       $model->attributes = $_POST['Articles'];
@@ -104,7 +104,7 @@ class ArticlesController extends Controller {
   public function actionDelete($id) {
     $this->loadModel($id)->delete();
 
-    // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
     if (!isset($_GET['ajax']))
       $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
   }
@@ -226,6 +226,90 @@ class ArticlesController extends Controller {
           'others' => $newsOther,
       ));
     }
+  }
+
+  public function actionComments() {
+    $user = User::model()->findByPk(Yii::app()->user->id);
+    $userId = $first = $last = $avatar = '';
+    if ($user != null) {
+      $userId = $user->id;
+      $first = $user->first;
+      $last = $user->last;
+      $avatar = $user->avatar;
+    }
+    $ip = '';
+    if ($userId == '') {
+      if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+      } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+      } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+      }
+    } else {
+      $ip = $userId;
+    }
+    $results = array('results' => array());
+    $comments = array(
+        'comments' => array(),
+        'total_comment' => 0,
+        'user' => array(
+            'user_id' => $userId,
+            'fullname' => $first . ' ' . $last,
+            'picture' => $avatar == '' ? Yii::app()->baseUrl . '/css/images/user_blank_picture.png' : $avatar,
+            'is_logged_in' => $userId == '' ? false : true,
+            'is_add_allowed' => true,
+            'is_edit_allowed' => false,
+        ),
+    );
+    $action = Yii::app()->request->getParam("comments", 'list');
+    $parent_id = Yii::app()->request->getParam("parent_id", -1);
+    $parentComment = CommentDetail::model()->findByAttributes(array("parent_id" => $parent_id));
+    $cmms = array();
+    switch ($action) {
+      case 'add':
+        $commentData = array(
+            'user_id' => $userId,
+            'parent_id' => $parent_id,
+            'text' => Yii::app()->request->getParam("text", ''),
+            'article_id' => Yii::app()->request->getParam("id", -1),
+            'first' => $first,
+            'last' => $last,
+            'picture' => $avatar,
+            'name_to' => isset($parentComment) ? $parentComment->fullname : '',
+        );
+        $cmms = CommentService::getInstance()->addComment($userId, $commentData, $parent_id);
+        if ($cmms != null) {
+          $result['status'] = Constant::RS_ST_OK;
+        }
+        break;
+      case 'like':
+        $commentId = Yii::app()->request->getParam("comment_id", null);
+        if ($commentId == null || trim($commentId) == '') {
+          break;
+        }
+        try {
+          $rs = CommentService::getInstance()->addLike($ip, $commentId);
+          if ($rs['status'] == true) {
+            $results['total'] = count($rs['data']);
+            $results['status'] = Constant::RS_ST_OK;
+          } else {
+            Yii::log(__METHOD__ . " -- Result is false", LOG_ERR);
+          }
+        } catch (Exception $e) {
+          $results['status'] = Constant::RS_ST_ERROR;
+          $results['error'] = $e->getMessage();
+        }
+        break;
+      default :
+//        $results['status'] = Constant::RS_ST_OK;
+        break;
+    }
+    $articleId = Yii::app()->request->getParam('id');
+    $order = Yii::app()->request->getParam('order', null);
+    $comments['comments'] = CommentService::getInstance()->getComments($articleId, array('ip' => $ip, 'order' => $order));
+    $results['results'] = $comments;
+    echo json_encode($results);
   }
 
 }

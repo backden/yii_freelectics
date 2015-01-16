@@ -24,8 +24,10 @@ echo $this->renderPartial("//partials/section_intro_articles", array(
 ?>
 <?php
 $this->renderPartial("//partials/section_menu_dynamic", array(
+    'controller' => 'user',
+    'width' => '70%',
     "menus" => $menus = array(
-      "Training Advice" => array(),
+      "Training Advice" => array('link' => '?c='),
       "Nutrition Advice" => array(),
       "Motivation" => array(),
       "Lifestyle" => array(),

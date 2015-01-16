@@ -18,24 +18,9 @@ class PaymentController extends Controller {
     if (!in_array($typePage, array('training', 'nutrition'))) {
       $typePage = 'training';
     }
-    if ($typePage == 'training' || trim($typePage) == '') {
-      $costs = SystemUtils::getCsvToArray("data/Payment/Payment_cost.csv");
-      $typePage = 'training';
-    } else {
-      $costs = SystemUtils::getCsvToArray("data/Payment/Payment_nutrition.csv");
-    }
-    /**
-     * TODO: search by currency
-     */
-    $dataPayment = array();
-    foreach ($costs as $c) {
-      if ($c['currency'] === Yii::app()->params['currency']) {
-        $dataPayment['costArr'] = $c['costs'];
-        $dataPayment['$costTimes'] = $c['times'];
-        $dataPayment['$unit'] = $c['unit_time'];
-        break;
-      }
-    }
+    $dataPayment = PaymentService::getInstance()->getCostFromCSV(array(
+        'typePage' => $typePage,
+    ));
     $dataPayment['typePage'] = $typePage;
     $this->render("//partials/payment", array(
         'costs' => explode(";", $dataPayment['costArr']),
@@ -148,6 +133,26 @@ class PaymentController extends Controller {
       $results['status'] = Constant::RS_ST_ERROR;
     } else {
       $paymentExpress = PaymentService::getInstance()->createPayment($paymenInfo);
+      if (trim($paymentExpress['url']) === 0 || trim($paymentExpress['error']) != '') {
+        $results['status'] = Constant::RS_ST_ERROR;
+        $results['error'] = $paymentExpress['error'];
+      } else {
+        $results['url'] = $paymentExpress['url'];
+        Yii::app()->session->add("payment_processing", time());
+      }
+    }
+    echo json_encode($results);
+    Yii::app()->end();
+  }
+  
+  public function actionNganLuong() {
+    $results = array('status' => Constant::RS_ST_OK);
+    $paymenInfo = Yii::app()->session->get("payment_info", null);
+    $paymenInfo['returnUrl'] = Yii::app()->createUrl('payment/confirm') . '';
+    if ($paymenInfo === null) {
+      $results['status'] = Constant::RS_ST_ERROR;
+    } else {
+      $paymentExpress = PaymentService::getInstance()->createPayment($paymenInfo, Constant::PAYMENT_NGANLUONG);
       if (trim($paymentExpress['url']) === 0) {
         $results['status'] = Constant::RS_ST_ERROR;
       } else {
@@ -158,6 +163,41 @@ class PaymentController extends Controller {
     echo json_encode($results);
     Yii::app()->end();
   }
+  
+  public function actionConfirm() {
+    $results = array('status' => Constant::RS_ST_OK, 'message' => Yii::t('app', 'Payment completed'));
+
+    $token = trim($_GET['token']);
+    $payerId = trim($_GET['PayerID']);
+
+    $confirm = PaymentService::getInstance()->confirmPayment(array(
+        'token' => $token,
+        'PayerID' => $payerId,
+    ));
+    if ($confirm['status'] == Constant::RS_ST_ERROR) {
+      $results['status'] = Constant::RS_ST_ERROR;
+      $results['message'] = $confirm['message'];
+    }
+    /**
+     * TODO: checking timeout transaction
+     * Yii::app()->session->add("payment_processing", null);
+     */
+    Yii::app()->session->add("payment_info", null);
+    echo json_encode($results);
+    Yii::app()->end();
+  }
+  
+  public function actionCancel() {
+    //The token of the cancelled payment typically used to cancel the payment within your application
+    $token = $_GET['token'];
+    /**
+     * TODO: checking timeout transaction
+     * Yii::app()->session->add("payment_processing", null);
+     */
+    Yii::app()->session->add("payment_info", null);
+    $this->render('cancel');
+  }
+  
 
   public function actionTesting() {
     ($result = Yii::app()->Paypal->GetExpressCheckoutDetails("EC-1PB310579D7647413"));

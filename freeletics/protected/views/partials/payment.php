@@ -32,7 +32,7 @@
     width: 71px;
   }
   #payment-panel p, #payment-panel{
-    font-size: 13px;
+    font-size: 16px;
   }
   label {
     font-weight: normal;
@@ -87,8 +87,8 @@
 
   });
 </script>
-<div class="container">
-  <div class="col-md-4">
+<div class="">
+  <div class="col-md-12">
     <div class="panel panel-info"  style="border-radius: 0;">
       <div class="panel-heading"  style="border-radius: 0;">
         <h4 style="margin-bottom: 0;"><?php echo Yii::t("app", "GET YOUR COACH"); ?></h4>
@@ -288,7 +288,7 @@
             <div class="list-group">
               <a href="#" class="list-group-item">
                 <p class="list-group-item-text">
-                  <input class="" type="checkbox" name="Payment[type]" id="Payment_type_PayPal" value="paypal">&nbsp;
+                  <input class="" type="checkbox" name="Payment[type]" id="Payment_type_PayPal" value="<?php echo Constant::PAYMENT_PAYPAL ?>">&nbsp;
                   <label for="Payment_type_PayPal">
                     <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" width="100px" border="0" alt="PayPal Logo">
                   </label>
@@ -296,10 +296,18 @@
               </a>
               <a href="#" class="list-group-item">
                 <p class="list-group-item-text">
-                  <input class="" type="checkbox" name="Payment[type]" id="Payment_type_VISA" value="visa_master">&nbsp;
+                  <input class="" type="checkbox" name="Payment[type]" id="Payment_type_VISA" value="<?php echo Constant::PAYMENT_VISA; ?>">&nbsp;
                   <label for="Payment_type_VISA">
                     <img src="http://www.credit-card-logos.com/images/visa_credit-card-logos/visa_logo_8.gif" width="50px">
                     <img src="http:///www.credit-card-logos.com/images/mastercard_credit-card-logos/mastercard_logo_1.gif" width="50px">
+                  </label>
+                </p>
+              </a>
+              <a href="#" class="list-group-item">
+                <p class="list-group-item-text">
+                  <input class="" type="checkbox" name="Payment[type]" id="Payment_type_NL" value="<?php echo Constant::PAYMENT_NGANLUONG ?>">&nbsp;
+                  <label for="Payment_type_NL">
+                    <img src="https://www.nganluong.vn/data/images/buttons/3.gif" border="0" width="100%">
                   </label>
                 </p>
               </a>
@@ -337,10 +345,12 @@
                 //error server, stop payment
                 return;
               }
-              if (type == 'paypal') {
+              if (type == '<?php echo Constant::PAYMENT_PAYPAL; ?>') {
                 paymentPaypal();
               } else if (type === 'visa_master') {
 
+              } else if (type == '<?php echo Constant::PAYMENT_NGANLUONG; ?>') {
+                paymentNL();
               }
             },
             'json');
@@ -348,6 +358,18 @@
 
   function paymentPaypal() {
     $.post("<?php echo Yii::app()->createUrl("payment/paypal"); ?>",
+            {},
+            function(data) {
+              if (data.status === '<?php echo Constant::RS_ST_ERROR; ?>') {
+                alert(data.error);
+              } else {
+                window.location.href = data.url;
+              }
+            }, 'json');
+  }
+
+  function paymentNL() {
+    $.post("<?php echo Yii::app()->createUrl("payment/NganLuong"); ?>",
             {},
             function(data) {
               if (data.status === '<?php echo Constant::RS_ST_ERROR; ?>') {
