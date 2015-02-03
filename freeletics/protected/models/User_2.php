@@ -19,7 +19,7 @@
  * @property integer $role
  * @property integer $active
  */
-class User extends BaseModel {
+class User2 extends BaseModel {
 
   const ID = 'id';
   const USER_ID = 'user_id';
@@ -207,6 +207,9 @@ class User extends BaseModel {
   protected function beforeValidate() {
     $this->create_date = $this->create_date != null ? $this->create_date : time();
     $this->last_update = time();
+    if ($this->isNewRecord) {
+      $this->id = uniqid("user_", true);
+    }
     if (date("Y-m-d H:i:s", strtotime($this->birthday)) !== FALSE) {
       
     } else {

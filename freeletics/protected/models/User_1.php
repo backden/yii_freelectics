@@ -19,7 +19,7 @@
  * @property integer $role
  * @property integer $active
  */
-class User extends CActiveRecord {
+class User1 extends CActiveRecord {
 
   public $password;
   public $remember = false;

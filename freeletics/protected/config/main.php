@@ -38,7 +38,7 @@ return array(
             'urlFormat' => 'path',
             'rules' => array(
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\w+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ),
@@ -47,10 +47,12 @@ return array(
 //        ),
         // uncomment the following to use a MySQL database
         'db' => array(
+//            'connectionString' => 'mysql:host=localhost;dbname=freeletics',
             'connectionString' => 'mysql:host=localhost;dbname=yii',
 //            'connectionString' => 'mysql:host=sql210.byethost15.com;dbname=b15_15548491_dev_site',
             'emulatePrepare' => true,
 //            'username' => 'b15_15548491',
+//            'username' => 'freeletics',
             'username' => 'root',
 //            'password' => '1184759',
             'password' => 'root',
@@ -91,12 +93,21 @@ return array(
             'returnUrl' => 'payment/confirm/', //regardless of url management component
             'cancelUrl' => 'payment/cancel/', //regardless of url management component
         ),
+        'Smtpmail' => array(
+            'class' => 'application.extensions.smtpmail.PHPMailer',
+            'Host' => "mail.freeletice.com",
+            'Username' => 'webadmin@freeletice.com',
+            'Password' => 'freeletics',
+            'Mailer' => 'smtp',
+            'Port' => 25,
+            'SMTPAuth' => true,
+        ),
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
         // this is used in contact page
-        'adminEmail' => 'webmaster@example.com',
+        'adminEmail' => 'webadmin@freeletice.com',
         'stringcode' => '$2a$0778$1xx0sX0HxhjjjmMMjJ8ahKMh9MbMjbh2O81mx7L7$',
         'durationLogin' => 3600 * 24 * 7,
         'code_coupon_length' => 20,
@@ -104,6 +115,8 @@ return array(
         'app_id_facebook' => '322142577992142',
         'currency' => 'EUR',
         'transactionTimeout' => 60 * 5, // 5 minutes
-        'NL_Email_Receiver' => 'exp.hl.pc@gmail.com'
+        'NL_Email_Receiver' => 'exp.hl.pc@gmail.com',
+        'CompanyName' => 'Freeletice',
+        'domain' => $_SERVER['HTTP_HOST'],
     ),
 );
