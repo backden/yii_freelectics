@@ -11,12 +11,14 @@ class FeedDTO extends BaseDTO {
   protected $data = array(
       'id' => '',
       'user_id' => '',
+      'user' => null,
       'comment_id' => '',
       'comment_text' => '',
       'result' => array(),
       'extra_comments' => array(),
-      'create_date' => '',
+      'time' => '',
       'like' => false,
+      'exercise' => null,
   );
 
 }

@@ -181,7 +181,9 @@ class User extends BaseModel {
   }
 
   public function beforeSave() {
-    $this->id = uniqid("User_", true);
+    if ($this->isNewRecord) {
+      $this->id = uniqid("User_", true);
+    }
     if (!empty($this->password) && $this->changePW) {
       $this->password = hash('sha256', $this->password . Yii::app()->params['stringcode']);
     }
@@ -208,6 +210,9 @@ class User extends BaseModel {
   protected function beforeValidate() {
     $this->create_date = $this->create_date != null ? $this->create_date : time();
     $this->last_update = time();
+    if ($this->isNewRecord) {
+      $this->id = uniqid("User_", true);
+    }
     if (date("Y-m-d H:i:s", strtotime($this->birthday)) !== FALSE) {
       
     } else {

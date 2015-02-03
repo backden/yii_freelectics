@@ -101,13 +101,26 @@ class Articles2 extends CActiveRecord {
     return $articles;
   }
 
-  public function getNewestArticleIdsLimit($limit = 10) {
+  public function getNewestArticleIdsLimit($limit = 10, $next = 1) {
     $articles = $this->unserializeArticleIds();
     $new = array();
-    if (isset($limit) && count($articles) > $limit) {
-      $new = array_slice($articles, -$limit, $limit);
+    if (isset($limit)) {
+      if (count($articles) < $limit) {
+        $limit = count($articles);
+      }
+      if ($limit * $next > count($articles)) {
+        $new = array_slice($articles, -count($articles), count($articles) - $limit * ($next - 1));
+      } else {
+        $new = array_slice($articles, -$limit * $next, $limit);
+      }
     } else if ($limit == null) {
-      $new = array_reverse($articles);
+      //$new = array_reverse($articles);
+      $limit = 10;
+      if ($limit * $next > count($articles)) {
+        $new = array_slice($articles, -count($articles), count($articles) - $limit * ($next - 1));
+      } else {
+        $new = array_slice($articles, -$limit * $next, $limit);
+      }
     }
     return $new;
   }

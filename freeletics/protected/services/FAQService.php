@@ -79,4 +79,18 @@ class FAQService extends BaseService {
     $critera->params = array(":key" => "%{$keyword}%");
     return Faq::model()->findAll($critera);
   }
+  
+  public function sendMail($options) {
+    $mail = Yii::app()->Smtpmail;
+    $mail->SMTPDebug = 1;
+    $mail->SetFrom($options['email'] == '' ? Yii::app()->params['adminEmail'] : $options['email'], "FAQ From Guest");
+    $mail->Subject = "[FAQ] " . $options['subject'];
+    $mail->MsgHTML("Question: <br/>" . $options['description']);
+    $mail->AddAddress($options['handler'] == '' ? Yii::app()->params['adminEmail'] : $options['handler']);
+    if (!$mail->Send()) {
+      echo "Mailer Error: " . $mail->ErrorInfo;
+    } else {
+      //echo "Message sent!";
+    }
+  }
 }

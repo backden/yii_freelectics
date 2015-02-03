@@ -53,6 +53,7 @@ class DefaultController extends Controller {
   }
 
   public function actionArticles() {
+    $this->layout = "//layouts/default";
     $this->redirect(Yii::app()->createUrl('/articles'));
   }
 

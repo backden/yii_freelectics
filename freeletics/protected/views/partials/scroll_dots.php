@@ -6,11 +6,24 @@
  */
 ?>
 
-<div data-spy="affix" data-offset-top="100"  class="pull-right">
+<script type="text/javascript">
+  $(function() {
+    $("#dot_bar").affix({
+      offset: {
+        top: 100,
+        bottom: function() {
+          return (this.bottom = $('.footer').outerHeight(true))
+        }
+      }
+    });
+  });
+</script>
+
+<div data-spy="affix" id="dot_bar" class="pull-right">
   <div id="dotNav">
     <span class="scroll-dots">
       <ul>
-<?php foreach ($sections as $section) : ?>
+        <?php foreach ($sections as $section) : ?>
           <li title="" class=""><a href="#<?php echo $section; ?>"></a></li>
         <?php endforeach; ?>
       </ul>
@@ -115,22 +128,24 @@
 </style>
 <script>
   /* dot nav */
-  $(window).bind('scroll', function (e) {
-    if($(this).scrollTop() < $("section").first().height() / 2) {
-      $("#dotNav").parent().hide("slow");
-    } else {
-      $("#dotNav").parent().show("slow");
-    }
-    redrawDotNav();
-  });
+  $(function() {
+    $(window).bind('scroll', function(e) {
+      if ($(this).scrollTop() < $("section").first().height() / 2) {
+        $("#dotNav").parent().hide("slow");
+      } else {
+        $("#dotNav").parent().show("fast");
+      }
+      redrawDotNav();
+    });
 
-  $(function () {
-    $(".scroll-collapse").click(function () {
+    $(".scroll-collapse").click(function() {
       $("#dotNav").animate({width: 'toggle'}, 350);
-      $(this).find("i").toggleClass("fa-dot-circle-o")
+      $(this).find("i").toggleClass("fa-dot-circle-o");
     });
 
     redrawDotNav();
+
+    $(".scroll-collapse").trigger("click");
   });
 
   function redrawDotNav() {
@@ -138,7 +153,7 @@
     var topNavHeight = $(window).height() / 2;
 
     $('#dotNav li a').removeClass('active').parent('li').removeClass('active');
-    $('section').each(function (i, item) {
+    $('section').each(function(i, item) {
       var ele = $(item), nextTop;
 
       if ($('section')[i + 1] !== undefined) {
@@ -164,7 +179,7 @@
   }
 
   /* get clicks working */
-  $('#dotNav li, #dotNav .scroll-top a').click(function () {
+  $('#dotNav li, #dotNav .scroll-top a').click(function() {
 
     var id = $(this).find('a').attr("href"),
             posi,

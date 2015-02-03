@@ -86,7 +86,7 @@
   });
 </script>
 
-<nav class="navbar navbar-custom navbar-fixed-top nav-menu-fixed" role="navigation" style="background-color: black">
+<nav class="navbar navbar-custom navbar-fixed-top nav-menu-fixed" role="navigation" style="background-color: black; max-height: 40px; padding: 0;">
   <div class="container top-fixed open-header-scroll" id="navbar-main">
     <div class="navbar-header">
       <li class="logo" style="display: inline-block;">
@@ -107,7 +107,7 @@
       <ul class="nav navbar-nav navbar-left" style="padding: 5px;">
         <li class="sign-up-collapse" id='sign_up_btn'>
           <?php if (!Yii::app()->user->isGuest) { ?>
-          <a class="btn btn-primary" href="<?php echo Yii::app()->createUrl('user'); ?>" >
+            <a class="btn btn-primary" href="<?php echo Yii::app()->createUrl('user'); ?>" >
               <?php echo _("Get Coach"); ?>
             </a>
           <?php } else { ?>
@@ -123,12 +123,8 @@
         </li>
         <li class="dropdown">
           <?php if (!Yii::app()->user->isGuest) { ?>
-            <a class="dropdown-toggle" data-toggle="dropdown" style="margin: 0; padding: 10px 8px;">
-              <div class="hexagon hexagon1 hexagon-sm" style="width:300px; height: 150px;">
-                <div class="hexagon-in1">
-                  <div class="hexagon-in2" style="background-image: url(<?php echo Yii::app()->baseUrl . '/img/X-man.jpg' ?>);"></div>
-                </div>
-              </div>
+            <a class="dropdown-toggle" data-toggle="dropdown" style="margin: 0; padding: 7px 8px 1px 10px;">
+              <canvas id="canvas_<?php echo Yii::app()->user->id; ?>" width="30" height="30" class="lower-canvas"></canvas>
             </a>
             <ul class="dropdown-menu">
               <li><a class="" href="<?php echo Yii::app()->createUrl("user/personal"); ?>"><?php echo Yii::t("app", "Personal"); ?></a></li>
@@ -136,6 +132,7 @@
               <li><a class="" href="<?php echo Yii::app()->createUrl("user/settings"); ?>"><?php echo Yii::t("app", "Setting"); ?></a></li>
               <li><a class="" href="<?php echo Yii::app()->createUrl("blog") . '?user=' . Yii::app()->user->id; ?>"><?php echo Yii::t("app", "Blog"); ?></a></li>
               <li><a class="" href="<?php echo Yii::app()->createUrl("user/physical"); ?>"><?php echo Yii::t("app", "Physical"); ?></a></li>
+              <li><a class="" href="<?php echo Yii::app()->createUrl("user/logout"); ?>"><?php echo Yii::t("app", "Log out"); ?></a></li>
             </ul>
           <?php } else { ?>
             <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-link"></i></a>
@@ -159,18 +156,20 @@
 
   <div id="sidebar-wrapper" style="width: 0;">
     <ul class="sidebar-nav">
-      <li class="sidebar-brand">
-        <a href="#"><?php echo Yii::t("app", 'Guild'); ?></a>
+      <li class="">
+        <a href="<?php echo Yii::app()->createUrl("default/guild"); ?>"><?php echo Yii::t("app", 'Guild'); ?></a>
       </li>
       <li>
-        <a href="#"><?php echo Yii::t("app", 'Articles'); ?></a>
+        <a href="<?php echo Yii::app()->createUrl("default/articles"); ?>"><?php echo Yii::t("app", 'Articles'); ?></a>
       </li>
       <li>
-        <a ><?php echo Yii::t("app", 'FAQ'); ?></a>
+        <a href="<?php echo Yii::app()->createUrl("default/support"); ?>"><?php echo Yii::t("app", 'FAQ'); ?></a>
       </li>
-      <li>
-        <a data-toggle="modal" data-target="#modal_login"><?php echo Yii::t("app", 'Login'); ?></a>
-      </li>
+      <?php if (Yii::app()->user->isGuest) { ?>
+        <li>
+          <a data-toggle="modal" data-target="#modal_login"><?php echo Yii::t("app", 'Login'); ?></a>
+        </li>
+      <?php } ?>
     </ul>
   </div>
   <!-- /.container -->
@@ -181,11 +180,23 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
       <ul class="nav navbar-nav">
-        <li class="login-button">
-          <a class="" data-toggle="modal" data-target="#modal_login">
-            <?php echo Yii::t('app', "Login"); ?>
-          </a>
+
+        <li class="">
+          <a href="<?php echo Yii::app()->createUrl("default/guild"); ?>"><?php echo Yii::t("app", 'Guild'); ?></a>
         </li>
+        <li>
+          <a href="<?php echo Yii::app()->createUrl("default/articles"); ?>"><?php echo Yii::t("app", 'Articles'); ?></a>
+        </li>
+        <li>
+          <a href="<?php echo Yii::app()->createUrl("default/support"); ?>"><?php echo Yii::t("app", 'FAQ'); ?></a>
+        </li>
+        <?php if (Yii::app()->user->isGuest) { ?>
+          <li class="login-button">
+            <a class="" data-toggle="modal" data-target="#modal_login">
+              <?php echo Yii::t('app', "Login"); ?>
+            </a>
+          </li>
+        <?php } ?>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown">
             EN
@@ -205,6 +216,10 @@
 </style>
 <script>
   $(function() {
+    var urlAvatar = 'https://freeletics-storage.s3.amazonaws.com/medium/69866fb18adca9ad8f0d178797e2c2af2807e46b.jpg?1421167497';
+    loadCanvas("canvas_<?php echo Yii::app()->user->id; ?>", urlAvatar, 0.2);
+  });
+  $(function() {
     $(".navbar-form.navbar-right").hide("slide", {direction: "right"}, "slow");
     $(".btn-search-form").click(function() {
       if ($(".navbar-form.navbar-right").hasClass("search-hidden")) {
@@ -219,5 +234,37 @@
         $(this).find("i").addClass("fa-search");
       }
     });
+
+//    setInterval(function() {
+//      $.get(
+//              "<?php echo Yii::app()->createUrl("checkNotification"); ?>",
+//              function(data) {
+//                if (data.status == '<?php echo Constant::RS_ST_OK; ?>') {
+//                  if (data.hasNew) {
+//                    //$("#modal_notification").find(".modal-title").html(data.);
+//                  }
+//                }
+//              },
+//              'json'
+//              );
+//    }, 10000);
   });
 </script>
+
+<div class="modal" id="modal_notification">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body…</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

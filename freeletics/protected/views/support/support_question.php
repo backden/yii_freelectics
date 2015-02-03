@@ -93,9 +93,9 @@ $type_question = SystemUtils::getCsvToArray("data/FAQ/Form_Define.csv");
     ?>
 
               "<?php echo $dataForm["name"] . "[" . $data['name'] . "]" ?>": {
-              <?php echo isset($data["required"]) ? 'required: ' . $data["required"] : ''; ?>
-                      <?php echo $data["name"] == 'email' ? ", email: true" : ""; ?>
-                      <?php echo isset($data["max-length"]) && $data["max-length"] > 0 ? ", rangelength: [0," . $data["max-length"] . "]" : ""; ?>
+    <?php echo isset($data["required"]) ? 'required: ' . $data["required"] : ''; ?>
+    <?php echo $data["name"] == 'email' ? ", email: true" : ""; ?>
+    <?php echo isset($data["max-length"]) && $data["max-length"] > 0 ? ", rangelength: [0," . $data["max-length"] . "]" : ""; ?>
               },
   <?php } ?>
             },

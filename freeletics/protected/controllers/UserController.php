@@ -26,11 +26,13 @@ class UserController extends Controller {
   public function accessRules() {
     return array(
         array('allow', // allow all users to perform 'index' and 'view' actions
-            'actions' => array('index', 'view'),
+            'actions' => array('index', 'view', 'activeaccount'),
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
-            'actions' => array('create', 'update', 'logout', 'home', 'training', 'info', 'feeds', 'personal', 'profile', 'settings'),
+            'actions' => array('create', 'update', 'logout', 'home', 'training', 'info', 'feeds', 'challenge',
+                'personal', 'profile', 'settings', 'nutrition', 'community', 'feedcomment', 'updateotherfeeds',
+                'checknotification'),
             'users' => array('@'),
         ),
         array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -48,7 +50,7 @@ class UserController extends Controller {
   }
 
   protected function beforeAction($action) {
-    if (Yii::app()->user->isGuest && !Yii::app()->request->isPostRequest) {
+    if (Yii::app()->user->isGuest && !Yii::app()->request->isPostRequest && !in_array(Yii::app()->controller->action->id, array("activeaccount"))) {
       $this->forward('/');
       return true;
     } else {
@@ -80,6 +82,14 @@ class UserController extends Controller {
       $model->attributes = $_POST['User'];
       $model->changePW = true;
       if ($model->save()) {
+        $userParams = array(
+            'user_id' => $model->id,
+            'email' => $model->email,
+            'first' => $model->first,
+            'first' => $model->last,
+            'create_date' => $model->create_date
+        );
+        UserServices::getInstance()->sendMail($userParams, "create_user", $model->email);
         echo json_encode(array('status' => true, 'email' => $model->email));
       } else {
         echo json_encode($result);
@@ -106,6 +116,7 @@ class UserController extends Controller {
    * Lists all models.
    */
   public function actionIndex() {
+    Yii::app()->session->add("payment_info", null);
     $category = Yii::app()->request->getParam("c", "");
     if (Yii::app()->user->isGuest) {
       $this->redirect("default");
@@ -253,8 +264,6 @@ class UserController extends Controller {
           echo json_encode(array('status' => FALSE, 'messasge' => "Can't update"));
         }
       } else {
-        var_dump($result);
-        exit;
         echo json_encode(array('status' => FALSE, 'messasge' => "Input invalid"));
       }
     } else {
@@ -345,10 +354,12 @@ class UserController extends Controller {
     if (trim($type) != '') {
       switch ($type) {
         case 'feed':
-          $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_feeds', 'data' => array()),));
+          $feeds = UserServices::getInstance()->getAllFeeds($user->id);
+          $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_feeds', 'data' => array('feeds' => $feeds)),));
           break;
         case 'recent':
-          $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_recent', 'data' => array()),));
+          $recents = UserServices::getInstance()->getRecentExercise($user->id);
+          $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_recent', 'data' => array('recents' => $recents)),));
           break;
         case 'PB':
           $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_PB', 'data' => array()),));
@@ -366,8 +377,47 @@ class UserController extends Controller {
           break;
       }
     } else {
-      $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_feeds', 'data' => array()),));
+      $feeds = UserServices::getInstance()->getAllFeeds($user->id);
+      $this->render("user", array('user' => $user, 'data' => array('partial' => 'personal_feeds', 'data' => array('feeds' => $feeds)),));
     }
+  }
+
+  public function actionUpdateOtherFeeds() {
+    $id = Yii::app()->request->getParam("id", null);
+    if ($id == null) {
+      return;
+    }
+    $userFollower = UserFollower::model()->findByAttributes(array("user_id" => Yii::app()->user->id));
+    $feeds = explode("***", $userFollower->feeds);
+    if (in_array($id, $feeds) == false) {
+      $feeds[] = $id;
+    } else {
+      foreach ($feeds as $index => $f) {
+        if ($f == $id) {
+          unset($feeds[$index]);
+          break;
+        }
+      }
+    }
+    $userFollower->feeds = implode("***", $feeds);
+    $userFollower->update();
+    
+    $userFollowing = UserFollowing::model()->findByAttributes(array("user_id" => Yii::app()->user->id));
+    $feeds = explode("***", $userFollowing->feeds);
+    if (in_array($id, $feeds) == false) {
+      $feeds[] = $id;
+    } else {
+      foreach ($feeds as $index => $f) {
+        if ($f == $id) {
+          unset($feeds[$index]);
+          break;
+        }
+      }
+    }
+    $userFollowing->feeds = implode("***", $feeds);
+    $userFollowing->update();
+    echo json_encode(array('status' => Constant::RS_ST_OK));
+    Yii::app()->end();
   }
 
   public function actionProfile() {
@@ -388,19 +438,243 @@ class UserController extends Controller {
     if (trim($following) != '') {
       Yii::app()->end();
     }
+    $rs = UserServices::getInstance()->updateFollower(array('follower' => $follower));
     $rs = UserServices::getInstance()->updateFollowing(array('following' => $following));
     echo json_encode($rs);
     Yii::app()->end();
   }
 
   public function actionFollower() {
-    $following = Yii::app()->request->getParam("follow", '');
-    if (trim($following) != '') {
+    $follower = Yii::app()->request->getParam("follow", '');
+    if (trim($follower) != '') {
       Yii::app()->end();
     }
+    $rs = UserServices::getInstance()->updateFollower(array('follower' => $follower));
     $rs = UserServices::getInstance()->updateFollowing(array('following' => $following));
     echo json_encode($rs);
     Yii::app()->end();
+  }
+
+  public function actionNutrition() {
+    Yii::app()->session->add("payment_info", null);
+    $this->render("nutrition", array(
+        'dataPayment' => PaymentService::getInstance()->getCostFromCSV(array('typePage' => 'nutrition')),
+        'typePage' => 'nutrition'
+      )
+    );
+  }
+
+  public function actionCommunity() {
+    $userFeeds = UserServices::getInstance()->getFeedRelated(Yii::app()->user->id);
+
+    $feeds = array();
+    if ($userFeeds) {
+      foreach ($userFeeds as $feed) {
+        $comment = UserCommunityComment::model()->findbyPk($feed->comment_id);
+        $userResult = UserExerciseResult::model()->findByPk($feed->user_result_id);
+        $exercise = Exercise::model()->findByPk($userResult->exercise_id);
+        $user = User::model()->findByPk($feed->user_id);
+
+        $datetime1 = new DateTime(date(DateTime::W3C, $userResult->time));
+        $datetime2 = new DateTime(date(DateTime::W3C, time()));
+        $interval = $datetime1->diff($datetime2);
+
+        $feedDTO = new FeedDTO;
+        $feedDTO->__set("id", $feed->id);
+        $feedDTO->__set("user_id", $feed->user_id);
+        $feedDTO->__set("user", $user);
+        $feedDTO->__set("exercise", $exercise);
+        $feedDTO->__set("time", $interval->format('%a days'));
+        $feedDTO->__set("comment_id", $feed->comment_id);
+        $feedDTO->__set("comment_text", $comment->comments);
+        $feedDTO->__set("extra_comments", unserialize($feed->extra_comments));
+        $feedDTO->__set("like", strpos($feed->extra_like, Yii::app()->user->id) !== false ? true : false);
+        $results = array();
+        foreach ($userResult as $key => $value) {
+          $results[$key] = $value;
+        }
+        $feedDTO->__set("result", $results);
+        $feedDTO->__set("create_date", $feed->create_date);
+        $feeds[$feed->id] = $feedDTO;
+      }
+    }
+    $this->render('feed', array(
+        'feeds' => $feeds
+    ));
+  }
+
+  public function actionFeedComment() {
+    $user = User::model()->findByPk(Yii::app()->user->id);
+    $userId = $first = $last = $avatar = '';
+    if ($user != null) {
+      $userId = $user->id;
+      $first = $user->first;
+      $last = $user->last;
+      $avatar = $user->avatar;
+    }
+    $ip = '';
+    if ($userId == '') {
+      if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+      } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+      } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+      }
+    } else {
+      $ip = $userId;
+    }
+    $results = array('results' => array());
+    $comments = array(
+        'comments' => array(),
+        'total_comment' => 0,
+        'user' => array(
+            'user_id' => $userId,
+            'fullname' => $first . ' ' . $last,
+            'picture' => $avatar == '' ? Yii::app()->baseUrl . '/css/images/user_blank_picture.png' : $avatar,
+            'is_logged_in' => $userId == '' ? false : true,
+            'is_add_allowed' => true,
+            'is_edit_allowed' => false,
+        ),
+    );
+    $action = Yii::app()->request->getParam("comments", 'list');
+    $parent_id = Yii::app()->request->getParam("parent_id", -1);
+    $parentComment = CommentDetail::model()->findByAttributes(array("parent_id" => $parent_id));
+    $cmms = array();
+    switch ($action) {
+      case 'add':
+        $commentData = array(
+            'user_id' => $userId,
+            'parent_id' => $parent_id,
+            'text' => Yii::app()->request->getParam("text", ''),
+            'article_id' => Yii::app()->request->getParam("id", -1),
+            'first' => $first,
+            'last' => $last,
+            'picture' => $avatar,
+            'name_to' => isset($parentComment) ? $parentComment->fullname : '',
+        );
+        $cmms = CommentService::getInstance()->addComment($userId, $commentData, $parent_id);
+        if ($cmms != null) {
+          $result['status'] = Constant::RS_ST_OK;
+        }
+        break;
+      case 'like':
+        $commentId = Yii::app()->request->getParam("comment_id", null);
+        if ($commentId == null || trim($commentId) == '') {
+          break;
+        }
+        try {
+          $rs = CommentService::getInstance()->addLike($ip, $commentId);
+          if ($rs['status'] == true) {
+            $results['total'] = count($rs['data']);
+            $results['status'] = Constant::RS_ST_OK;
+          } else {
+            Yii::log(__METHOD__ . " -- Result is false", LOG_ERR);
+          }
+        } catch (Exception $e) {
+          $results['status'] = Constant::RS_ST_ERROR;
+          $results['error'] = $e->getMessage();
+        }
+        break;
+      default :
+//        $results['status'] = Constant::RS_ST_OK;
+        break;
+    }
+    $feedId = Yii::app()->request->getParam('id');
+    $order = Yii::app()->request->getParam('order', null);
+    $comments['comments'] = CommentService::getInstance()->getCommentFeed($feedId, array('ip' => $ip, 'order' => $order));
+    $comments['total_comment'] = count($comments['comments']);
+    $results['results'] = $comments;
+    echo json_encode($results);
+    Yii::app()->end();
+  }
+
+  public function actionChallenge() {
+    if (!Yii::app()->request->isPostRequest) {
+      $exercises = Exercise::model()->findAll();
+      $user = User::model()->findByPk(Yii::app()->user->id);
+      $myExercises = unserialize($user->getRelated('exercise')->exercise_ids);
+      $exerciseCategory = ExerciseCategory::model()->findAll();
+      $users = UserServices::getInstance()->getUserChallenge();
+      $this->render("challenge", array(
+          'myExercises' => $myExercises,
+          'exercises' => $exerciseCategory,
+          'users' => $users
+      ));
+    } else {
+      $exercises = Yii::app()->request->getParam("exercises");
+      $users = Yii::app()->request->getParam("user");
+      $time = Yii::app()->request->getParam("time");
+      if ($exercises != null && $users != null && $time != null) {
+        $exercises = explode(",", $exercises);
+        $users = explode(",", $users);
+        $_exercise = array();
+        foreach ($exercises as $exercise) {
+          $exe = Exercise::model()->findByPk($exercise);
+          if ($exe) {
+            $_exercise[] = $exe->id;
+          }
+        }
+        $owner = User::model()->findByPk(Yii::app()->user->id);
+        foreach ($users as $user) {
+          $us = User::model()->findByPk($user);
+          if ($us) {
+            if (UserServices::getInstance()->isCanChallenge($us)) {
+              //invite
+              $noti = new UserNotification;
+              $noti->title = Yii::t("app", "message_invitation_challenge_personal", array("[0]" => $owner->first . ' ' . $owner->last));
+              $noti->text = "";
+              $noti->user_id = $us->id;
+              $noti->save();
+            }
+          }
+        }
+        $challenge = new Challenge;
+        $challenge->challenger = Yii::app()->user->id;
+        // currently, 1 user invited
+        $challenge->user_id = $user = implode(",", $users);
+        $challenge->exercises = implode(",", $_exercise);
+        $challenge->time = $time;
+        if ($challenge->save()) {
+          $this->render("challenge_complete", array(
+          ));
+        } else {
+          
+        }
+      }
+    }
+  }
+
+  public function actionCheckNotification() {
+    $noti = UserServices::getInstance()->checkNotification(Yii::app()->user->id);
+    $results = array('status' => Constant::RS_ST_OK, 'hasNew' => count($noti) > 0, 'notification' => $noti);
+
+    echo json_encode($results);
+    Yii::app()->end();
+  }
+
+  public function actionActiveAccount() {
+    $token = Yii::app()->request->getParam("token", '');
+    $userActive = UserActive::model()->findByAttributes(array(
+        'token' => $token
+    ));
+    if ($userActive) {
+      if (strtotime($userActive->create_date) + 60 * 15 < time()) {
+        $this->layout = '//layouts/default';
+        $this->render("//default/default", array('model' => new User()));
+      } else {
+        $userActive->confirm = date('Y-m-d H:i:s', time());
+        $userActive->update();
+
+        $user = User::model()->findByPk($userActive->user_id);
+        $user->active = 1;
+        $user->update();
+
+        $this->redirect(Yii::app()->createUrl("default"));
+      }
+    } else {
+      echo "ERROR";
+    }
   }
 
 }

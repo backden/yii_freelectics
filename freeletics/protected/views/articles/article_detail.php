@@ -5,20 +5,16 @@
  * and open the template in the editor.
  */
 ?>
-<link href="<?php echo Yii::app()->baseUrl; ?>/css/jquery.comment.css" rel="stylesheet" type="text/css"/>
-<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.comment.js" type="text/javascript"></script>
-<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.autogrow-textarea.js" type="text/javascript"></script>
-<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.timeago.js" type="text/javascript"></script>
 <?php
-$this->renderPartial("//partials/scroll_dots", array(
-    "sections" => array("intro", "section_menu", "section_content", "section_list_more_articles")
-));
+//$this->renderPartial("//partials/scroll_dots", array(
+//    "sections" => array("intro", "section_menu", "section_content", "section_list_more_articles")
+//));
 ?>
 
 <?php
 echo $this->renderPartial("//partials/section_intro_articles", array(
     "width" => "auto",
-    "height" => "400px",
+    "height" => "300px",
     "data" => array(
         array("caption" => "THE SHAPE OF YOUR LIFE. PERIOD.", "img" => "https://www.freeletics.com/images/landing_page/hero.jpg", "href" => "anchor link"),
         array("caption" => 'Caption2', "img" => "https://www.freeletics.com/images/landing_page/hero.jpg", "href" => "anchor link"),
@@ -29,11 +25,11 @@ echo $this->renderPartial("//partials/section_intro_articles", array(
 <?php
 $this->renderPartial("//partials/section_menu_dynamic", array(
     "menus" => $menus = array(
-      "Training Advice" => array("id" => "training", 'links' => array('articles_training'), "menus" => array()),
-      "Nutrition Advice" => array("id" => "nutrition", 'links' => array('articles_nutrition'), "menus" => array()),
-      "Motivation" => array("id" => "motivation", 'links' => array('articles_motivation'), "menus" => array()),
-      "Lifestyle" => array("id" => "lifestyle", 'links' => array('articles_lifestyle'), "menus" => array()),
-      "Success Stories" => array("id" => "SStories", 'links' => array('blog', 'mod_written'), "menus" => array("Blog", "Mod written"))
+      "Training Advice" => array("id" => "training", 'links' => array('?c=articles_training'), "menus" => array()),
+      "Nutrition Advice" => array("id" => "nutrition", 'links' => array('?c=articles_nutrition'), "menus" => array()),
+      "Motivation" => array("id" => "motivation", 'links' => array('?c=articles_motivation'), "menus" => array()),
+      "Lifestyle" => array("id" => "lifestyle", 'links' => array('?c=articles_lifestyle'), "menus" => array()),
+      "Success Stories" => array("id" => "SStories", 'links' => array('?c=blog', '?c=mod_written'), "menus" => array("Blog", "Mod written"))
     )
 ));
 ?>
@@ -58,36 +54,36 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
 </style>
 <section id="section_content">
   <div class="container" >
-    <div class="col-md-9 col-xs-8">
+    <div class="col-md-9 col-xs-12">
       <div class="row">
-        <div class="col-md-9 col-xs-8">
+        <div class="col-md-9 col-xs-12">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3><?php echo html_entity_decode($article['title']); ?></h3>
+              <h5><?php echo html_entity_decode($article['title']); ?></h5>
             </div>
             <div class="panel panel-body" >
               <div class="row" style="font-size: 14px;">
-                <div class="col-md-6">
+                <div class="col-md-9">
                   <span class="text-muted"><?php echo $author->first . $author->last; ?></span>
                   <span class="text-muted"><?php echo $article->create_date; ?></span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <div class="row">
-                    <div class="col-md-3 pull-right btn-shares">
+                    <div class="pull-right btn-shares">
                       <a class="col-md-12 col-xs-12 share-icons">
                         <i class="fa fa-star"></i>&nbsp;<span class=""><?php echo $article->like_total; ?></span>
                       </a>
                       <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
                         <div class="row">
                           <div class="col-md-6">
-                            <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>&t=<?php echo $article->title; ?>"
+                            <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("article" => $article->id)); ?>&t=<?php echo $article->title; ?>"
                                target="blank">
                               <i class="fa fa-facebook"></i>
                             </a>
                             <span class="article_FB_<?php echo $article->id; ?>">0</span>
                           </div>
                           <div class="col-md-6">
-                            <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>">
+                            <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("article" => $article->id)); ?>">
                               <i class="fa fa-twitter"></i>
                             </a>
                             <span class="article_TW_<?php echo $article->id; ?>">0</span>
@@ -95,7 +91,7 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
                         </div>
                         <div class="row">
                           <div class="col-md-6">
-                            <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>" class="">
+                            <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("article" => $article->id)); ?>" class="">
                               <i class="fa fa-google-plus"></i>
                             </a>
                             <span class="article_GP_<?php echo $article->id; ?>">0</span>
@@ -114,9 +110,9 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
                         <i class="fa fa-share-alt"></i>
                       </a>
                       <ul class="dropdown-menu" style="min-width: 0;">
-                        <li><a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>&t=<?php echo $article->title; ?>"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $article->id)); ?>"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("article" => $article->id)); ?>&t=<?php echo $article->title; ?>"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("article" => $article->id)); ?>"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("article" => $article->id)); ?>"><i class="fa fa-google-plus"></i></a></li>
                       </ul>
                     </div>
                   </div>
@@ -136,9 +132,9 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
             </div>
           </div>
         </div>
-        <div class="col-md-3 col-xs-4">
+        <div class="col-md-3 col-xs-12">
           <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading hidden">
               <h4><?php echo "Title Column"; ?></h4>
             </div>
             <div class="panel panel-body">
@@ -148,51 +144,45 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
                   ?>
                   <div class="row list-group-item">
                     <div class="col-md-12 pull-left">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $art->id)); ?>" class="">
-                            <img src="data:image/png;base64,<?php $art->image_title; ?>" width="100%"/>
-                          </a>
-                        </div>
-                        <div class="col-md-6 btn-shares">
+                      <div class="" style="min-height: 45px;">
+                        <a href="<?php echo Yii::app()->createUrl("articles/", array("article" => $art->id)); ?>" class="text-title">
+                          <?php echo $art->title, 50; ?>
+                        </a>
+                        <div class="btn-shares" style="display: inline-block; float: right;">
                           <a class="col-md-12 col-xs-12 share-icons">
                             <i class="fa fa-star"></i>&nbsp;<span class=""><?php echo $art->like_total; ?></span>
                           </a>
-                          <!--                          <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
-                                                      <div class="row">
-                                                        <div class="col-md-6">
-                                                          <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $art->id)); ?>&t=<?php echo $art->title; ?>"
-                                                             target="blank">
-                                                            <i class="fa fa-facebook"></i>
-                                                          </a>
-                                                          <span class="article_FB_<?php echo $art->id; ?>">0</span>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                          <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $art->id)); ?>">
-                                                            <i class="fa fa-twitter"></i>
-                                                          </a>
-                                                          <span class="article_TW_<?php echo $art->id; ?>">0</span>
-                                                        </div>
-                                                      </div>
-                                                      <div class="row">
-                                                        <div class="col-md-6">
-                                                          <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/articles', array("id" => $art->id)); ?>" class="">
-                                                            <i class="fa fa-google-plus"></i>
-                                                          </a>
-                                                          <span class="article_GP_<?php echo $art->id; ?>">0</span>
-                                                        </div>
-                                                        <div class="col-md-6"><a class=""><i class="fa fa-comment"></i></a></div>
-                                                      </div>
-                                                    </div>-->
+                          <div class="col-md-10 pop-share" style="min-width: 100px; height: 50px; background-color: black; display: none">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <a href="https://www.facebook.com/sharer.php?u=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("articles" => $art->id)); ?>&t=<?php echo $art->title; ?>"
+                                   target="blank">
+                                  <i class="fa fa-facebook"></i>
+                                </a>
+                                <span class="article_FB_<?php echo $art->id; ?>">0</span>
+                              </div>
+                              <div class="col-md-6">
+                                <a class="" href="https://twitter.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("articles" => $art->id)); ?>">
+                                  <i class="fa fa-twitter"></i>
+                                </a>
+                                <span class="article_TW_<?php echo $art->id; ?>">0</span>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <a href="https://plus.google.com/share?url=<?php echo Yii::app()->createAbsoluteUrl('articles/', array("articles" => $art->id)); ?>" class="">
+                                  <i class="fa fa-google-plus"></i>
+                                </a>
+                                <span class="article_GP_<?php echo $art->id; ?>">0</span>
+                              </div>
+                              <div class="col-md-6"><a class=""><i class="fa fa-comment"></i></a></div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-12">
-                      <a href="<?php echo Yii::app()->createUrl("articles/", array("id" => $art->id)); ?>" class="">
-                        <p class="list-group-item-text">
-                          <?php echo CString::truncate($art->title, 150); ?>
-                        </p>
-                      </a>
+                    <div class="">
+
                     </div>
                   </div>
                   <?php
@@ -217,7 +207,6 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
             <div class="comment-container"></div> 
           </div>
           <div class="tab-pane fade in" id="most-views">
-            <div class="comment-container"></div> 
           </div>
         </div>
       </div>
@@ -254,12 +243,13 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
     }
   });
 
-  $('#list-articles-first').slimScroll({
-    height: '450px',
-    alwaysVisible: false
-  });
   var comments = {};
-  $(document).ready(function() {
+  $(function() {
+
+    $('#list-articles-first').slimScroll({
+      height: '450px',
+      alwaysVisible: false
+    });
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
       var target = e.target; // newly activated tab
@@ -267,9 +257,9 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
       $('div.comment-container').remove();
       var div = $('<div />', {class: 'comment-container'}).appendTo($($("" + $(target).attr("href"))));
       if ($(this).attr("order") == 0) {
-        createComments('newest');
+        createComments('newest', div);
       } else {
-        createComments('most');
+        createComments('most', div);
       }
     });
 
@@ -296,7 +286,8 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
         console.log(data);
       },
       onLike: function(data) {
-      }});
+      }
+    });
   }
 
 </script>
@@ -307,14 +298,19 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
       <div class="basic" id="frame">
         <ul>
           <?php
-          $i = 0;
-          while ($i < 10) {
+          foreach ($article_category as $article) {
             ?>
             <li>
-              <div class="image-cover image-cover-sm"></div>
+              <div>
+                <img src="data:image/png;base64,<?php echo $article->image_title; ?>" width="100%"/>
+                <div class="" style="min-height: 45px;">
+                  <a href="<?php echo Yii::app()->createUrl("articles/", array("article" => $article->id)) . "?c=$c->name"; ?>">
+                    <?php echo $article->title; ?>
+                  </a>
+                </div>
+              </div>
             </li>
             <?php
-            $i++;
           }
           ?>
         </ul>
@@ -425,6 +421,31 @@ $this->renderPartial("//partials/section_menu_dynamic", array(
 
   .share-icons {
     color: black;
+    min-height: 60px !important;
+  }
+
+  .btn-shares {
+    /*min-height: 60px;*/
+    max-height: 20px;
+  }
+
+  .top-heading-article .panel .panel-body {
+    min-height: 150px;
+  }
+
+  #first-article a.title-article {
+    font-size: 14px;
+    max-width: 150px;
+    display: inline-block;
+    float: left;
+  }
+
+  #first-article p {
+    font-size: 14px;
+  }
+
+  .text-title {
+    font-size: 12px;
   }
 </style>
 <script>

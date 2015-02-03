@@ -6,7 +6,7 @@ class ArticlesController extends Controller {
    * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
    * using two-column layout. See 'protected/views/layouts/column2.php'.
    */
-  public $layout = '//layouts/default_2';
+  public $layout = '//layouts/default';
 
   /**
    * @return array action filters
@@ -26,7 +26,7 @@ class ArticlesController extends Controller {
   public function accessRules() {
     return array(
         array('allow', // allow all users to perform 'index' and 'view' actions
-            'actions' => array('index', 'view', 'articles', 'comments'),
+            'actions' => array('index', 'view', 'articles', 'comments', 'article'),
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -159,6 +159,29 @@ class ArticlesController extends Controller {
     }
   }
 
+  public function actionArticle() {
+    $id = Yii::app()->request->getParam('id', null);
+    $category = Yii::app()->request->getParam('c', null);
+    if (isset($id)) {
+      $article = Articles::model()->findByPk($id);
+      $results = ArticleService::getInstance()->getSpecifyArticle();
+      $category = Articles2::model()->findByAttributes(array("name" => $category));
+      $news = ArticleService::getInstance()->getSpecifyArticle($category, 1)['news'];
+      if (isset($article)) {
+        $user = User::model()->findByPk($article->user_id);
+        $this->render("article_detail", array(
+            "articles" => $results['news'],
+            "article" => $article,
+            'author' => $user,
+            'article_category' => $news,
+            'c' => $category
+        ));
+      } else {
+        $this->redirect(Yii::app()->createUrl("default"));
+      }
+    }
+  }
+
   public function actionArticles() {
     $id = Yii::app()->request->getParam('a', null);
     $category = Yii::app()->request->getParam('c', null);
@@ -184,8 +207,9 @@ class ArticlesController extends Controller {
         $this->redirect(Yii::app()->createUrl("default"));
       }
     } else if (isset($category)) {
+      $pageCurrent = Yii::app()->request->getParam('page', 1);
       $category = Articles2::model()->findByAttributes(array("name" => $category));
-      $results = ArticleService::getInstance()->getSpecifyArticle($category);
+      $results = ArticleService::getInstance()->getSpecifyArticle($category, $pageCurrent);
       if ($category == null) {
         $this->redirect('/default');
         Yii::app()->end();
@@ -194,16 +218,20 @@ class ArticlesController extends Controller {
       $news = $results['news'];
       $newsOther[] = $results[$category->name];
 
-      $pageCurrent = Yii::app()->request->getParam('page', 1) - 1;
-      $pages = new CPagination(count($news));
-      $pages->pageSize = 5;
-      $pages->setCurrentPage($pageCurrent);
-      $news = array_slice($news, $pageCurrent * 5, 5);
+      $totalArticles = 0;
+      if ($category) {
+        $totalArticles = count($category->unserializeArticleIds());
+      }
+      $pages = new CPagination($totalArticles);
+      $pages->pageSize = 10;
+      $pages->setCurrentPage($pageCurrent - 1);
+      //$news = array_slice($news, $pageCurrent * 5, 5);
       $this->render("articles", array(
           'articles' => $news,
           'hotArticle' => $hotNew,
           'others' => $newsOther,
           'pages' => $pages,
+          "c" => $category
       ));
     } else {
       $article_other = array(
@@ -213,7 +241,8 @@ class ArticlesController extends Controller {
           "articles_lifestyle",
           "articles_success_stories",
       );
-      $results = ArticleService::getInstance()->getSummarizeArticle($article_other);
+      //$results = ArticleService::getInstance()->getSummarizeArticle($article_other);
+      $results = ArticleService::getInstance()->getSummarizeArticle();
       $hotNew = $results['hot'];
       $news = $results['news'];
       $newsOther = array();
@@ -224,6 +253,7 @@ class ArticlesController extends Controller {
           'articles' => $news,
           'hotArticle' => $hotNew,
           'others' => $newsOther,
+          'article_category' => $news
       ));
     }
   }

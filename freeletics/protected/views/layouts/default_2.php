@@ -72,7 +72,7 @@ $cs = Yii::app()->clientScript;
         </div>
       </div>
     </div>
-  </div>
-</body>
+    
+  </body>
 
 </html>

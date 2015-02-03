@@ -97,16 +97,49 @@ class CommentService extends BaseService {
     return $comments;
   }
 
+  public function getCommentFeed($feedId = '', $options = array()) {
+    $feed = UserFeeds::model()->findByPk($feedId);
+    if ($feed == null) {
+      throw new Exception("Feed not found");
+    }
+    $order = array(
+        'posted_date',
+    );
+    if (isset($options['order'])) {
+      switch ($options['order']) {
+        case 'most':
+          $order = array("total_like_comment desc");
+          break;
+        case 'newest':
+          break;
+        default :
+          break;
+      }
+    }
+    $criteria = new CDbCriteria();
+    $criteria->condition = "article_id = :id AND parent_id = -1";
+    $criteria->limit = Constant::LIMIT_COMMENTS_PERPAGE;
+    $criteria->offset = isset($options['page']) && $options['page'] != '' ? $options['page'] * Constant::LIMIT_COMMENTS_PERPAGE : 0;
+    $criteria->order = implode(", ", $order);
+    $criteria->params = array(":id" => $feed->id);
+    $commentArticle = CommentDetail::model()->findAll($criteria);
+    $comments = $this->_getChildComments($commentArticle);
+    return $comments;
+  }
+
   private function _getChildComments($commentArticle) {
     $comments = array();
     foreach ($commentArticle as $cmm) {
-      $commentP = $this->generateComment($cmm);
+      $commentP = $this->generateComment($cmm, $cmm->parent_id);
       $childs = CommentDetail::model()->findAllByAttributes(array("parent_id" => $cmm->comment_id));
-      foreach ($childs as $index => $child) {
-        $nextChilds = $this->_getChildComments($child);
-        $commentChild = $this->generateComment($child, $cmm->comment_id);
-        $commentChild['childrens'] = $nextChilds;
-        $commentP['childrens'][] = $commentChild;
+      $commentChild = array();
+      if (count($childs) > 0) {
+        $nextChilds = $this->_getChildComments($childs);
+        $commentP['childrens'] = $nextChilds;
+      } else {
+//        $commentChild = $this->generateComment($cmm, $cmm->comment_id);
+      }
+      if ($commentChild != null) {
       }
       $comments[] = $commentP;
     }
@@ -122,7 +155,6 @@ class CommentService extends BaseService {
     if ($comment == null) {
       return array();
     }
-    var_dump($comment);exit;
     if (is_array($comment)) {
       $prototype = array(
           "comment_id" => $comment['comment_id'],
@@ -135,7 +167,7 @@ class CommentService extends BaseService {
           "posted_date" => $comment['posted_date'],
           "text" => $comment['text'],
           "attachments" => '',
-          "childrens" => '',
+          "childrens" => array(),
           "total_like" => $comment['total_like'],
           'liked' => $comment['liked'],
       );
@@ -151,7 +183,7 @@ class CommentService extends BaseService {
           "posted_date" => $comment->posted_date,
           "text" => $comment->text,
           "attachments" => '',
-          "childrens" => '',
+          "childrens" => array(),
           "total_like" => $comment->getTotalLike(),
           'liked' => $comment->isLiked(),
       );

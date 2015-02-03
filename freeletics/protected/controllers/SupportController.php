@@ -75,8 +75,8 @@ class SupportController extends Controller {
         $data = $_POST[(string) $filetype];
         $requiredFields = array();
         foreach ($dataForm['data'] as $d) {
-          if (isset($d['required']) && $d['required'] == true) {
-            $requiredFields[] = $d["name"];
+          if (isset($d->required) && $d->required == true) {
+            $requiredFields[] = $d->name;
           }
         }
         $arrKeys = array_keys($data);
@@ -97,6 +97,16 @@ class SupportController extends Controller {
         /*
          * TODO: send mail
          */
+        $options = array(
+          "subject" => $data['subject'],
+          "email" => $data['email'],
+          "handler" => "exp.hl.pc@gmail.com",
+          "description" => $data['description'],
+          "extra" => $data['extra'],
+        );
+        var_dump($data);
+        //FAQService::getInstance()->sendMail($options);
+        //$this->redirect(Yii::app()->createUrl("support"));
       } else {
         Yii::app()->end();
       }

@@ -343,6 +343,7 @@
             function(data) {
               if (data.status == '<?php echo Constant::RS_ST_ERROR; ?>') {
                 //error server, stop payment
+                alert(data.message);
                 return;
               }
               if (type == '<?php echo Constant::PAYMENT_PAYPAL; ?>') {

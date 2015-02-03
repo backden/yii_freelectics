@@ -19,6 +19,24 @@
     text-align: left;
     font-size: 10px;
   }
+  
+  .panel-information img {
+    width: 100%;
+  }
+  
+  @media(min-width: 700px) {
+    .top-container {
+      margin-top: 85px;
+    }
+  }
+  @media(max-width: 680px) {
+    .top-container {
+      margin-top: 40px;
+    }
+    
+    .container {
+    }
+  }
 </style>
 <script>
   $(function() {
@@ -30,8 +48,8 @@
   <?php
   $this->renderPartial("//partials/section_menu_dynamic", array(
       'fixed' => true,
-      'controller' => '',
-      'width' => '40%',
+      'controller' => 'user',
+      'width' => '32%',
       "menus" => $menus = array(
         "Training" => array('links' => array("training"),),
         "Nutrition" => array('links' => array("nutrition"),),
@@ -40,9 +58,9 @@
   ));
   ?>
 <?php } ?>
-<div class="container" style="margin-top: 85px;">
+<div class="container top-container">
   <div class="row">
-    <div class="col-md-7 col-md-offset-1" style="padding-right: 0">
+    <div class="col-md-7 col-md-offset-1" style="">
       <div class="row">
         <div class="col-md-12">
           <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -268,7 +286,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row panel-information">
         <div class="col-md-12">
           <h3 style="margin-top: 40px; margin-bottom: 0px;"><center>Success Stories with the Coach</center></h3>
         </div>
@@ -381,7 +399,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row panel-information">
         <div class="col-md-12" style="text-align: center;">
           <div class="panel panel-default">
             <div class="panel-body">
@@ -396,7 +414,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row panel-information">
         <div class="col-md-12" style="text-align: center;">
           <div class="panel panel-default">
             <div class="panel-body">
@@ -411,7 +429,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row panel-information">
         <div class="col-md-12" style="text-align: center;">
           <div class="panel panel-default">
             <div class="panel-body">

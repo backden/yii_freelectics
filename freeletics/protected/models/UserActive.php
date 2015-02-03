@@ -1,27 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "user_feeds".
+ * This is the model class for table "user_active".
  *
- * The followings are the available columns in table 'user_feeds':
+ * The followings are the available columns in table 'user_active':
  * @property string $id
  * @property string $user_id
- * @property string $comment_id
- * @property string $user_result_id
- * @property string $extra
- * @property string create_date
- * @property string last_date
- * @property string like
- * @property string extra_like
+ * @property string $token
+ * @property string $create_date
+ * @property string $last_update
+ * @property string $confirm
+ * @property string $url
  */
-class UserFeeds extends CActiveRecord
+class UserActive extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'user_feeds';
+		return 'user_active';
 	}
 
 	/**
@@ -32,12 +30,12 @@ class UserFeeds extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-    array('id', 'length', 'max'=>40),
-			array('user_id, comment_id, user_result_id', 'length', 'max'=>20),
-			array('extra, like, extra_like', 'safe'),
+			array('id', 'required'),
+			array('id, user_id', 'length', 'max'=>40),
+			array('text, create_date, last_update, confirm, url', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, user_id, comment_id, user_result_id, extra, like, create_date, last_update', 'safe', 'on'=>'search'),
+			array('id, user_id, token, create_date, last_update, confirm, url', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,7 +47,6 @@ class UserFeeds extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-      'user_result' => array(self::HAS_ONE, 'UserExerciseResult', 'id'),
 		);
 	}
 
@@ -61,12 +58,11 @@ class UserFeeds extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'user_id' => 'User',
-			'comment_id' => 'Comment',
-			'user_result_id' => 'User Result',
-			'extra' => 'Extra',
-			'like' => 'Like',
-			'last_update' => 'last_update',
-			'create_date' => 'create_date',
+			'token' => 'Token',
+			'create_date' => 'Create Date',
+			'last_update' => 'Last Update',
+			'confirm' => 'Confirm',
+			'url' => 'Url',
 		);
 	}
 
@@ -90,13 +86,11 @@ class UserFeeds extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('user_id',$this->user_id,true);
-		$criteria->compare('comment_id',$this->comment_id,true);
-		$criteria->compare('user_result_id',$this->user_result_id,true);
-		$criteria->compare('extra',$this->extra,true);
-		$criteria->compare('like',$this->like,true);
-		$criteria->compare('create_date',$this->like,true);
-		$criteria->compare('last_update',$this->like,true);
-		$criteria->compare('extra_like',$this->like,true);
+		$criteria->compare('token',$this->token,true);
+		$criteria->compare('create_date',$this->create_date,true);
+		$criteria->compare('last_update',$this->last_update,true);
+		$criteria->compare('confirm',$this->confirm,true);
+		$criteria->compare('url',$this->url,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -107,7 +101,7 @@ class UserFeeds extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UserFeeds the static model class
+	 * @return UserActive the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -116,8 +110,18 @@ class UserFeeds extends CActiveRecord
  
  protected function beforeValidate() {
    if ($this->isNewRecord) {
-    $this->id = uniqid("feed_", true);
+     $this->id = uniqid("active_", true);
+     $this->create_date = date("Y-m-d H:i:s", time());
+     $this->last_update = date("Y-m-d H:i:s", time());
    }
    return parent::beforeValidate();
+ }
+ 
+ protected function beforeSave() {
+   if ($this->isNewRecord) {
+   } else {
+     $this->last_update = date("Y-m-d H:i:s", time());
+   }
+   return parent::beforeSave();
  }
 }

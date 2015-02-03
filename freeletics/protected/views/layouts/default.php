@@ -15,12 +15,14 @@ $cs = Yii::app()->clientScript;
     <meta name="author" content="">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="language" content="en" />
+    <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js"></script>
   </head>
   <body id="page-top" class="main" data-spy="scroll" data-target=".navbar-custom" style="overflow-x: hidden;">
     <!-- Preloader -->
     <div id="preloader">
       <div id="load"></div>
     </div>
+    <?php $this->renderPartial("//partials/modal_user", array('model' => isset($model) ? $model : new User)); ?>
     <?php $this->renderPartial("//partials/navbar_homepage"); ?>
 
     <?php echo $content; ?>
@@ -48,7 +50,7 @@ $cs = Yii::app()->clientScript;
       }
 
     </style>
-    <nav class="navbar navbar-custom nav-footer-fixed" role="navigation" style="background-color: black">
+    <nav class="navbar navbar-custom nav-footer-fixed" role="navigation" style="background-color: black;">
       <div class="">
         <h5 class="text-center" style="color: #ffffff;">Copyright © 2014. All Rights Reserved.</h5>
       </div>
@@ -72,5 +74,99 @@ $cs = Yii::app()->clientScript;
       </div>
     </div>
 </body>
-<?php $this->renderPartial("//partials/script_css"); ?>
+<?php { $this->renderPartial("//partials/script_css"); } ?>
+<link href="<?php echo Yii::app()->baseUrl; ?>/css/jquery.comment.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.comment.js" type="text/javascript"></script>
+<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.autogrow-textarea.js" type="text/javascript"></script>
+<script src="<?php echo Yii::app()->baseUrl; ?>/js/jquery.timeago.js" type="text/javascript"></script>
+<script>
+  function validate(data) {
+    if (!data.status) {
+      var text = '';
+      $.each(data.data, function(key, value) {
+        text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
+      });
+      $("#modal_error .modal-body .message").html(text);
+      $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+      $("#modal_error").modal("show");
+    } else if (undefined !== data.email) {
+      var message = '<?php echo Yii::t('app', 'Registr successfully. Check [0] to confirm.'); ?>';
+      message = message.replace("[0]", data.email);
+      $("#modal_success .modal-body .message").text(message);
+      $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+      $("#modal_success").modal("show");
+    }
+  }
+
+  function loginResult(data) {
+    if (data.status == true) {
+      window.location.href = '<?php echo Yii::app()->createUrl('/user'); ?>';
+    } else {
+      showError(data);
+    }
+  }
+
+  function showError(data) {
+    var text = '';
+    if (data.data && $.isArray(data.data)) {
+      $.each(data.data, function(key, value) {
+        text += "<strong style='color: red'>" + key + ":</strong> " + value.join("<br/>") + "<br/>";
+      });
+    } else if (data.data) {
+      for (key in data.data) {
+        text += "<strong style='color: red'>" + key + ":</strong> " + data.data[key].join("<br/>") + "<br/>";
+      }
+    }
+    if (data.message) {
+      text = data.message;
+    }
+    $("#modal_error .modal-body .message").html(text);
+    $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+    $("#modal_error").modal("show");
+  }
+
+  function forgotResult(data) {
+    if (data.status == true && (undefined !== data.email)) {
+      var message = '<?php echo Yii::t('app', 'Send successfully. Check [0] to confirm.'); ?>';
+      message = message.replace("[0]", data.email);
+      $("#modal_success .modal-body .message").text(message);
+      $("#modal_login, #modal_sign_up, #modal_forgot").modal("hide");
+      $("#modal_success").modal("show");
+    } else {
+      showError(data);
+    }
+  }
+  $(function() {
+
+  });
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '322142577992142',
+      xfbml: true,
+      version: 'v2.1'
+    });
+  };
+
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+  FB.login(function(response) {
+    if (response.authResponse) {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function(response) {
+        console.log('Good to see you, ' + response.name + '.');
+      });
+    } else {
+      console.log('User cancelled login or did not fully authorize.');
+    }
+  });
+
+</script>
 </html>

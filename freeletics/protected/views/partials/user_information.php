@@ -12,7 +12,7 @@ if (!Yii::app()->user->isGuest) {
       'fixed' => true,
       'controller' => 'user',
       'actionName' => 'personal',
-      'width' => '40%',
+      'width' => '39%',
       "menus" => $menus = array(
         "Me" => array('links' => array("feed", "recent", "PB", "network"), 'menus' => array('Feed', 'Recent', 'PB', 'Network')),
         "Training" => array('links' => array("training"),),
@@ -91,6 +91,6 @@ if (!Yii::app()->user->isGuest) {
     </div>
   </div>
   <div class="" style="min-height: 500px;">
-    <?php  $this->renderPartial(isset($partial) ? $partial : $data['partial'], $data); ?>
+    <?php $this->renderPartial(isset($partial) ? $partial : $data['partial'], $data); ?>
   </div>
 </div>

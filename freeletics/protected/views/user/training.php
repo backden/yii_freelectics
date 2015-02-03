@@ -87,5 +87,5 @@ foreach ($exercises as $key => $exe) {
       <?php } ?>
     </div>
   </div>
-  <?php $this->renderPartial('//partials/rightContent'); ?>
+  <?php // $this->renderPartial('//partials/rightContent'); ?>
 </div>

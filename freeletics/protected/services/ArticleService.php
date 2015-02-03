@@ -54,7 +54,9 @@ class ArticleService extends BaseService {
       "articles_success_stories",
   )) {
     $summarize = array();
-    $summarize['news'] = $this->getListByCon();
+    $crite = new CDbCriteria();
+    $crite->order = "create_date desc";
+    $summarize['news'] = Articles::model()->findAll($crite);
     $conditions = array(
         "hot"
     );
@@ -77,29 +79,34 @@ class ArticleService extends BaseService {
     return $summarize;
   }
 
-  public function getSpecifyArticle($category = null) {
+  public function getSpecifyArticle($category = null, $next = 1) {
     $arrAtricleIds = array();
     if ($category) {
-      $arrAtricleIds = $category->getNewestArticleIdsLimit(null);
+      $arrAtricleIds = $category->getNewestArticleIdsLimit(10, $next);
       $criteria = new CDbCriteria();
       $criteria->condition = "id in ('" . implode("', '", $arrAtricleIds) . "')";
       $criteria->order = "create_date desc";
       
-      $criteria->condition = "category_id = $category->id";
-      $criteria->order = "create_date desc";
+      //$criteria->condition = "category_id = $category->id";
+      //$criteria->order = "create_date desc";
     } else {
       $criteria = new CDbCriteria();
       $criteria->order = "create_date desc";
     }
     $summarize = array();
     $summarize['news'] = Articles::model()->findAll($criteria);
-    
-    $criteria->addCondition("hot = 1");
-    $hots = Articles::model()->find($criteria);
-    if (isset($hots)) {
-      $summarize['hot'] = isset($hots[0]) ? $hots[0] : $summarize['news'][0];
+    foreach ($summarize['news'] as $art) {
+      if ($art->hot == 1) {
+        $summarize['hot'] = $art;
+        break;
+      }
+    }
+//    $criteria->addCondition("hot = 1");
+//    $hots = Articles::model()->find($criteria);
+    if (isset($summarize['hot'])) {
+      //$summarize['hot'] = isset($hots[0]) ? $hots[0] : $summarize['news'][0];
     } else {
-      $summarize['hot'] = $summarize['news'][0];
+      $summarize['hot'] = isset($summarize['news'][0]) ? $summarize['news'][0] : array();
     }
     $summarize[isset($category) ? $category->name : ""] = $summarize['news'];
 

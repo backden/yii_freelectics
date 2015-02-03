@@ -12,6 +12,44 @@ $followings = $data['followings'];
     margin-bottom: 0;
   }
 </style>
+<script>
+  $(function() {
+    var isChecking = false;
+    $(".ckb-add-feed").iCheck({
+      checkboxClass: 'icheckbox_minimal-blue',
+      radioClass: 'iradio_minimal-blue',
+      increaseArea: '20%' // optional
+    }).on('ifChecked', function(event) {
+      if (isChecking) {
+        return;
+      }
+      var user = $(this).attr("user-id");
+      isChecking = true;
+      $("[user-id='" + user + "']").not(this).iCheck("check");
+      $.post("<?php echo Yii::app()->createUrl("user/updateotherfeeds"); ?>",
+              {id: user},
+      function(data) {
+        isChecking = false;
+        console.log(data);
+      },
+              'json');
+    }).on('ifUnchecked', function(event) {
+      if (isChecking) {
+        return;
+      }
+      var user = $(this).attr("user-id");
+      isChecking = true;
+      $("[user-id='" + user + "']").not(this).iCheck("uncheck");
+      $.post("<?php echo Yii::app()->createUrl("user/updateotherfeeds"); ?>",
+              {id: user},
+      function(data) {
+        isChecking = false;
+        console.log(data);
+      },
+              'json');
+    });
+  });
+</script>
 <div class="container" id="network-container">
   <div class="col-lg-4">
     <div class="panel panel-default">
@@ -20,16 +58,13 @@ $followings = $data['followings'];
       </div>
       <div class="panel-body">
         <div class="list-group">
-          <?php foreach ($followers as $index => $fl) { ?>
-          <a href="#" class="list-group-item" style="min-height: 60px;">
-              <div class="hexagon hexagon1 pull-left" style="width:100px; height: 35px;">
-                <div class="hexagon-in1">
-                  <div class="hexagon-in2" style="background-image: url(<?php echo Yii::app()->baseUrl . '/img/X-man.jpg' ?>);
-                       background-size: 40%;"></div>
-                </div>
-              </div>
+          <?php
+          foreach ($followers as $index => $f) {
+            $fl = $f['user'];
+            ?>
+            <a href="#" class="list-group-item" style="min-height: 60px;">
+              <input type="checkbox" class="ckb-add-feed" <?php echo $f["isFeed"] ? "checked" : ""; ?> user-id="<?php echo $fl->id; ?>"/>
               <?php echo $fl->first . ' ' . $fl->last; ?>
-              <span class=""><i class="fa fa-circle-o"></i></span>
             </a>
           <?php } ?>
         </div>
@@ -42,6 +77,15 @@ $followings = $data['followings'];
         <h4><?php echo Yii::t("app", "Followings"); ?></h4>
       </div>
       <div class="panel-body">
+        <?php
+        foreach ($followings as $index => $f) {
+          $fl = $f['user'];
+          ?>
+          <a href="#" class="list-group-item" style="min-height: 60px;">
+            <input type="checkbox" class="ckb-add-feed" <?php echo $f["isFeed"] ? "checked" : ""; ?> user-id="<?php echo $fl->id; ?>"/>
+            <?php echo $fl->first . ' ' . $fl->last; ?>
+          </a>
+        <?php } ?>
       </div>
     </div>
   </div>

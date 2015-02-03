@@ -26,6 +26,7 @@ $action = Yii::app()->getController()->action;
 <link href="<?php echo $baseUrl; ?>/js/scroll/slick.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $baseUrl; ?>/css/jquery-te-1.4.0.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="<?php echo $baseUrl; ?>/js/venobox/venobox.css" type="text/css" media="screen" />
+<link href="<?php echo $baseUrl; ?>/css/skins/all.css" rel="stylesheet" type="text/css"/>
 
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/bootstrap.min.js"></script>
@@ -48,6 +49,9 @@ $action = Yii::app()->getController()->action;
 <script src="<?php echo $baseUrl; ?>/js/jquery-te-1.4.0.min.js" type="text/javascript"></script>
 <script src="<?php echo $baseUrl; ?>/js/bootstrap.youtubepopup.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="<?php echo $baseUrl; ?>/js/venobox/venobox.min.js"></script>
+<script src="<?php echo $baseUrl; ?>/js/fabric.min.js" type="text/javascript"></script>
+<script src="<?php echo $baseUrl; ?>/js/fabric.require.js" type="text/javascript"></script>
+<script src="<?php echo $baseUrl; ?>/js/icheck.min.js" type="text/javascript"></script>
 
 <style>
   .hexagon {
@@ -111,3 +115,61 @@ $action = Yii::app()->getController()->action;
     margin: 0;
   }
 </style>
+
+<script>
+  function loadCanvas(container_id, urlAvatar, size) {
+    var arrSize = [
+        {x: 20, y: 10},
+        {x: 0, y: 70},
+        {x: 40, y: 130},
+        {x: 115, y: 120},
+        {x: 140, y: 60},
+        {x: 100, y: 0}
+    ];
+    var canvas = new fabric.Canvas(container_id);
+    canvas.selection = false;
+    
+    fabric.Object.prototype.transparentCorners = false;
+    var padding = 0;
+    
+    fabric.Image.fromURL(urlAvatar, function(img) {
+
+      img.scaleToWidth(140);
+      img.scaleToHeight(140);
+      img.setAngle(0);
+
+      var patternSourceCanvas = new fabric.StaticCanvas();
+      patternSourceCanvas.add(img);
+
+      var pattern = new fabric.Pattern({
+        source: function() {
+          patternSourceCanvas.setDimensions({
+            width: img.getWidth() + padding,
+            height: img.getHeight() + padding
+          });
+          return patternSourceCanvas.getElement();
+        },
+        repeat: 'no-repeat'
+      });
+      
+      if (undefined === size) {
+        size = 1;
+      }
+
+      canvas.add(new fabric.Polygon(arrSize, {
+        left: 0,
+        top: 0,
+        angle: 00,
+        fill: pattern,
+        scaleX: size,
+        scaleY: size,
+      }));
+      
+      canvas.item(0)["selectable"] = false;
+      canvas.item(0).lockMovementY = canvas.item(0).lockMovementX = true;
+      canvas.renderAll();
+    });
+    
+    return canvas;
+  }
+</script>
